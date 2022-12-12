@@ -1,0 +1,82 @@
+
+/* SF Slidebar - Side menu */
+#sidebarMenu {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#sidebarMenu ul {
+  padding: 0;
+}
+
+#sidebarMenu li,
+#sidebarMenu li a {
+  color: var(--celero-link-color-green) !important;
+}
+#sidebarMenu li {
+  list-style-type: none;
+  cursor: pointer;
+}
+
+#sidebarMenu.e-sidebar ul li:hover span {
+  color: var(--celero-link-color-green-hover);
+}
+
+#sidebarMenu.e-sidebar ul li.link-active span {
+  color: var(--celero-txt-color-green);
+}
+
+#sidebarMenu.e-sidebar {
+  visibility: visible;
+  overflow: hidden;
+}
+#sidebarMenu.e-sidebar.e-right.e-close {
+  /* csslint allow: adjoining-classes*/
+  visibility: visible;
+  transform: translateX(0%);
+}
+
+.e-dock.e-close span.e-text {
+  /* csslint allow: adjoining-classes*/
+  display: none;
+}
+
+.e-dock.e-open span.e-text {
+  /* csslint allow: adjoining-classes*/
+  display: inline-block;
+}
+
+.e-open .e-text {
+  /*  overflow: hidden;*/
+  /*  text-overflow: ellipsis;*/
+  line-height: 25px;
+  font-size: 14px;
+  padding-top: 3px;
+}
+
+/* dockbar icon Style */
+/* Icons */
+#sidebarMenu .e-icons {
+  font-size: 1.9em;
+  line-height: 25px;
+  padding: 5px 15px 5px 3px;
+}
+
+.e-sidebar .expand::before {
+  content: '\e913';
+}
+.e-sidebar.e-open .expand::before {
+  /* csslint allow: adjoining-classes*/
+  content: '\e904';
+}
+
+.e-menu:before {
+  content: '\e99a'; /* menu */
+}
+
+.mt-5 {
+  margin-top: 2rem!important;
+}

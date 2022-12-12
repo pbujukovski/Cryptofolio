@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <div *ngIf="this.coin == null || this.coin == undefined">
+
+      <app-loading></app-loading>
+      <!-- <div class="e-card-content">
+        <i class="fa-solid fa-circle-notch fa-spin fa-3x"></i>
+    </div> -->
+  </div>
+    <div tabindex="0" class="e-card" id="basic" *ngIf="this.coin != null || this.coin != undefined">
+      <div class="e-card-header">
+          <div class="e-card-header-caption">
+              <div class="e-card-title">
+                <div class="row">
+                  <div class="col-md-1">
+                    <button cssClass="e-round"  type="back" (click)="onCancel()"
+                    ejs-button ><i class="fa-solid fa-angle-left"></i></button>
+                  </div>
+                  <div class="col-md-9"></div>
+                  <div class="col-md-2">
+                    <button cssClass="e-round"  ejs-button class="btn"><i class="fa-regular fa-star"></i></button>
+                    <button cssClass="e-round"
+                    ejs-button ><i class="fa-regular fa-thumbs-up"></i></button>
+                    <button cssClass="e-round"
+                    ejs-button >    <i class="fa-regular fa-thumbs-down"></i></button>
+                  </div>
+                </div>
+          </div>
+      </div>
+      </div>
+      <div class="e-card-content">
+        <div class="row">
+          <div class="col-md-6">
+            <h3><img src="{{this.coin.iconPath}}" width="32px" alt="{{this.coin.name}}" /> {{this.coin.name}}
+              <span class="e-badge e-badge-primary e-badge-pill">{{this.coin.s}}</span>
+              </h3>
+          </div>
+          <div class="col-md-3">
+
+          </div>
+          <div class="col-md-3">
+            <h3 #myDiv>  {{this.coin.p}} <span style="color:rgb(0, 0, 0)"> | </span> <span class="e-badge e-badge-primary e-badge-pill">
+              <a href="https://www.binance.com/en/buy-sell-crypto"> Trade
+              <i class="fa-solid fa-store"></i></a></span>  </h3>
+          </div>
+        </div>
+      {{this.coin.T}} {{this.coin.M}}
+    </div>
+  </div>
+  </div>
+
+  <div class="col-md-1"></div>
+</div>
+

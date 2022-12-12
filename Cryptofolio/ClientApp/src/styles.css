@@ -1,0 +1,164 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Provide sufficient contrast against white background */
+@import url('assets/material.css');
+
+/* Custom SF theme */
+/* @import url('assets/celero-material.css'); */
+/* .footer {
+  box-shadow: 0 -0.25rem 0.75rem rgb(0 0 0 / 5%);
+  border-top: 1px solid #dee2e6 !important;
+} */
+/* Celero Global Styles */
+/* @import url('assets/celero-styles.css'); */
+
+
+html{
+  font-family: cursive;
+}
+.e-grid {
+  border-radius: 0px 0px 10px 10px;
+  box-shadow: 5px 5px 8px #888888;
+}
+.e-headertext {
+  font-weight: bold;
+}
+.e-pager {
+  border-radius: 0px 0px 10px 10px;
+}
+
+.e-grid{
+  border-radius: 9px;
+
+}
+
+.e-grid .e-toolbar {
+  border-top-right-radius: 9px;
+  border-top-left-radius: 9px;
+}
+
+.e-pager{
+  border-bottom-right-radius: 9px;
+  border-bottom-left-radius: 9px;
+}
+
+.e-dialog.e-draggable{
+  border-radius: 9px;
+}
+.e-dialog.e-draggable>.e-dlg-header-content {
+  border-radius: 9px;
+}
+
+
+.e-dialog .e-footer-content {
+  border-radius: 9px;
+}
+
+
+.e-dialog .e-dlg-header-content+.e-dlg-content {
+  padding-top: 10px;
+}
+
+.e-toolbar-items {
+  margin-left: 7px !important;
+}
+
+
+.e-textbox{
+  background-color: inherit !important;
+  border: none !important;
+}
+
+:root {
+  --celero-color-logo-blue: #00A5EA;
+  --celero-color-logo-green: #189ad3;
+  --celero-color-light-green: #D4E279;
+  --celero-color-hover: #79e2e2;
+  --celero-bg-color-green: #ECF8E5;
+  --celero-bg-color-green-l: #F7FDF3;
+  --celero-bg-color-green-d: #DCF4CE;
+  --celero-bg-color-green-btn: #AEC327;
+  --celero-txt-color-green: #189ad3;
+  --celero-txt-color-blue: #06A3E8;
+  --celero-link-color-green: #189ad3;
+  --celero-link-color-green-hover: #11516d;
+}
+
+/* app-component - main container */
+#app-container {
+  min-height: 90vh;
+  background-image:linear-gradient(to bottom, rgb(255 255 255 / 0%), rgb(32 149 242 / 31%)),url("../src/assets/3d-illustration-ethereum-blockchain-png.webp");
+  background-size: cover;
+}
+
+/* Home page */
+.home-section {
+  margin: 0;
+/*  padding: 0 8vw;*/
+}
+a.btn-arrow {
+  padding: 5px 12px;
+  margin-bottom: 10px;
+  color: var(--celero-link-color-green);
+  border: 2px solid var(--celero-link-color-green);
+  border-radius: 50%;
+  transition: all 0.3s ease-in-out;
+}
+a.btn-arrow:hover {
+  color: var(--celero-txt-color-green);
+  border: 2px solid var(--celero-txt-color-green);
+}
+.btn-green {
+  color: white;
+  background-color: var(--celero-bg-color-green-btn);
+  transition: all 0.5s ease-in-out;
+}
+.btn-green:hover {
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+}
+@media screen and (max-width: 576px) {
+  .home-section .img-fluid {
+    max-height: 210px;
+    margin: 10px auto;
+/*    margin-right: auto;*/
+    display: block;
+  }
+}
+
+.page-title {
+  margin-top: 5px;
+  margin-bottom: 15px;
+  color: var(--celero-txt-color-blue);
+}
+
+/* Override SF styles */
+
+.e-toolbar {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  background: #fafafa;
+  border: 1px none rgba(0, 0, 0, 0.12);
+  border-radius: 9px !important;
+  box-shadow: none;
+}
+
+.e-lib.e-grid {
+  border-color: #e0e0e0;
+  border: none;
+}
+.e-toolbar .e-toolbar-items.e-tbar-pos .e-toolbar-right {
+  left: 11px;
+}
+.e-lib.e-grid {
+  border-radius: 9px;
+}
+.e-toolbar .e-toolbar-items.e-tbar-pos {
+  display: block;
+  border-radius: 9px;
+}
+.e-lib.e-grid .e-toolbar {
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0;
+   border-top: none;
+  border-radius: 9px;
+}

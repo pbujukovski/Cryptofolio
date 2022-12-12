@@ -1,0 +1,146 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+@{
+    string? returnUrl = null;
+    var query = ViewContext.HttpContext.Request.Query;
+    if (query.ContainsKey("returnUrl"))
+    {
+        returnUrl = query["returnUrl"];
+    }
+}
+
+<div class="container px-4 py-5 mx-auto back-ground-color-L">
+        <div class="card card0 " style="background: rgba(255, 255, 255, 0.2);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(15px);
+-webkit-backdrop-filter: blur(15px);
+border: 1px solid rgba(255, 255, 255, 0.3);">
+        <div class="d-flex flex-lg-row flex-column">
+            <div class="card card1 col-md-6" style="background-color:transparent; border:none;">
+                <div class="row justify-content-center my-auto">
+                    <div class="col-md-12 col-12 my-5">
+                        <div class="row align-items-center">
+                            <div class="col-md-2">
+                                </div>
+                                <div class="col-md-8">
+                             
+                                <div class="login-title d-flex justify-content-center"><h6><span>Welcome to Cryptofolio system</span></h6></div>
+
+                                </div>
+                                <div class="col-md-2">
+                                    </div>
+
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="user_card">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="brand_logo_container">
+                                           @* <img src="https://png.pngtree.com/template/20191014/ourmid/pngtree-building-and-construction-logo-design-template-image_317780.jpg" width="95px" class="brand_logo">*@
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center form_container">
+                                        <form id="account" method="post">
+                                            <!--fieldset id="FormFields"-->
+                                            <div class="form-title"><h6><span>Register now to the system</span></h6></div>
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><i class="fa fa-user">
+                                                         <img src="https://toppng.com/uploads/preview/black-and-white-stockportable-network-account-icon-11553436383dwuayhjyvo.png" style="width: 16px; height:16px" />
+                                                    </i>
+                                                    </span>
+                                                </div>
+                                                <input type="email" asp-for="Input.Email" class="form-control input_user" placeholder="email">
+                                            </div>
+                                            <div class="input-group-validaion">
+                                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                            </div>
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-append">
+                                                       <div class="input-group-append">
+                                                    <span class="input-group-text"><i class="fa-solid fa-user">
+                                                            <img src="https://icons.veryicon.com/png/o/business/pinjamango2018/password-32.png" style="width: 16px; height:16px" />
+                                                    </i></span>
+                                                </div>
+                                                </div>
+                                                <input asp-for="Input.Password" type="password" class="form-control input_pass" placeholder="password">
+                                            </div>
+                                            <div class="input-group-validaion">
+                                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                            </div>
+
+                                                           <div class="input-group mb-2">
+                                                <div class="input-group-append">
+                                                       <div class="input-group-append">
+                                                    <span class="input-group-text"><i class="fa fa-lock">
+                                                            <img src="https://icons.veryicon.com/png/o/business/pinjamango2018/password-32.png" style="width: 16px; height:16px" />
+                                                    </i></span>
+                                                </div>
+                                                </div>
+                                                <input asp-for="Input.ConfirmPassword" type="password" class="form-control input_pass" placeholder="Confirm password">
+                                            </div>
+                                            <div class="input-group-validaion">
+                                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                            </div>
+
+                               
+                                            <div class="d-flex justify-content-center mt-3 login_container">
+                                                 <button  type="submit" id="registerSubmit" class="btn btn-outline-primary btn-md" onclick="onLoginSubmit();">Register</button>
+                  
+                                            </div>
+
+                                        <div class="d-flex justify-content-center mt-3 login_container">
+
+                                                <h6 class="nav-link text-dark" asp-area="Identity" >Already have account?
+
+                                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@returnUrl">Login instead.</a>
+                                            </h6>
+                                            </div>
+                                            <div class="d-flex justify-content-center mt-2">
+                                                <div asp-validation-summary="All" class="row text-danger"></div>
+                                                <div id="commInProgress" class="row align-items-center" style="display: none;">
+                                                    <div class="spinner-border" role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/fieldset-->
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card card2 col-md-6" style="background-color: transparent;
+    border-width: medium;
+    border-image: linear-gradient(to top,#d1d1d1,rgba(0, 0, 0, 0)) 1 100%;
+    border-right: none;">
+                <div class="my-auto mx-md-5 px-md-5 right">
+                    <div class="row align-items-center">
+                        <div class="col-md-12 login-note">
+                            <h2>Note:</h2>
+                            <p>
+                                If you have any problem to login in to the system, please contact the support:<br />
+                                <i class="fas fa-phone-alt"></i>+389 2 308 4885 <br />
+                                <i class="far fa-envelope"></i><a href="mailto: support@e-building.com.mk"> support@e-building.com.mk </a><br />
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+                </div>
+            </div>
+        </div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

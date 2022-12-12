@@ -1,0 +1,21 @@
+.e-btn, .e-css.e-btn {
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent !important;
+  border-color: transparent !important;
+   box-shadow: none !important;
+  color: rgba(0, 0, 0, 0.87);
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 15px;
+}
+
+
+.e-lib.e-grid .e-rowcell:not(.e-editedbatchcell):not(.e-updatedtd) {
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 15px !important;
+  font-weight: 500 !important;
+
+}
+a{
+  color: black;
+  text-decoration: none;
+}

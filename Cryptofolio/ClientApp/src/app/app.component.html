@@ -1,0 +1,29 @@
+<!--
+<body>
+  <header>
+    <app-nav-menu></app-nav-menu>
+  </header>
+  <main class="container">
+    <app-sidebar-menu></app-sidebar-menu>
+    <router-outlet></router-outlet>
+  </main>
+</body>-->
+<body>
+  <app-nav-menu></app-nav-menu>
+  <!--<div id="app-container" class="container-fluid p-0">-->
+  <div id="app-container" class="">
+    <!--<div class="container mt-3">-->
+    <div class="">
+      <div class="mt-5">
+        <!-- <div class="m-3 spinner-border text-color-logo-b" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div> -->
+      </div>
+      <app-sidebar-menu></app-sidebar-menu>
+      <router-outlet ></router-outlet>
+    </div>
+  </div>
+  <footer class="container-fluid footer">
+    <p class="text-center my-0 py-1 text-color-g">Copyright © 2022 Cryptofolio</p>
+  </footer>
+</body>

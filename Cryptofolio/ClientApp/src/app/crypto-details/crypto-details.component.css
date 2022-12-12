@@ -1,0 +1,180 @@
+a {
+  color:white;
+  text-decoration: none;
+}
+button {
+  margin: 5px;
+}
+
+/* .e-btn.e-round .e-btn-icon,
+.e-css.e-btn.e-round .e-btn-icon {
+  font-size: 14px;
+  line-height: 2.8572em;
+  margin-top: -9px;
+  width: auto;
+}
+
+ .e-btn.e-round,
+.e-css.e-btn.e-round {
+  border-radius: 50%;
+  height: 2em;
+  line-height: 1;
+  width: 2em;
+}
+
+#loader {
+  color: #008cff;
+  height: 40px;
+  width: 30%;
+  position: absolute;
+  font-family:  'Helvetica Neue','calibiri';
+  font-size:16px;
+  top: 45%;
+  left: 45%;
+} */
+
+.e-btn.e-round, .e-css.e-btn.e-round {
+  border-radius: 15%;
+  height: 40px;
+  line-height: 1;
+  padding: 0;
+  width: 70px;
+}
+
+/* button {
+  margin: 25px 5px 20px 20px;
+} */
+
+/* For Round Button*/
+.e-edit-icon::before {
+  content: '\e891';
+}
+
+
+.e-close-icon::before{
+  content: '\e7fc';
+}
+
+.e-back-icon::before{
+  content: '\e610';
+}
+
+
+span.e-input-group.e-control-wrapper.e-date-wrapper.e-valid-input {
+  width: 30%;
+  }
+
+  .e-comments-icon::before{
+    content: '\ec10';
+  }
+
+  button {
+    margin: 25px 5px 20px 20px;
+    width: fit-content;
+  }
+
+  #container {
+    visibility: hidden;
+  }
+
+  #loader {
+    color: #008cff;
+    height: 40px;
+    left: 45%;
+    position: absolute;
+    top: 45%;
+    width: 30%;
+  }
+
+
+  .work-input {
+    width: calc(100% - 100px);
+  }
+
+  .input-name {
+    width: 100px;
+  }
+
+  .e-card-btn {
+    width: 100%;
+  }
+
+
+
+  button {
+    margin: 5px;
+  }
+
+  .e-btn.e-round .e-btn-icon,
+  .e-css.e-btn.e-round .e-btn-icon ::before {
+    font-size: 19px;
+    line-height: 2.8572em;
+    margin-top: -9px;
+    width: auto;
+  }
+
+   .e-btn.e-round,
+  .e-css.e-btn.e-round {
+    border-radius: 50%;
+    height: 3em;
+    line-height: 1;
+    width: 3em;
+  }
+
+  #loader {
+    color: #008cff;
+    height: 40px;
+    width: 30%;
+    position: absolute;
+    font-family:  'Helvetica Neue','calibiri';
+    font-size:16px;
+    top: 45%;
+    left: 45%;
+  }
+
+
+  button {
+    margin: 25px 5px 20px 20px;
+  }
+
+  /* For Round Button*/
+  .e-edit-icon::before {
+    content: '\e891';
+  }
+
+
+  .e-close-icon::before{
+    content: '\e7fc';
+  }
+
+  .e-save-icon::before{
+    content: '\e98e';
+  }
+
+
+  .e-card.e-card-horizontal {
+    background: linear-gradient(to top, #fffffff7  23%, #f5f5f5 102%);
+    width: 500px !important;
+    min-width: fit-content !important;
+  }
+  .e-dialog {
+    max-height: fit-content !important;
+    max-width: fit-content !important;
+    min-width: 240px;
+    position: absolute;
+  }
+
+
+  span.e-input-group.e-control-wrapper.e-date-wrapper {
+    width: 50% !important;
+    padding: 15px 0px 0px 2px;
+    margin-left: 20px;
+  }
+
+
+  /* button.btn.e-control.e-btn.e-lib.e-round ::before {
+    font-size: 22px;
+} */
+button.e-control.e-btn.e-lib.e-round ::before {
+  font-size: 15px;
+}

@@ -1,0 +1,368 @@
+:root {
+  --celero-color-logo-blue: #00A5EA;
+  --celero-color-logo-green: #AFC41D;
+  --celero-color-light-green: #D4E279;
+  --celero-color-hover: #79e2e2;
+  --celero-bg-color-green: #ECF8E5;
+  --celero-bg-color-green-l: #F7FDF3;
+  --celero-bg-color-green-d: #DCF4CE;
+  --celero-bg-color-green-btn: #AEC327;
+  --celero-txt-color-green: #347571;
+  --celero-txt-color-blue: #06A3E8;
+  --celero-link-color-green: #5FC67F;
+  --celero-link-color-green-hover: #28B4B4;
+}
+
+/* app-component - main container */
+#app-container {
+  min-height: 90vh;
+}
+
+/* Home page */
+.home-section {
+  margin: 0;
+/*  padding: 0 8vw;*/
+}
+a.btn-arrow {
+  padding: 5px 12px;
+  margin-bottom: 10px;
+  color: var(--celero-link-color-green);
+  border: 2px solid var(--celero-link-color-green);
+  border-radius: 50%;
+  transition: all 0.3s ease-in-out;
+}
+a.btn-arrow:hover {
+  color: var(--celero-txt-color-green);
+  border: 2px solid var(--celero-txt-color-green);
+}
+.btn-green {
+  color: white;
+  background-color: var(--celero-bg-color-green-btn);
+  transition: all 0.5s ease-in-out;
+}
+.btn-green:hover {
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+}
+@media screen and (max-width: 576px) {
+  .home-section .img-fluid {
+    max-height: 210px;
+    margin: 10px auto;
+/*    margin-right: auto;*/
+    display: block;
+  }
+}
+
+.page-title {
+  margin-top: 5px;
+  margin-bottom: 15px;
+  color: var(--celero-txt-color-blue);
+}
+
+/* Override SF styles */
+.e-grid {
+  border-radius: 0px 0px 10px 10px;
+  box-shadow: 5px 5px 8px #888888;
+}
+.e-headertext {
+  font-weight: bold;
+}
+.e-pager {
+  border-radius: 0px 0px 10px 10px;
+}
+
+/* SF Grid - no borders */
+.grid-no-borders .e-grid,
+.grid-no-borders .e-grid .e-toolbar,
+.grid-no-borders .e-grid .e-gridheader,
+.grid-no-borders .e-grid .e-headercontent
+.grid-no-borders .e-pager,
+.grid-no-borders .e-gridpager.e-control.e-pager,
+.grid-no-borders .e-grid.e-resize-lines .e-headercell .e-rhandler,
+.grid-no-borders .e-grid.e-resize-lines .e-headercell .e-rsuppress,
+.grid-no-borders .e-rhandler.e-rcursor {
+  border-color: rgba(255,255,255,0) !important;
+}
+.grid-no-borders .e-row.e-altrow {
+/*  background-color: rgba(0,165,234,0.05);*/
+  background-color: rgba(175,196,29,0.04);
+}
+.grid-no-borders .e-grid .e-toolbar,
+.grid-no-borders .e-grid .e-toolbar-items,
+.grid-no-borders .e-grid .e-toolbar-item.e-overlay, 
+.grid-no-borders .e-grid .e-toolbar .e-btn {
+  background-color: var(--celero-bg-color-green-d);
+}
+.grid-no-borders .e-grid .e-gridheader,
+.grid-no-borders .e-grid .e-headercell {
+/*  background-color: rgba(0,165,234,0.3);*/
+  /*  background-color: rgba(175,196,29,1);*/
+  /*  background-color: rgba(212,226,121,1);*/
+    background-color: var(--celero-bg-color-green);
+}
+.grid-no-borders .e-grid .e-gridpager,
+.grid-no-borders .e-grid .e-pagercontainer,
+.grid-no-borders .e-grid .e-gridpager .e-prevpagedisabled,
+.grid-no-borders .e-grid .e-gridpager .e-prevpage,
+.grid-no-borders .e-grid .e-gridpager .e-nextpage,
+.grid-no-borders .e-grid .e-gridpager .e-nextpagedisabled,
+.grid-no-borders .e-grid .e-gridpager .e-lastpagedisabled,
+.grid-no-borders .e-grid .e-gridpager .e-lastpage,
+.grid-no-borders .e-grid .e-gridpager .e-firstpage,
+.grid-no-borders .e-grid .e-gridpager .e-firstpagedisabled {
+  background-color: var(--celero-bg-color-green);
+}
+.grid-no-borders .e-pager .e-numericitem {
+  background-color: rgba(116,205,143,0.4);
+}
+.grid-no-borders .e-pager .e-spacing.e-numericitem:not(.e-active):not(.e-np):not(.e-pp):hover {
+  background-color: rgba(116,205,143,0.6);
+}
+.grid-no-borders .e-pager .e-numericitem.e-active {
+  background-color: rgba(116,205,143,1);
+}
+/* SF Grid - inactive row */
+.inactive,
+tr.inactive td {
+  /*    background-color: rgba(0,255,255,0.2);*/
+  color: rgba(0,0,0,0.5) !important;
+}
+/* SF Grid - DiscountAccepted row */
+.discount-accepted,
+tr.discount-accepted td {
+  background-color: rgba(0,255,0,0.15);
+/*  color: rgba(0,0,0,0.5) !important;*/
+}
+/* SF Grid - DiscountOffer row */
+.discount-offer,
+tr.discount-offer td {
+  background-color: rgba(0,255,255,0.2);
+/*  color: rgba(0,0,0,0.5) !important;*/
+}
+/* SF Grid - OverBudget row */
+.over-budget,
+tr.over-budget td {
+  background-color: rgba(255,0,0,0.15);
+  /*  color: rgba(0,0,0,0.5) !important;*/
+}
+/* SF Grid - filtered column icon */
+.e-filtermenudiv.e-icons.e-icon-filter.e-filtered::before {
+/*  color: red !important;*/
+  content: '\ebb3';
+}
+/* SF Dual datalist box */
+.dual-list-leftGroup,
+.dual-list-rightGroup {
+/*  width: 48%;*/
+  padding-top: 10px;
+}
+.dual-list-leftGroup {
+  width: 53%;
+  float: left;
+}
+.dual-list-rightGroup {
+  width: 43%;
+  float: right;
+}
+.e-listboxtool-wrapper.e-right .e-listbox-tool,
+.e-listboxtool-container.e-right .e-listbox-tool
+{
+  margin-left: 30px;
+}
+
+/* SF Calendar */
+.calendar-weekend {
+  background-color: rgba(255,0,0,0.1) !important;
+}
+
+/* SF Dialog */
+/*html,*/
+/*body,*/
+#dialog-container {
+  display: block;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  width: 100%;
+}
+#container {
+  visibility: hidden;
+}
+/* SF Offer dialog - active-discount-programs */
+#dlgOfferDialog {
+  width: 85vw !important;
+}
+@media screen and (min-width: 762px) {
+  #dlgOfferDialog {
+    width: 75vw !important;
+  }
+}
+@media screen and (min-width: 992px) {
+  #dlgOfferDialog {
+    width: 65vw !important;
+  }
+}
+@media screen and (min-width: 1200px) {
+  #dlgOfferDialog {
+    width: 55vw !important;
+  }
+}
+
+/* SF Slidebar - Side menu */
+#sidebarMenu {
+  background-color: var(--celero-bg-color-green-d);
+  visibility: hidden;
+}
+
+#sidebarMenu ul {
+  padding: 0;
+}
+
+#sidebarMenu li, 
+#sidebarMenu li a {
+  color: var(--celero-link-color-green) !important;
+}
+#sidebarMenu li {
+  list-style-type: none;
+  cursor: pointer;
+}
+ 
+#sidebarMenu.e-sidebar ul li:hover span {
+  color: var(--celero-link-color-green-hover);
+}
+
+#sidebarMenu.e-sidebar ul li.link-active span {
+  color: var(--celero-txt-color-green);
+}
+
+#sidebarMenu.e-sidebar {
+  visibility: visible;
+  overflow: hidden;
+}
+#sidebarMenu.e-sidebar.e-right.e-close {
+  /* csslint allow: adjoining-classes*/
+  visibility: visible;
+  transform: translateX(0%);
+}
+
+.e-dock.e-close span.e-text {
+  /* csslint allow: adjoining-classes*/
+  display: none;
+}
+
+.e-dock.e-open span.e-text {
+  /* csslint allow: adjoining-classes*/
+  display: inline-block;
+}
+
+.e-open .e-text {
+  /*  overflow: hidden;*/
+  /*  text-overflow: ellipsis;*/
+  line-height: 25px;
+  font-size: 14px;
+  padding-top: 3px;
+}
+
+/* dockbar icon Style */
+/* Icons */
+#sidebarMenu .e-icons {
+  font-size: 1.9em;
+  line-height: 25px;
+  padding: 5px 15px 5px 3px;
+}
+
+.e-sidebar .expand::before {
+  content: '\e913';
+}
+.e-sidebar.e-open .expand::before {
+  /* csslint allow: adjoining-classes*/
+  content: '\e904';
+}
+
+.e-menu:before {
+  content: '\e99a'; /* menu */
+}
+
+.e-suppliers:before {
+  content: '\e424'; /* people */
+}
+
+.e-invoices:before {
+  content: '\ec27'; /* thumbnail */
+}
+
+.e-programs:before {
+  content: '\ea8e'; /* timeline-month */
+}
+
+.e-payment:before {
+  content: ' \$';
+}
+
+.e-dashboard:before {
+  content: '\e90c'; /* add-edit-form-field */
+}
+/* Icons */
+/* calculated-member */
+/* timeline-month */
+/* change-scale-ratio */
+/* field-settings */
+/* display-for-review */
+/* show-markup */
+
+/* end of dockbar icon Style */
+
+/* end of sidebar styles */
+
+
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #e01a76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.text-color-b {
+    color: var(--celero-txt-color-blue);
+}
+.text-color-logo-b {
+    color: var(--celero-color-logo-blue);
+}
+.text-color-g {
+    color: var(--celero-txt-color-green);
+}
+.text-color-logo-g {
+    color: var(--celero-color-logo-green);
+}
+.bg-color-b {
+    background-color: var(--celero-color-logo-blue);
+}
+.bg-color-g {
+    background-color: var(--celero-bg-color-green);
+}
+.bg-color-gl {
+    background-color: var(--celero-bg-color-green-l);
+}
+.bg-color-gd {
+    background-color: var(--celero-bg-color-green-d);
+}
+.border-color-b {
+    border-color: var(--celero-color-logo-blue) !important;
+}
+.border-color-g {
+    border-color: var(--celero-color-light-green) !important;
+}
+
+.footer {
+  box-shadow: 0 -0.25rem 0.75rem rgb(0 0 0 / 5%);
+  border-top: 1px solid #dee2e6 !important;
+}
+

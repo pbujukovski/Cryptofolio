@@ -17,10 +17,12 @@ import { CryptoGridComponent } from './crypto-grid/crypto-grid.component';
 import { WatchlistComponent } from './watchlist/watchlist.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
-import { AggregateService, EditService, FilterService, GridModule, GroupService, PageService, ResizeService, SearchService, SortService, ToolbarService } from '@syncfusion/ej2-angular-grids';
+import { AggregateService, EditService, FilterService, GridModule, GroupService, PagerAllModule, PageService, ResizeService, SearchService, SortService, ToolbarService } from '@syncfusion/ej2-angular-grids';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { LoadingComponent } from './loading/loading.component';
-import { CategoryService, ChartModule, DataLabelService, LegendService, LineSeriesService, TooltipService } from '@syncfusion/ej2-angular-charts';
+import { CategoryService, ChartModule, ColumnSeriesService, DataLabelService, DateTimeService, LegendService, LineSeriesService, MultiColoredLineSeriesService, ParetoSeriesService, SplineAreaSeriesService, SplineSeriesService, StackingLineSeriesService, StepLineSeriesService, TooltipService } from '@syncfusion/ej2-angular-charts';
+import { CryptoDetailsChartComponent } from './crypto-details/crypto-details-chart/crypto-details-chart.component';
+import { RichTextEditorAllModule, RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 
 
 @NgModule({
@@ -32,7 +34,8 @@ import { CategoryService, ChartModule, DataLabelService, LegendService, LineSeri
     CryptoDetailsComponent,
     CryptoGridComponent,
     WatchlistComponent,
-    LoadingComponent
+    LoadingComponent,
+    CryptoDetailsChartComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -45,7 +48,9 @@ import { CategoryService, ChartModule, DataLabelService, LegendService, LineSeri
     AppRoutingModule,
     GridModule,
     ButtonModule,
-    ChartModule
+    ChartModule,
+    RichTextEditorAllModule,
+    PagerAllModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
@@ -62,7 +67,15 @@ import { CategoryService, ChartModule, DataLabelService, LegendService, LineSeri
       LegendService,
       TooltipService,
       DataLabelService,
-      LineSeriesService
+      LineSeriesService,
+       StepLineSeriesService,
+        SplineSeriesService,
+         StackingLineSeriesService,
+         DateTimeService,
+        SplineAreaSeriesService,
+        MultiColoredLineSeriesService,
+        ParetoSeriesService,
+        ColumnSeriesService
   ],
   bootstrap: [AppComponent]
 })

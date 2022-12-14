@@ -29,6 +29,7 @@
     "@syncfusion/ej2-angular-charts": "^20.3.60",
     "@syncfusion/ej2-angular-grids": "^20.3.58",
     "@syncfusion/ej2-angular-navigations": "^20.3.58",
+    "@syncfusion/ej2-angular-richtexteditor": "^20.3.61",
     "angular-particle-updated": "^1.0.4-1",
     "bootstrap": "^5.2.0",
     "crypto-symbol": "^3.5.239",

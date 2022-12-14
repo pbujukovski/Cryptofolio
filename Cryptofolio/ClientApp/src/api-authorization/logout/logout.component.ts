@@ -16,6 +16,8 @@ import { LogoutActions, ApplicationPaths, ReturnUrlType } from '../api-authoriza
 export class LogoutComponent implements OnInit {
   public message = new BehaviorSubject<string | null>(null);
 
+  public isMessageVisible : boolean = false;
+
   constructor(
     private authorizeService: AuthorizeService,
     private activatedRoute: ActivatedRoute,
@@ -38,6 +40,7 @@ export class LogoutComponent implements OnInit {
         break;
       case LogoutActions.LoggedOut:
         this.message.next('You successfully logged out!');
+        this.isMessageVisible = true;
         break;
       default:
         throw new Error(`Invalid action '${action}'`);

@@ -87,8 +87,9 @@ html{
 /* app-component - main container */
 #app-container {
   min-height: 90vh;
-  background-image:linear-gradient(to bottom, rgb(255 255 255 / 0%), rgb(32 149 242 / 31%)),url("../src/assets/3d-illustration-ethereum-blockchain-png.webp");
+  /* background-image:linear-gradient(to bottom, rgb(255 255 255 / 0%), rgb(32 149 242 / 31%)),url("../src/assets/3d-illustration-ethereum-blockchain-png.webp"); */
   background-size: cover;
+  background:linear-gradient(to bottom, rgb(255 255 255),rgba(41, 169, 223, 0)), url(https://static.vecteezy.com/system/resources/previews/002/395/537/original/abstract-blue-and-white-geometric-background-free-vector.jpg);
 }
 
 /* Home page */

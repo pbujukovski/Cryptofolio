@@ -54,14 +54,17 @@ body {
 }
 .loader:before {
   animation: ball1 1s infinite;
-  background-color: #cb2025;
-  box-shadow: 30px 0 0 #f8b334;
+  /* background-color: #cb2025;
+  box-shadow: 30px 0 0 #f8b334; */
+  background-color: #2095cb;
+  box-shadow: 30px 0 0 #34f8f8;
   margin-bottom: 10px;
 }
 .loader:after {
   animation: ball2 1s infinite;
   background-color: #00a096;
-  box-shadow: 30px 0 0 #97bf0d;
+  box-shadow: 30px 0 0 #1f0dbf;
+  /* box-shadow: 30px 0 0 #97bf0d; */
 }
 
 @keyframes rotate {

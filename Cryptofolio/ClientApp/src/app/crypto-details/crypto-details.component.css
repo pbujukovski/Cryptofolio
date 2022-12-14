@@ -1,6 +1,7 @@
 a {
-  color:white;
+  color: #2095f2;
   text-decoration: none;
+  font-size: 20px;
 }
 button {
   margin: 5px;
@@ -177,4 +178,325 @@ span.e-input-group.e-control-wrapper.e-date-wrapper.e-valid-input {
 } */
 button.e-control.e-btn.e-lib.e-round ::before {
   font-size: 15px;
+}
+
+
+
+fieldset {
+  display: block;
+  margin-inline-start: 2px;
+  margin-inline-end: 2px;
+  padding-block-start: 0.35em;
+  padding-inline-start: 0.75em;
+  padding-inline-end: 0.75em;
+  padding-block-end: 0.625em;
+  min-inline-size: min-content;
+  border-width: 2px;
+  border-image: initial;
+  margin-top: 6%;
+  margin-bottom: 4%;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  background: linear-gradient(to top, #ffffffde 23%, #f5f5f5 102%);
+  border: solid;
+  border-color: #f5f5f5;
+  border-top: none;
+}
+
+legend {
+  float: left;
+  width: auto;
+  margin-bottom: 0.5rem;
+  font-size: calc(1.275rem + .3vw);
+  line-height: inherit;
+  font-size: 21px;
+  margin-top: -14px;
+  padding-left: 29px;
+
+}
+
+button {
+  margin: 5px;
+}
+
+.e-btn.e-round .e-btn-icon,
+.e-css.e-btn.e-round .e-btn-icon {
+  font-size: 14px;
+  line-height: 2.8572em;
+  margin-top: -9px;
+  width: auto;
+}
+
+.e-btn.e-round,
+.e-css.e-btn.e-round {
+  border-radius: 50%;
+  height: 2em;
+  line-height: 1;
+  width: 2em;
+}
+
+#loader {
+  color: #008cff;
+  height: 40px;
+  width: 30%;
+  position: absolute;
+  font-family:  'Helvetica Neue','calibiri';
+  font-size:16px;
+  top: 45%;
+  left: 45%;
+}
+
+button {
+  margin: 25px 5px 20px 20px;
+}
+
+/* For Round Button*/
+.e-edit-icon::before {
+  content: '\e891';
+}
+
+.e-trash-icon::before {
+  content: '\e94a';
+}
+
+
+.e-circle-close-2-icon::before {
+  content: '\e917';
+}
+
+.e-close-icon::before{
+  content: '\e7fc';
+}
+
+.e-save-icon::before{
+  content: '\e98e';
+}
+
+
+.e-comments-icon::before{
+  content: '\ec10';
+}
+
+.e-plus-2-icon::before{
+  content: '\e963';
+}
+
+.e-back-icon::before{
+  content: '\e610';
+}
+
+
+
+.e-btn.e-round[_ngcontent-ng-cli-universal-c79], .e-css.e-btn.e-round[_ngcontent-ng-cli-universal-c79] {
+  border-radius: 50%;
+  height: 2em;
+  line-height: 1;
+  width: 2em;
+  margin: 5px;
+}
+
+.e-card.e-card-horizontal {
+  width: fit-content;
+  min-width: 800px;
+  position: relative;
+  background: linear-gradient(to top, #ffffffde 23%, #f5f5f5 102%);
+  margin-bottom: 20%;
+  border-radius: 17px;
+  border-radius: 9px;
+  border: solid;
+  border-color: #f5f5f5;
+}
+
+
+.e-disabled {
+  opacity: 100%;
+}
+
+/* .e-input[disabled]{
+  -webkit-text-fill-color: rgb(0 0 0);
+  background: transparent;
+  color: rgb(0 0 0);
+  background-image: linear-gradient(90deg, rgb(0 0 0 / 35%) 0, rgba(0, 0, 0, 0.42) 33%, transparent 0);
+  background-position: bottom -1px left 0;
+  background-repeat: repeat-x;
+  background-size: 4px 1px;
+  border-bottom-color: #1a1717ad;
+  opacity: 0.9;
+} */
+
+
+.e-richtexteditor .e-rte-content .e-content, .e-richtexteditor .e-source-content .e-content {
+  background: unset;
+  box-sizing: border-box;
+  height: fit-content;
+  min-height: fit-content;
+  outline: 0 solid transparent;
+  overflow-x: auto;
+  padding: 13px;
+  /* position: relative; */
+  text-align: inherit;
+  /* z-index: 1; */
+}
+
+h6{
+  padding-top:12px;
+  margin-top: 25px;
+}
+
+.e-card .e-card-content {
+  color: rgb(8 8 8);
+}
+
+
+.e-pager {
+  background-color: #06060600;
+  border-color: #06060600;
+  color: #000;
+  opacity: 0.97
+}
+
+
+
+/* div#CommentText_image {
+  max-height: inherit;
+  z-index: 1001;
+  width: 340px;
+  height: inherit;
+  top: -340px !important;
+}
+
+div#CommentText_rtelink {
+  top: -340px !important;
+} */
+
+
+.alert.alert-danger {
+  position: relative;
+  padding-left: 1rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+
+
+
+/* .e-popup.e-popup-open.e-dialog {
+  width: 530px !important;
+  min-height: 550px !important;
+} */
+
+/* .disablegrid {
+  pointer-events: none;
+  opacity: 0.4;
+} */
+/* .wrapper {
+  cursor: not-allowed;
+} */
+
+button.e-css.e-btn {
+  margin: -11px 14px -2px 75px;
+}
+
+/* .e-input[disabled]{
+  -webkit-text-fill-color: rgb(0 0 0);
+  background: transparent;
+  color: rgb(0 0 0);
+  background-image: linear-gradient(90deg, rgb(0 0 0 / 35%) 0, rgba(0, 0, 0, 0.42) 33%, transparent 0);
+  background-position: bottom -1px left 0;
+  background-repeat: repeat-x;
+  background-size: 4px 1px;
+  border-bottom-color: #1a1717ad;
+  opacity: 0.9;
+
+}
+
+.e-float-input:not(.e-disabled) input[disabled], .e-float-input.e-control-wrapper:not(.e-disabled) input[disabled] {
+  -webkit-text-fill-color: rgba(0, 0, 0, 0.42);
+  color: rgba(0, 0, 0, 0.42);
+  -webkit-text-fill-color: rgb(0 0 0);
+  background: transparent;
+  color: rgb(0 0 0);
+  background-image: linear-gradient(90deg, rgb(0 0 0 / 35%) 0, rgba(0, 0, 0, 0.42) 33%, transparent 0);
+  background-position: bottom -1px left 0;
+  background-repeat: repeat-x;
+  background-size: 4px 1px;
+  border-bottom-color: #070707c6;
+  border-bottom-style: solid ;
+  opacity: 0.9;
+  cursor: pointer;
+} */
+
+/* .e-float-input.e-control-wrapper input[disabled] ~ label.e-float-text, .e-float-input.e-control-wrapper input[disabled] ~ label.e-label-top.e-float-text{
+  color: rgba(0, 0, 0, 0.861);
+} */
+
+/* .e-input-group.e-control-wrapper .e-input[disabled], .e-float-input.e-disabled, .e-float-input.e-control-wrapper.e-disabled {
+  -webkit-text-fill-color: rgba(0, 0, 0, 0.42);
+  color: rgba(0, 0, 0, 0.42);
+  -webkit-text-fill-color: rgb(0 0 0);
+  background: transparent;
+  color: rgb(0 0 0);
+  background-image: linear-gradient(90deg, rgb(0 0 0 / 35%) 0, rgba(0, 0, 0, 0.42) 33%, transparent 0);
+  background-position: bottom -1px left 0;
+  background-repeat: repeat-x;
+  background-size: 4px 1px;
+  border-bottom-color: #070707c6;
+  border-bottom-style: solid ;
+  opacity: 0.9;
+} */
+
+/* input#DueDate_input {
+  color: rgb(0 0 0);
+} */
+
+
+/* .e-card.e-card-horizontal {
+  background: linear-gradient(to top, #7c7c7cc0 28%, #f0f0f0 102%);
+  margin-bottom: 20%;
+} */
+
+
+/* .input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  width: 100%;
+} */
+
+
+.col{
+  padding: 12px;
+}
+
+
+/* .e-richtexteditor {
+
+  border-radius: 4px;
+  background-color: inherit;
+
+} */
+
+
+div#content {
+  padding: 0px 25px 0px 25px !important;
+}
+
+.imgNoPost{
+  width: 200px;
+}
+
+.e-richtexteditor .e-rte-toolbar {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-bottom: 0;
+}
+
+.e-card {
+  border: 1px none #000;
+  border-radius: 20px;
+  background-image: url("../../assets/3d-illustration-ethereum-blockchain-png.webp");
+  margin-bottom: 29px;
 }

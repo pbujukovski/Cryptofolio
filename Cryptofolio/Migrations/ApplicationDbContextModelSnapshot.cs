@@ -112,9 +112,9 @@ namespace Cryptofolio.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "56ce9b99-75c1-40a6-b9d5-f872b90f57ee",
+                            Id = "f311ce6d-f04e-4a46-ad21-b8d48daa5a9b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9fadc6b7-fbfe-4b86-9e21-2552402a39d3",
+                            ConcurrencyStamp = "ee75fcc9-65c8-4a2f-bf46-3eaed6dc095e",
                             Email = "admin@mail.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -122,11 +122,47 @@ namespace Cryptofolio.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@mail.com",
                             NormalizedUserName = "admin@mail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAECkCt22rvGJ2wyyqT+RrQfIFm9U25g9HK2L/Yj7h3bJNHTiJqOaH0+yHGkx5fPwEmg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEO8X7n+xwxW6YmiCR5f252Us04Ew/BKs3oqswaqNC/xZM239TGY63MF1RGctKrYoHA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.com"
+                        },
+                        new
+                        {
+                            Id = "441b7aba-af39-4ee7-a26f-7300b79e18a1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f78efbca-3b46-4053-9d92-1135253e0c5d",
+                            Email = "pbujukovski@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Petar",
+                            LastName = "Bujukovski",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "pbujukovski@gmail.com",
+                            NormalizedUserName = "pbujukovski@gmail.com",
+                            PasswordHash = "AQAAAAIAAYagAAAAELE5xVxUjb2Z0rWqLaJoN5p1UYdEqR0cK3h+f6Ly3xbRQURIG4wmLaeXucaqNbcmWg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "pbujukovski@gmail.com"
+                        },
+                        new
+                        {
+                            Id = "8898daa8-b9aa-49a1-839a-9e197f14bf3f",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0d6d5b32-ccb9-4fab-8a5b-8f61c70f417e",
+                            Email = "jhon@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Jhon",
+                            LastName = "Smith",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "jhon@gmail.com",
+                            NormalizedUserName = "jhon@gmail.com",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJ41bStWrsmCWCjygnv1bfxdwKt/WlVEbFgxljsr6DMvjUs8DiUBIml37SoiNuZhTg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "jhon@mail.com"
                         });
                 });
 
@@ -157,6 +193,9 @@ namespace Cryptofolio.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Text")
                         .IsRequired()

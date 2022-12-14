@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Cryptofolio.Migrations
 {
     /// <inheritdoc />
-    public partial class Intialmigration : Migration
+    public partial class InitialUsersAdded : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -254,6 +256,7 @@ namespace Cryptofolio.Migrations
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CoinSymbol = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -299,7 +302,12 @@ namespace Cryptofolio.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "56ce9b99-75c1-40a6-b9d5-f872b90f57ee", 0, "9fadc6b7-fbfe-4b86-9e21-2552402a39d3", "admin@mail.com", true, "Admin", "Admin", false, null, "admin@mail.com", "admin@mail.com", "AQAAAAIAAYagAAAAECkCt22rvGJ2wyyqT+RrQfIFm9U25g9HK2L/Yj7h3bJNHTiJqOaH0+yHGkx5fPwEmg==", null, false, "", false, "admin@mail.com" });
+                values: new object[,]
+                {
+                    { "441b7aba-af39-4ee7-a26f-7300b79e18a1", 0, "f78efbca-3b46-4053-9d92-1135253e0c5d", "pbujukovski@gmail.com", true, "Petar", "Bujukovski", false, null, "pbujukovski@gmail.com", "pbujukovski@gmail.com", "AQAAAAIAAYagAAAAELE5xVxUjb2Z0rWqLaJoN5p1UYdEqR0cK3h+f6Ly3xbRQURIG4wmLaeXucaqNbcmWg==", null, false, "", false, "pbujukovski@gmail.com" },
+                    { "8898daa8-b9aa-49a1-839a-9e197f14bf3f", 0, "0d6d5b32-ccb9-4fab-8a5b-8f61c70f417e", "jhon@gmail.com", true, "Jhon", "Smith", false, null, "jhon@gmail.com", "jhon@gmail.com", "AQAAAAIAAYagAAAAEJ41bStWrsmCWCjygnv1bfxdwKt/WlVEbFgxljsr6DMvjUs8DiUBIml37SoiNuZhTg==", null, false, "", false, "jhon@mail.com" },
+                    { "f311ce6d-f04e-4a46-ad21-b8d48daa5a9b", 0, "ee75fcc9-65c8-4a2f-bf46-3eaed6dc095e", "admin@mail.com", true, "Admin", "Admin", false, null, "admin@mail.com", "admin@mail.com", "AQAAAAIAAYagAAAAEO8X7n+xwxW6YmiCR5f252Us04Ew/BKs3oqswaqNC/xZM239TGY63MF1RGctKrYoHA==", null, false, "", false, "admin@mail.com" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

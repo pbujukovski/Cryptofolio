@@ -32,7 +32,7 @@ namespace Cryptofolio.Controllers
         // GET: api/Comments
         [EnableQuery]
         [HttpGet("/odata/Comments")]
-        public ActionResult<IEnumerable<CommentDTO>> GetComments()
+        public ActionResult<List<CommentDTO>> GetComments(string CoinSymbol)
         {
             if (_context.Comments == null && _userAuthService.getCurrentUserId() == null)
             {
@@ -40,7 +40,7 @@ namespace Cryptofolio.Controllers
             }
             else if (_context.Comments != null && _userAuthService.getCurrentUserId() != null)
             {
-                List<CommentDTO> comments = _context.Comments.Select(comments => new CommentDTO(comments, _userAuthService.getCurrentUserId())).ToList();
+                List<CommentDTO> comments = _context.Comments.Where(cs => cs.CoinSymbol == CoinSymbol).Include(c => c.ApplicationUser).Select(comments => new CommentDTO(comments, _userAuthService.getCurrentUserId())).ToList();
                 return Ok(comments);
             }
             else return BadRequest();
@@ -161,6 +161,31 @@ namespace Cryptofolio.Controllers
 
             else if (_userAuthService.getCurrentUserId() != null)
             {
+
+
+                Coin coins = _context.Coins.Find(commentDTO.CoinSymbol.ToString());
+
+                if (coins == null)
+                {
+
+                    Coin coin = new Coin();
+
+                    coin.Symbol = commentDTO.CoinSymbol.ToString();
+
+                    _context.Coins.Add(coin);
+                    await _context.SaveChangesAsync();
+                }
+
+ 
+
+
+/*                if (_context.Coins.FirstOrDefault(coin) == null)
+                {
+                    _context.Coins.Add(coin);
+                *//*    await _context.SaveChangesAsync();*//*
+                }*/
+
+
                 Comment comment = commentDTO.convertToComment();
                 //TODO: Add IDs based on claims
 
@@ -174,6 +199,7 @@ namespace Cryptofolio.Controllers
                 commentDTO.Id = comment.Id;
                 commentDTO.ApplicationUserId = comment.ApplicationUserId;
                 commentDTO.Name = _userAuthService.getCurrentUserName();
+                commentDTO.Date= DateTime.Now;
                 commentDTO.CoinSymbol = comment.CoinSymbol;
                 commentDTO.IsEditable = true;
                 return CreatedAtAction("GetComment", new { id = commentDTO.Id }, commentDTO);

@@ -6,6 +6,14 @@
 @{
     ViewData["Title"] = "Log in";
 }
+@{
+    string? returnUrl = null;
+    var query = ViewContext.HttpContext.Request.Query;
+    if (query.ContainsKey("returnUrl"))
+    {
+        returnUrl = query["returnUrl"];
+    }
+}
 
 <div class="container px-4 py-5 mx-auto back-ground-color-L">
     <div class="card card0 " style="background: rgba(255, 255, 255, 0.2);
@@ -82,6 +90,8 @@ border: 1px solid rgba(255, 255, 255, 0.3);">
                                                     </div>*@
                                                 </button>
                                             </div>
+
+                                            
                                             <div class="d-flex justify-content-center mt-2">
                                                 <div asp-validation-summary="All" class="row text-danger"></div>
                                                 <div id="commInProgress" class="row align-items-center" style="display: none;">
@@ -113,6 +123,17 @@ border: 1px solid rgba(255, 255, 255, 0.3);">
                                  @*   <img src="https://toppng.com/uploads/preview/black-and-white-stockportable-network-account-icon-11553436383dwuayhjyvo.png" style="width: 26px; height: 26px" />*@
                                     <img src="https://cdn3d.iconscout.com/3d/premium/thumb/user-login-5000917-4165668.png" width="295px" class="brand_logo">
                                 </div>
+                            </div>
+
+                            <div class="d-flex justify-content-center mt-3 login_container">
+
+                                <h6 class="nav-link text-dark" asp-area="Identity">
+                                    <button class="btn btn-outline-primary btn-md" style="padding: 2px; line-height: 6px;">
+                                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@returnUrl">
+                                            Register now
+                                        </a>
+                                    </button>
+                                </h6>
                             </div>
 @*                            <h2>Note:</h2>
                             <p>

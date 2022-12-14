@@ -21,9 +21,9 @@ namespace Cryptofolio.Models
                 PasswordHasher<IdentityUser> hasher = new PasswordHasher<IdentityUser>();
 
                 //Seeding ApplicationUser
-                ApplicationUser[] applicationUser = new ApplicationUser[1];
+                ApplicationUser[] applicationUser = new ApplicationUser[3];
 
-                //Seed data for ResidetUser  1
+                //Seed data for ApplicationUser  1
                 applicationUser[0] = new ApplicationUser();
                 applicationUser[0].Id = Guid.NewGuid().ToString();
                 applicationUser[0].FirstName = "Admin";
@@ -38,9 +38,38 @@ namespace Cryptofolio.Models
 
                 modelBuilder.Entity<ApplicationUser>().HasData(applicationUser[0]);
 
+            //Seed data for ApplicationUser  1
+            applicationUser[1] = new ApplicationUser();
+            applicationUser[1].Id = Guid.NewGuid().ToString();
+            applicationUser[1].FirstName = "Petar";
+            applicationUser[1].LastName = "Bujukovski";
+            applicationUser[1].UserName = "pbujukovski@gmail.com";
+            applicationUser[1].NormalizedUserName = "pbujukovski@gmail.com";
+            applicationUser[1].Email = "pbujukovski@gmail.com";
+            applicationUser[1].NormalizedEmail = "pbujukovski@gmail.com";
+            applicationUser[1].EmailConfirmed = true;
+            applicationUser[1].PasswordHash = hasher.HashPassword(null, "Test_123?");
+            applicationUser[1].SecurityStamp = string.Empty;
+
+            modelBuilder.Entity<ApplicationUser>().HasData(applicationUser[1]);
+
+            //Seed data for ApplicationUser  1
+            applicationUser[2] = new ApplicationUser();
+            applicationUser[2].Id = Guid.NewGuid().ToString();
+            applicationUser[2].FirstName = "Jhon";
+            applicationUser[2].LastName = "Smith";
+            applicationUser[2].UserName = "jhon@mail.com";
+            applicationUser[2].NormalizedUserName = "jhon@gmail.com";
+            applicationUser[2].Email = "jhon@gmail.com";
+            applicationUser[2].NormalizedEmail = "jhon@gmail.com";
+            applicationUser[2].EmailConfirmed = true;
+            applicationUser[2].PasswordHash = hasher.HashPassword(null, "Test_123?");
+            applicationUser[2].SecurityStamp = string.Empty;
+
+            modelBuilder.Entity<ApplicationUser>().HasData(applicationUser[2]);
 
 
-                return Task.CompletedTask;
+            return Task.CompletedTask;
             }
         }
     }

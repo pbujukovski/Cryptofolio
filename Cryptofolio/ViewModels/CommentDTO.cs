@@ -62,6 +62,7 @@ namespace Cryptofolio.ViewModels
                 ApplicationUserId = comment.ApplicationUserId;
                 IsEditable = comment.ApplicationUserId == applicationUserId;
                 Name = comment.ApplicationUser.FirstName + " " + comment.ApplicationUser.LastName;
+
             }
             CoinSymbol = comment.CoinSymbol;
         }

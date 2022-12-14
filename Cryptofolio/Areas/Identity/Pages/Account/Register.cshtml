@@ -40,7 +40,7 @@ border: 1px solid rgba(255, 255, 255, 0.3);">
                                 <div class="user_card">
                                     <div class="d-flex justify-content-center">
                                         <div class="brand_logo_container">
-                                           @* <img src="https://png.pngtree.com/template/20191014/ourmid/pngtree-building-and-construction-logo-design-template-image_317780.jpg" width="95px" class="brand_logo">*@
+                                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/bitcoin-cryptocurrency-5245184-4386258.png" width="95px" class="brand_logo">
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-center form_container">
@@ -93,13 +93,7 @@ border: 1px solid rgba(255, 255, 255, 0.3);">
                   
                                             </div>
 
-                                        <div class="d-flex justify-content-center mt-3 login_container">
 
-                                                <h6 class="nav-link text-dark" asp-area="Identity" >Already have account?
-
-                                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@returnUrl">Login instead.</a>
-                                            </h6>
-                                            </div>
                                             <div class="d-flex justify-content-center mt-2">
                                                 <div asp-validation-summary="All" class="row text-danger"></div>
                                                 <div id="commInProgress" class="row align-items-center" style="display: none;">
@@ -132,6 +126,18 @@ border: 1px solid rgba(255, 255, 255, 0.3);">
                             </p>
                         </div>
                     </div>
+                                                            <div class="d-flex justify-content-center mt-3 login_container">
+
+                                                <h6 class="nav-link text-dark" asp-area="Identity" >Already have account?
+
+
+                                                    <button class="btn btn-outline-primary btn-md" style="padding: 2px; line-height: 6px;">
+                                                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@returnUrl">
+                                                            Login instead.
+                                                    </a></button>
+                                                    
+                                            </h6>
+                                            </div>
 
                 </div>
             </div>

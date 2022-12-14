@@ -1,0 +1,66 @@
+/* .logout-title {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: xx-large;
+    font-weight: 400;
+    color: #1928b8 !important;
+    text-shadow: none !important;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+
+  .logout-note {
+    margin-top: 22px;
+  }
+
+  .login_btn {
+    font-size:x-large;
+    background: #cf0000 !important;
+    color: rgb(237, 8, 8) !important;
+  }
+
+  .login_btn:hover:enabled {
+      background: black !important;
+    }
+
+  .login_container {
+    padding: 0 1rem;
+  }
+
+  .card.card2 {
+    margin-left: -25px;
+    height: 224px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+  }
+
+
+  .card.card1{
+    margin-left: 0px;
+    height: 224px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+  }
+
+
+
+
+  span.sr-only {
+    padding-right: 26px;
+    font-size: 22px;
+  }
+
+  a{
+    text-decoration: none;
+    font-weight: 500;
+    color: #343d3dc9;
+  }
+
+  a:hover{
+    color: #343d3dc9;
+  }
+
+  .logout-note{
+    font-weight: 500;
+    color: #343d3dc9;
+  } */

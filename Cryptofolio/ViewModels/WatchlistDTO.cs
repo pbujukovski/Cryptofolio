@@ -1,6 +1,7 @@
 ﻿using Cryptofolio.Controllers;
 using Cryptofolio.Models;
 using Microsoft.AspNetCore.OData.Deltas;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -10,17 +11,21 @@ namespace Cryptofolio.ViewModels
     public class WatchlistDTO
     {
         [JsonPropertyName("Id")]
+        [JsonProperty("Id")]
         [Key]
         public int Id { get; set; }
 
         [JsonPropertyName("ApplicationUserId")]
+        [JsonProperty("ApplicationUserId")]
         public string? ApplicationUserId { get; set; }
 
-        [JsonPropertyName("ApplicationUser")]
+  
         [ForeignKey("ApplicationUserId")]
+        [Newtonsoft.Json.JsonIgnore]
         public ApplicationUserDTO? ApplicationUser { get; set; }
 
         [JsonPropertyName("Coins")]
+        [JsonProperty("Coins")]
         public List<CoinDTO>? Coins { get; set; }
 
         public WatchlistDTO() { }

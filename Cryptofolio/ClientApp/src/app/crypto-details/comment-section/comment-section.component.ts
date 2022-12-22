@@ -9,22 +9,20 @@ import { DataManager, Query,ODataV4Adaptor,Predicate,ReturnOption } from '@syncf
 import { cryptoSymbol } from 'crypto-symbol';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CoinBinance } from '../common/models/coin-binance';
-import { CoinSocket } from '../common/models/coin-socket';
-import { Comment } from '../common/models/comment';
-import { VotingHistory, VoteStatus } from '../common/models/voting-history';
-import { VotingStatistics } from '../common/models/voting-statistics';
-import { BinanceApiService } from '../common/services/binance-api.service';
-import { SyncfusionUtilsService } from '../common/syncfusion-utils';
-
-const { nameLookup } = cryptoSymbol({});
-
+import { CoinSocket } from '../../common/models/coin-socket';
+import { Comment } from '../../common/models/comment';
+import { VotingHistory, VoteStatus } from '../../common/models/voting-history';
+import { VotingStatistics } from '../../common/models/voting-statistics';
+import { BinanceApiService } from '../../common/services/binance-api.service';
+import { SyncfusionUtilsService } from '../../common/syncfusion-utils';
 @Component({
-  selector: 'app-crypto-details',
-  templateUrl: './crypto-details.component.html',
-  styleUrls: ['./crypto-details.component.css']
+  selector: 'app-comment-section',
+  templateUrl: './comment-section.component.html',
+  styleUrls: ['./comment-section.component.css']
 })
-export class CryptoDetailsComponent implements OnInit, OnDestroy {
+export class CommentSectionComponent implements OnInit {
+
+
 
     //Toolbar settings
     public tools: object = {
@@ -35,6 +33,7 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
         'Underline',
         '|',
         'CreateLink',
+        'Image',
         '|',
         'NumberFormatList',
         'BulletFormatList',
@@ -69,9 +68,9 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
   // @Input('selectedSymbol') public modelData!: string;
 
 
-    public votingHistory!: VotingHistory;
+    public votingHistory : VotingHistory = new VotingHistory;
     public votingStatistics!: VotingStatistics;
-    public VoteStatus! : VoteStatus;
+
     public dataVotingHistory!: DataManager;
 
     public queryVotingHistory!: Query;
@@ -115,18 +114,8 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
     return offsetIndex;
   }
 
-  public lastPrice : number = -1;
-  public dollarCurr: Intl.NumberFormat = new Intl.NumberFormat(undefined, {
-    style: 'currency',
-    currency: 'USD'});
-
-
-    @ViewChild('myDiv') myDiv!: ElementRef;
-  public binanceWebSocket : WebSocket;
-
-  public binanceWebSocket24 : WebSocket;
-  public coin!: CoinSocket;
   constructor(private binanceApiService: BinanceApiService,  public router: Router, private syncfusionUtilsService : SyncfusionUtilsService ) {
+
 
         //Getting data for Comments
         this.dataComment = new DataManager({
@@ -135,25 +124,10 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
           crossDomain: true,
         });
 
+        this.binanceApiService.coinSymbol.subscribe(coinSymbol => this.coinSymbol = coinSymbol);
+   }
 
-        //Getting data for Voting History
-        this.dataVotingHistory = new DataManager({
-        url: environment.urlVotingHistories,
-        adaptor: syncfusionUtilsService.getCustomSecureODataV4Adaptor(),
-        crossDomain: true,
-        });
-
-        console.log("this.coinSymbol");
-        console.log(this.coinSymbol);
-
-
-    this.binanceApiService.coinSymbol.subscribe(coinSymbol => this.coinSymbol = coinSymbol);
-    console.log(this.coinSymbol);
-    if (this.coinSymbol === ''){
-      this.router.navigate(['cryptos']);
-    }
-    this.coinSymbol.toLocaleLowerCase()
-
+  ngOnInit(): void {
 
     this.queryComments = new Query().addParams(
       'CoinSymbol',
@@ -174,74 +148,6 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
     })
     .catch((e) => true);
 
-
-
-    this.queryVotingHistory = new Query().addParams(
-      'CoinSymbol',
-      this.coinSymbol
-    );
-    this.dataVotingHistory
-    .executeQuery(this.queryVotingHistory)
-    .then((e: ReturnOption) => {
-      var result = e.result as VotingStatistics;
-      console.log(e.result);
-      if (result != null ) {
-        this.votingStatistics = result as VotingStatistics;
-        console.log(this.votingStatistics);
-      } else console.log('Result list is empty');
-    })
-    .catch((e) => true);
-
-    this.binanceWebSocket = new WebSocket("wss://stream.binance.com:9443/ws/" + this.coinSymbol.toLowerCase() + "usdt@trade");
-
-
-    this.binanceWebSocket24 = new WebSocket("wss://stream.binance.com:9443/ws/" + this.coinSymbol.toLowerCase() + "usdt@ticker");
-    let checkUrl = ("wss://stream.binance.com:9443/ws/usdt@trade")
-
-
-
-    this.binanceWebSocket.onmessage = (event) => {
-      this.coin = JSON.parse(event.data);
-      const splitName = this.coin.s.split('USDT').find((x) => x !== 'USDT') ?? '';
-      this.coin.iconPath = './assets/icon/' + `${splitName.toLowerCase()}` + '.png';
-      this.coin.p = this.dollarCurr.format(parseFloat(this.coin.p));
-      this.coin.name = nameLookup(splitName) ?? splitName;
-      this.coin.s = splitName;
-
-      var coinPrice = Number(this.coin.p.replace(/[^0-9.-]+/g,""));
-
-      this.myDiv!.nativeElement!.style.color = !this.lastPrice || this.lastPrice === coinPrice ? 'black' : coinPrice > this.lastPrice ? 'green' : 'red';
-
-      this.lastPrice = coinPrice;
-    }
-
-
-    this.binanceWebSocket24.onmessage = (event) => {
-    }
-  }
-
-  ngOnInit(): void {
-
-    this.selectedComment = Object.assign({}) as Comment;
-    this.votingHistory = Object.assign({}) as VotingHistory;
-
-    var predicate: Predicate = new Predicate(
-      'Id',
-      'equal',
-      this.selectedComment.Id
-    ); //Adding predicate to be equal as CommentId
-    this.queryComments.queries = [];
-    this.queryComments.where(predicate);
-      console.log("HERE AFTER PREDICATE");
-
-  }
-
-  ngOnDestroy(): void{
-    this.binanceWebSocket.close();
-  }
-
-  onCancel(): void {
-    this.router.navigate(['cryptos']);
   }
 
   onBackComments = (commentRTE: Object): void => {
@@ -356,61 +262,4 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
-  onBullishClicked(){
-      console.log(this.votingHistory);
-      this.votingHistory!.CoinSymbol = this.coinSymbol;
-      this.votingHistory!.Status = VoteStatus.Bullish;
-
-      var temp = this.dataVotingHistory.insert(
-        this.votingHistory
-      ) as Promise<VotingStatistics>; //Waiting response from backend to be sure that new comment comes with ID.
-      temp.then((value: VotingStatistics) => {
-        if (this.coinSymbol != null) {
-          console.log(value);
-         this.votingStatistics = value; //Adding comment to list after the response from the promise
-         this.dataVotingHistory
-    .executeQuery(this.queryVotingHistory)
-    .then((e: ReturnOption) => {
-      var result = e.result as VotingStatistics;
-      console.log(e.result);
-      if (result != null ) {
-        this.votingStatistics = result as VotingStatistics;
-        console.log(this.votingStatistics);
-      } else console.log('Result list is empty');
-    })
-    .catch((e) => true);
-        }
-      });
-      console.log(this.votingStatistics)
-    }
-
-
-  onBearishClicked(){
-    this.votingHistory.CoinSymbol = this.coinSymbol;
-    this.votingHistory.Status = VoteStatus.Bearish;
-    var temp = this.dataVotingHistory.insert(
-      this.votingHistory
-    ) as Promise<VotingStatistics>; //Waiting response from backend to be sure that new comment comes with ID.
-    temp.then((value: VotingStatistics) => {
-      if (this.coinSymbol != null) {
-        console.log(value);
-       this.votingStatistics = value; //Adding comment to list after the response from the promise
-       this.dataVotingHistory
-  .executeQuery(this.queryVotingHistory)
-  .then((e: ReturnOption) => {
-    var result = e.result as VotingStatistics;
-    console.log(e.result);
-    if (result != null ) {
-      this.votingStatistics = result as VotingStatistics;
-      console.log(this.votingStatistics);
-    } else console.log('Result list is empty');
-  })
-  .catch((e) => true);
-      }
-    });
-    console.log(this.votingStatistics)
-
-  }
 }

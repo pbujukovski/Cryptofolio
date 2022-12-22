@@ -36,13 +36,13 @@ namespace Cryptofolio.Controllers
         public async Task<ActionResult<WatchlistDTO>> GetWatchlists()
         {
             if (_context.Watchlists == null && _userAuthService.getCurrentUserId() == null)
-          {
-              return NotFound();
-          }
+            {
+                return NotFound();
+            }
 
             Watchlist watchlist = await _context.Watchlists.Include(c => c.Coins).FirstOrDefaultAsync(apu => apu.ApplicationUserId == _userAuthService.getCurrentUserId());
-            
-            if(watchlist == null)
+
+            if (watchlist == null)
             {
                 watchlist = new Watchlist();
                 //TODO: Add IDs based on claims
@@ -54,9 +54,9 @@ namespace Cryptofolio.Controllers
 
                 await _context.SaveChangesAsync();
             }
-            
-            
-            return  new WatchlistDTO(watchlist, watchlist.ApplicationUserId); 
+
+
+            return new WatchlistDTO(watchlist, watchlist.ApplicationUserId);
         }
 
         // GET: api/Watchlists/5
@@ -64,10 +64,10 @@ namespace Cryptofolio.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<WatchlistDTO>> GetWatchlist([FromRoute] int id)
         {
-          if (_context.Watchlists == null)
-          {
-              return NotFound();
-          }
+            if (_context.Watchlists == null)
+            {
+                return NotFound();
+            }
             var watchlist = await _context.Watchlists.FindAsync(id);
 
             if (watchlist == null)
@@ -80,32 +80,60 @@ namespace Cryptofolio.Controllers
 
         // PUT: api/Watchlists/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /*[EnableQuery]*/
+        /*        [HttpPut("{id}")]*/
+
         [EnableQuery]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutWatchlist(int id, WatchlistDTO watchlistDTO)
+        [HttpPut("/odata/Watchlists({id})")]
+        public async Task<IActionResult> PutWatchlist(int id, AddCoinToWatchlistRequest addCoinToWatchlistRequest)
         {
             if (_context.Watchlists == null)
             {
                 return NotFound();
             }
 
-            if (_userAuthService.getCurrentUserId() != null)
+            if (_userAuthService.getCurrentUserId() == null)
             {
                 return Unauthorized();
             }
 
-            Watchlist? watchlist = await _context.Watchlists.FirstOrDefaultAsync(x => x.Id == id);
+
+
+            Watchlist? watchlist = await _context.Watchlists.Include(c => c.Coins).FirstOrDefaultAsync(x => x.Id == id);
 
             if (id != watchlist.Id)
             {
                 return BadRequest();
             }
 
-            watchlist.Id = watchlistDTO.Id;
-            watchlist.ApplicationUserId = watchlistDTO.ApplicationUserId;
-            if (watchlistDTO.Coins != null)
+            Coin coins = _context.Coins.Find(addCoinToWatchlistRequest.CoinSymbol.ToString());
+
+       
+            if (coins == null)
             {
-                watchlist.Coins = watchlistDTO.Coins.Select(c => c.convertToCoin()).ToList();
+
+                Coin coin = new Coin();
+
+                coin.Symbol = addCoinToWatchlistRequest.CoinSymbol.ToString();
+
+                _context.Coins.Add(coin);
+                await _context.SaveChangesAsync();
+
+                coins = coin;
+
+            }
+
+            bool deleteWatchlistCoin = watchlist.Coins.Any(item => item.Symbol == coins.Symbol);
+
+            if (deleteWatchlistCoin == true)
+            {
+                watchlist.Coins.Remove(coins);
+
+            }
+            if (deleteWatchlistCoin == false)
+            {
+
+                watchlist.Coins.Add(coins);
             }
 
             _context.Entry(watchlist).State = EntityState.Modified;
@@ -126,8 +154,62 @@ namespace Cryptofolio.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(watchlist);
         }
+
+        /*        [EnableQuery]
+                [HttpPut("/odata/Watchlists({id})")]
+                public async Task<IActionResult> PutWatchlist(int id, WatchlistDTO watchlistDTO)
+                {
+                    if (_context.Watchlists == null)
+                    {
+                        return NotFound();
+                    }
+
+                    if (_userAuthService.getCurrentUserId() == null)
+                    {
+                        return Unauthorized();
+                    }
+
+                    Watchlist? watchlist = await _context.Watchlists.Include(c => c.Coins).FirstOrDefaultAsync(x => x.Id == id);
+
+
+                    watchlist.Coins.Clear();
+
+
+
+
+                    if (id != watchlist.Id)
+                    {
+                        return BadRequest();
+                    }
+
+                    watchlist.Id = watchlistDTO.Id;
+                    watchlist.ApplicationUserId = watchlistDTO.ApplicationUserId;
+                    if (watchlistDTO.Coins != null)
+                    {
+                    }
+
+                    _context.Entry(watchlist).State = EntityState.Modified;
+
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!WatchlistExists(id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+
+                    return Ok(watchlistDTO);
+                }*/
 
         [EnableQuery]
         [HttpPatch("{key}")]
@@ -148,7 +230,6 @@ namespace Cryptofolio.Controllers
             {
                 return NotFound();
             }
-
 
             Delta<Watchlist> deltaWatchlist = WatchlistDTO.toDeltaWatchlist(watchistDTO);
 

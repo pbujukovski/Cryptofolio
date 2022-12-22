@@ -26,5 +26,6 @@ namespace Cryptofolio.Data
         public DbSet<Cryptofolio.Models.Coin>? Coins { get; set; }
         public DbSet<Cryptofolio.Models.Watchlist>? Watchlists { get; set; }
         public DbSet<Cryptofolio.Models.Comment>? Comments { get; set; }
+        public DbSet<Cryptofolio.Models.VotingHistory>? VotingHistories { get; set; }
     }
 }

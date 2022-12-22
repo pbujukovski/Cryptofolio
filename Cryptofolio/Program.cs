@@ -17,6 +17,7 @@ static IEdmModel GetEdmModel()
     var coinDTO = builder.EntitySet<CoinDTO>("Coins");
     var commentDTO = builder.EntitySet<CommentDTO>("Comments");
     var watchlistDTO = builder.EntitySet<WatchlistDTO>("Watchlists");
+    var votingHistoryDTO = builder.EntitySet<VotingHistoryDTO>("VotingHistories");
     return builder.GetEdmModel();
 }
 var builder = WebApplication.CreateBuilder(args);
@@ -65,6 +66,7 @@ builder.Services.AddAuthentication()
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+
 builder.Services.AddCors(o => o.AddPolicy("AllowAllOrigins", builder =>
 {
     builder.AllowAnyOrigin()
@@ -94,8 +96,9 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseIdentityServer();
 app.UseAuthorization();
-
-app.UseCors("AllowAllOrigins");
+/*
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());*/
+app.UseCors();
 app.UseMvc();
 app.UseStaticFiles();
 

@@ -7,7 +7,7 @@ import { CustomSecureODataV4Adaptor } from "./custom-secure-odatav4-adaptor";
   })
   export class SyncfusionUtilsService {
 
-  private customSecureODataV4Adaptor: CustomSecureODataV4Adaptor = new CustomSecureODataV4Adaptor();
+  private customSecureODataV4Adaptor: CustomSecureODataV4Adaptor = new CustomSecureODataV4Adaptor({updateType: "PUT"});
 
   private userToken: string | null = null;
 

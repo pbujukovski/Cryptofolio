@@ -3,7 +3,8 @@ import { DataManager, ODataV4Adaptor, Query, ReturnOption } from '@syncfusion/ej
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CustomSecureODataV4Adaptor } from '../custom-secure-odatav4-adaptor';
-import { Watchlist } from '../models/watchlist';
+import { Coin } from '../models/coin';
+import { AddCoinToWatchlistRequest, Watchlist } from '../models/watchlist';
 import { SyncfusionUtilsService } from '../syncfusion-utils';
 import { ApiService } from './api.service';
 
@@ -19,8 +20,8 @@ export class WatchlistService {
 
   watchlistChanged = new Subject();
   isLoadingChanged = new Subject();
-  public WatchlistUpdate: BehaviorSubject<Watchlist> = new BehaviorSubject<Watchlist>(new Watchlist);
-
+  public WatchlistUpdate: BehaviorSubject<Watchlist> = new BehaviorSubject<Watchlist>(new Watchlist(-1, [], ''));
+  publicaddCoinToWatchlistRequest: AddCoinToWatchlistRequest = new AddCoinToWatchlistRequest();
 
   constructor(private syncfusionUtilsService : SyncfusionUtilsService) {
     this.data = new DataManager({
@@ -29,23 +30,22 @@ export class WatchlistService {
       crossDomain: true,
     });
 
-    this.queryWatchlist = new Query();
+    this.queryWatchlist = new Query().expand('Coins');
+    this.getWatchList();
+  }
 
-
+  public getWatchList(){
     this.data
     .executeQuery(this.queryWatchlist)
     .then((e: ReturnOption) => {
       var resultList = e.result as Watchlist;
-      console.log(e.result);
       if (resultList != null ) {
         this.selectedWatchlist = resultList;
-        console.log(this.selectedWatchlist);
         this.WatchlistUpdate.next(this.selectedWatchlist);
         // this.backUpBuilding = { ...resultList[0] };
       } else console.log('Result list is empty');
     })
     .catch((e) => true);
-
   }
 
 
@@ -57,53 +57,15 @@ export class WatchlistService {
     this.isLoadingChanged.next(isLoading);
   }
 
-  // public deleteBookFromWishList(index: number): Observable<void> {
-  //   return this.api.delete(`WishLists/${this.watchlist.Coins[index].Symbol}`);
+  addCoinToWatchlist(addCoinToWatchlistRequest: AddCoinToWatchlistRequest) {
 
-  // }
-  // public updateWishList(
-  //   index: number,
-  //   newWishList: Watchlist
-  // ): Observable<Watchlist> {
-  //   return this.api.put(`WishLists/${index}`, newWishList);
-  // }
-
-  addCoinToWatchlist(watchlist: Watchlist) {
-    //return this.api.post(`WishLists`, wishList);
     this.notifyIsLoadingChange(true);
 
-    console.log("HERE");
-    console.log(this.selectedWatchlist);
-    console.log(watchlist);
-
-    this.selectedWatchlist.Coins = watchlist.Coins;
     this.WatchlistUpdate.next(this.selectedWatchlist);
-    console.log(this.selectedWatchlist.Id);
-    console.log(this.selectedWatchlist.Id.toString());
 
-    this.data.update('Id', this.selectedWatchlist);
+    addCoinToWatchlistRequest.WatchlistId = this.selectedWatchlist.Id;
+    this.data.update('WatchlistId', addCoinToWatchlistRequest);
 
-      // this.watchlist.Coins = watchlist.Coins
-    //Step 2: Get authors from backend;
-    // this.data.insert(this.watchlist);
-
-    // this.api.post(`WishLists`, watchlist).subscribe({
-    //   next: (watchlist: Watchlist) => {
-    //     console.log(watchlist);
-    //     this.watchlist = watchlist;
-    //     //Step 2.1: Notify User that isLoadingChange;
-    //     this.notifyIsLoadingChange(false);
-    //     //Step 2.2: Notify User that book  are added to list;
-    //     this.notifyChange(true);
-    //   },
-    //   error: (err: any) => {
-    //     console.error(err);
-    //     this.notifyIsLoadingChange(false);
-    //   },
-    //   complete: () => {
-    //     this.notifyIsLoadingChange(false);
-    //   },
-    // });
   }
 
   public getWishList() {
@@ -111,25 +73,4 @@ export class WatchlistService {
     return this.selectedWatchlist;
   }
 
-  // //Fetch method for WishList
-  // public fetchWishList() {
-  //   this.notifyIsLoadingChange(true);
-
-  //   //Step 2: Get watchlist from from backend;
-  //   this.data
-  //   .executeQuery(this.queryWatchlist)
-  //   .then((e: ReturnOption) => {
-  //     var resultList = e.result as Watchlist[];
-  //     if (resultList != null && resultList.length >= 1) {
-  //       this.watchlist = resultList[0];
-  //       //Step 2.1: Notify User that isLoadingChange;
-  //       this.notifyIsLoadingChange(false);
-  //       //Step 2.2: Notify User that coins are added to list;
-  //       this.notifyChange(true);
-  //       // this.backUpBuilding = { ...resultList[0] };
-  //     } else console.log('Result list is empty');
-  //   })
-  //   .catch((e) => true);
-
-  // }
 }

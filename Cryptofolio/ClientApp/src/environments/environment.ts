@@ -11,6 +11,7 @@ export const environment = {
    urlCoins: 'odata/Coins',
    urlWatchlists: 'odata/Watchlists',
    urlComments: 'odata/Comments',
+   urlVotingHistories: 'odata/VotingHistories'
 };
 
 

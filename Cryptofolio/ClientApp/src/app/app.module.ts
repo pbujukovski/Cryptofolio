@@ -18,11 +18,12 @@ import { WatchlistComponent } from './watchlist/watchlist.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { AggregateService, EditService, FilterService, GridModule, GroupService, PagerAllModule, PageService, ResizeService, SearchService, SortService, ToolbarService } from '@syncfusion/ej2-angular-grids';
-import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { ButtonModule, CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 import { LoadingComponent } from './loading/loading.component';
 import { CategoryService, ChartModule, ColumnSeriesService, DataLabelService, DateTimeService, LegendService, LineSeriesService, MultiColoredLineSeriesService, ParetoSeriesService, SplineAreaSeriesService, SplineSeriesService, StackingLineSeriesService, StepLineSeriesService, TooltipService } from '@syncfusion/ej2-angular-charts';
 import { CryptoDetailsChartComponent } from './crypto-details/crypto-details-chart/crypto-details-chart.component';
 import { RichTextEditorAllModule, RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
+import { CommentSectionComponent } from './crypto-details/comment-section/comment-section.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { RichTextEditorAllModule, RichTextEditorModule } from '@syncfusion/ej2-a
     CryptoGridComponent,
     WatchlistComponent,
     LoadingComponent,
-    CryptoDetailsChartComponent
+    CryptoDetailsChartComponent,
+    CommentSectionComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -50,7 +52,8 @@ import { RichTextEditorAllModule, RichTextEditorModule } from '@syncfusion/ej2-a
     ButtonModule,
     ChartModule,
     RichTextEditorAllModule,
-    PagerAllModule
+    PagerAllModule,
+    CheckBoxModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },

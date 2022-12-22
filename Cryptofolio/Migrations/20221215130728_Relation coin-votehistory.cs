@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cryptofolio.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialUsersAdded : Migration
+    public partial class Relationcoinvotehistory : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -256,7 +256,6 @@ namespace Cryptofolio.Migrations
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CoinSymbol = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -269,6 +268,33 @@ namespace Cryptofolio.Migrations
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Comment_Coin_CoinSymbol",
+                        column: x => x.CoinSymbol,
+                        principalTable: "Coin",
+                        principalColumn: "Symbol",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VotingHistory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CoinSymbol = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VotingHistory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VotingHistory_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_VotingHistory_Coin_CoinSymbol",
                         column: x => x.CoinSymbol,
                         principalTable: "Coin",
                         principalColumn: "Symbol",
@@ -304,9 +330,9 @@ namespace Cryptofolio.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "441b7aba-af39-4ee7-a26f-7300b79e18a1", 0, "f78efbca-3b46-4053-9d92-1135253e0c5d", "pbujukovski@gmail.com", true, "Petar", "Bujukovski", false, null, "pbujukovski@gmail.com", "pbujukovski@gmail.com", "AQAAAAIAAYagAAAAELE5xVxUjb2Z0rWqLaJoN5p1UYdEqR0cK3h+f6Ly3xbRQURIG4wmLaeXucaqNbcmWg==", null, false, "", false, "pbujukovski@gmail.com" },
-                    { "8898daa8-b9aa-49a1-839a-9e197f14bf3f", 0, "0d6d5b32-ccb9-4fab-8a5b-8f61c70f417e", "jhon@gmail.com", true, "Jhon", "Smith", false, null, "jhon@gmail.com", "jhon@gmail.com", "AQAAAAIAAYagAAAAEJ41bStWrsmCWCjygnv1bfxdwKt/WlVEbFgxljsr6DMvjUs8DiUBIml37SoiNuZhTg==", null, false, "", false, "jhon@mail.com" },
-                    { "f311ce6d-f04e-4a46-ad21-b8d48daa5a9b", 0, "ee75fcc9-65c8-4a2f-bf46-3eaed6dc095e", "admin@mail.com", true, "Admin", "Admin", false, null, "admin@mail.com", "admin@mail.com", "AQAAAAIAAYagAAAAEO8X7n+xwxW6YmiCR5f252Us04Ew/BKs3oqswaqNC/xZM239TGY63MF1RGctKrYoHA==", null, false, "", false, "admin@mail.com" }
+                    { "013761f3-4c5e-4de3-a80a-adefec3c163e", 0, "cf742e6d-741f-4157-92dd-60b4f1be6ebb", "pbujukovski@gmail.com", true, "Petar", "Bujukovski", false, null, "pbujukovski@gmail.com", "pbujukovski@gmail.com", "AQAAAAIAAYagAAAAEGUOEBl2sexta6+uYSVRZ0rbKYtauNeunNi8t4sPxKSrdYZhG3XAKRntqzjKwh+5uA==", null, false, "", false, "pbujukovski@gmail.com" },
+                    { "2d935a04-6fcd-45df-8500-1d2a2b227173", 0, "2e10bf9f-cdfc-4c7b-b531-bb957f252c31", "jhon@gmail.com", true, "Jhon", "Smith", false, null, "jhon@gmail.com", "jhon@gmail.com", "AQAAAAIAAYagAAAAELTVtBIlwCGEX83l17Zur8Q1KLsssg1HUDUQhcpUzd7/wZTyjfKljG9TjX8OwsWbNg==", null, false, "", false, "jhon@mail.com" },
+                    { "a8e984ee-5076-4f06-9b93-8d32e2c0de1f", 0, "c4f64200-d581-4fa7-974b-96abdb5886d3", "admin@mail.com", true, "Admin", "Admin", false, null, "admin@mail.com", "admin@mail.com", "AQAAAAIAAYagAAAAEP6677UDpNTDHe0/VqHLGEW3lVcT6Q/aHWpXiSDQdx66CGuG4f9iwsIVQz90f/FlHg==", null, false, "", false, "admin@mail.com" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -400,6 +426,16 @@ namespace Cryptofolio.Migrations
                 columns: new[] { "SubjectId", "SessionId", "Type" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_VotingHistory_ApplicationUserId",
+                table: "VotingHistory",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VotingHistory_CoinSymbol",
+                table: "VotingHistory",
+                column: "CoinSymbol");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Watchlist_ApplicationUserId",
                 table: "Watchlist",
                 column: "ApplicationUserId");
@@ -437,6 +473,9 @@ namespace Cryptofolio.Migrations
 
             migrationBuilder.DropTable(
                 name: "PersistedGrants");
+
+            migrationBuilder.DropTable(
+                name: "VotingHistory");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

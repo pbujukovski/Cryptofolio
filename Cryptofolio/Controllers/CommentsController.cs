@@ -192,14 +192,14 @@ namespace Cryptofolio.Controllers
 
                 comment.ApplicationUserId = _userAuthService.getCurrentUserId();
                 comment.Id = 0;
-
+                comment.Date = DateTime.Now;
                 _context.Comments.Add(comment);
                 await _context.SaveChangesAsync();
 
                 commentDTO.Id = comment.Id;
                 commentDTO.ApplicationUserId = comment.ApplicationUserId;
                 commentDTO.Name = _userAuthService.getCurrentUserName();
-                commentDTO.Date= DateTime.Now;
+                commentDTO.Date = comment.Date;
                 commentDTO.CoinSymbol = comment.CoinSymbol;
                 commentDTO.IsEditable = true;
                 return CreatedAtAction("GetComment", new { id = commentDTO.Id }, commentDTO);

@@ -20,6 +20,8 @@ namespace Cryptofolio.ViewModels
         [JsonPropertyName("Watchlists")]
         List<WatchlistDTO>? Watchlists { get; set; }
 
+        [JsonPropertyName("VotingHistories")]
+        public List<VotingHistoryDTO>? VotingHistories { get; set; }
         public CoinDTO() {}
 
         public CoinDTO(CoinDTO coinDTO)
@@ -30,6 +32,7 @@ namespace Cryptofolio.ViewModels
                 Comments = coinDTO.Comments;
             }
             Watchlists = coinDTO.Watchlists;
+            VotingHistories = coinDTO.VotingHistories;
         }
 
         public CoinDTO(Coin coin, string applicationUserId)
@@ -40,11 +43,15 @@ namespace Cryptofolio.ViewModels
             {
                 Comments = coin.Comments.Select(c => new CommentDTO(c, applicationUserId)).ToList();
             }
-            if (coin.Watchlists != null)
+/*            if (coin.Watchlists != null)
             {
                 Watchlists = coin.Watchlists.Select(c => new WatchlistDTO(c, applicationUserId)).ToList();
             }
 
+            if (coin.VotingHistories != null)
+            {
+                VotingHistories = coin.VotingHistories.Select(vh => new VotingHistoryDTO(vh)).ToList();
+            }*/
 
         }
         
@@ -58,6 +65,8 @@ namespace Cryptofolio.ViewModels
             coin.Comments = Comments.Select(c => c.convertToComment()).ToList();
 
             coin.Watchlists = Watchlists.Select(w => w.convertToWatchlist()).ToList();
+
+            coin.VotingHistories = VotingHistories.Select(vh => vh.convertToVotingHistory()).ToList();
 
             return coin;
         }

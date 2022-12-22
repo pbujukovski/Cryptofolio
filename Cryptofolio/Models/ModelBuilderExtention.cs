@@ -15,7 +15,8 @@ namespace Cryptofolio.Models
                 builder.Entity<Coin>().ToTable("Coin");
                 builder.Entity<Watchlist>().ToTable("Watchlist");
                 builder.Entity<Comment>().ToTable("Comment");
-             }
+                builder.Entity<VotingHistory>().ToTable("VotingHistory");
+        }
             public static Task SeedAsync(this ModelBuilder modelBuilder, ApplicationDbContext applicationDbContext)
             {
                 PasswordHasher<IdentityUser> hasher = new PasswordHasher<IdentityUser>();

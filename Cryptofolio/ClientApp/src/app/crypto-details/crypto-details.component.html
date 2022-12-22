@@ -2,65 +2,66 @@
   <div class="col-md-1"></div>
   <div class="col-md-10">
     <div *ngIf="this.coin == null || this.coin == undefined">
-
       <app-loading></app-loading>
-      <!-- <div class="e-card-content">
-        <i class="fa-solid fa-circle-notch fa-spin fa-3x"></i>
-    </div> -->
-  </div>
+    </div>
     <div tabindex="0" class="e-card" id="basic" *ngIf="this.coin != null || this.coin != undefined">
       <div class="e-card-header">
-          <div class="e-card-header-caption">
-              <div class="e-card-title">
-                <div class="row">
-                  <div class="col-md-1">
-                    <button cssClass="e-round"  type="back" (click)="onCancel()"
-                    ejs-button ><i class="fa-solid fa-angle-left"></i></button>
-                  </div>
-                  <div class="col-md-9"></div>
-                  <div class="col-md-2">
-                    <button cssClass="e-round"  ejs-button class="btn"><i class="fa-regular fa-star"></i></button>
-                    <button cssClass="e-round"
-                    ejs-button ><i class="fa-regular fa-thumbs-up"></i></button>
-                    <button cssClass="e-round"
-                    ejs-button >    <i class="fa-regular fa-thumbs-down"></i></button>
-                  </div>
-                </div>
+        <div class="e-card-header-caption">
+          <div class="e-card-title">
+            <div class="row">
+              <div class="col-md-1">
+                <button cssClass="e-round" type="back" (click)="onCancel()" ejs-button><i
+                    class="fa-solid fa-angle-left"></i></button>
+              </div>
+              <div class="col-md-7"></div>
+              <div class="col-md-4">
+                <button cssClass="e-round" ejs-button class="btn" style="margin-left: 60px"><i
+                    class="fa-regular fa-star"></i></button>
+                <button disabled="{{this.votingStatistics.CurrentUserVoted == true }}" type="back" ejs-button
+                  style="margin-left: 20px; color:green;" (click)="onBullishClicked()"><i
+                    class="fa-solid fa-arrow-up"></i> Bullish {{this.votingStatistics.BullishCount}} </button>
+                <button disabled="{{this.votingStatistics.CurrentUserVoted == true}}" type="back" ejs-button
+                  style="margin-left: 15px; color:red;" (click)="onBearishClicked()"><i
+                    class="fa-solid fa-arrow-down"></i> Bearish {{this.votingStatistics.BearishCount}}</button>
+              </div>
+            </div>
           </div>
-      </div>
+        </div>
       </div>
       <div class="e-card-content">
         <div class="row">
           <div class="col-md-6">
-            <h3><img src="{{this.coin.iconPath}}" width="32px" alt="{{this.coin.name}}" /> {{this.coin.name}}
+            <h3><img style="margin-left: 20px;" src="{{this.coin.iconPath}}" width="32px" alt="{{this.coin.name}}" />
+              {{this.coin.name}}
               <span class="e-badge e-badge-primary e-badge-pill">{{this.coin.s}}</span>
-              </h3>
+            </h3>
           </div>
           <div class="col-md-3">
 
           </div>
           <div class="col-md-3">
-            <h3 #myDiv>  {{this.coin.p}} <span style="color:rgb(0, 0, 0)"> | </span>
+            <h3 #myDiv> {{this.coin.p}} <span style="color:rgb(0, 0, 0)"> | </span>
               <a href="https://www.binance.com/en/buy-sell-crypto"> Trade
-              <i class="fa-solid fa-store"></i></a> </h3>
+                <i class="fa-solid fa-store"></i></a>
+            </h3>
           </div>
         </div>
-
         <div class="row">
           <app-crypto-details-chart></app-crypto-details-chart>
         </div>
         <div class="row">
-          <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
-              <fieldset>
-                <legend>Comments for {{this.coin.name}}</legend>
-                  <div class="row">
-                    <div class="col-md-2">
-                      <button type="submit" iconCss="e-icons e-comments-icon" ejs-button
-                      (click)="onAddNewComment(fromRTE)" [hidden]="addComment">Add Comment</button>
-                    </div>
-                  </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-10">
+            <app-comment-section></app-comment-section>
+
+            <fieldset>
+              <legend>Comments for {{this.coin.name}}</legend>
+              <div class="row">
+                <div class="col-md-2">
+                  <button type="submit" iconCss="e-icons e-comments-icon" ejs-button (click)="onAddNewComment(fromRTE)"
+                    [hidden]="addComment">Add Comment</button>
+                </div>
+              </div>
 
               <div style="padding-top:20px;">
                 <div class="control-section">
@@ -69,11 +70,10 @@
                       <form (ngSubmit)="onSubmitComment(fromRTE)" #commentForm="ngForm" [hidden]="!addComment">
                         <div class="form-group">
                           <ejs-richtexteditor [saveInterval]="1" placeholder="Write a comment ..."
-                             (change)="onChange(fromRTE)"
-                            [toolbarSettings]="tools" quickToolbarSettings="" #fromRTE #name='ngModel'
-                            [ngModel]="selectedComment.Text ? selectedComment.Text : ''"
-                            (ngModelChange)="selectedComment.Text = $event" required id="CommentText"
-                            name="CommentText" type="text"> </ejs-richtexteditor>
+                            (change)="onChange(fromRTE)" [toolbarSettings]="tools" quickToolbarSettings="" #fromRTE
+                            #name='ngModel' [ngModel]="selectedComment.Text ? selectedComment.Text : ''"
+                            (ngModelChange)="selectedComment.Text = $event" required id="CommentText" name="CommentText"
+                            type="text"> </ejs-richtexteditor>
                           <div *ngIf="(name.invalid && name.touched)" class="alert alert-danger">
                             <div *ngIf="name.errors?.required">
                               Value is required.
@@ -92,19 +92,19 @@
                 </div>
               </div>
 
-                <div *ngIf="this.comments.length == 0">
-                  <div class="d-flex justify-content-center"> <span>
+              <div *ngIf="this.comments.length == 0">
+                <div class="d-flex justify-content-center"> <span>
                     <img class="imgNoPost" src="../../assets/no-post.png" alt="No comments for Symbol">
                   </span>
 
                 </div>
-                    <div class="d-flex justify-content-center"> <span>
-                      <h5>No comments for {{this.coinSymbol}}</h5>
-                    </span>
+                <div class="d-flex justify-content-center"> <span>
+                    <h5>No comments for {{this.coinSymbol}}</h5>
+                  </span>
                 </div>
 
-                </div>
-                <div *ngIf="this.comments.length > 0" >
+              </div>
+              <div *ngIf="this.comments.length > 0">
                 <div class="content-wrapper contentComments" *ngFor="
                       let commentCounter of [].constructor(this.counterPager())
                       let i = index
@@ -118,10 +118,10 @@
                           <div class="col-md-12">
                             <div class="row">
                               <div class="col-md-7">
-                                <h6>{{this.comments[getOffsetCommentIndex(i)].Name}} | {{this.comments[getOffsetCommentIndex(i)].Date | date: 'medium'}}</h6>
+                                <h6>{{this.comments[getOffsetCommentIndex(i)].Name}} |
+                                  {{this.comments[getOffsetCommentIndex(i)].Date | date: 'medium'}}</h6>
                               </div>
-                              <div class="col-md-5"
-                                *ngIf="!!this.comments[getOffsetCommentIndex(i)]?.IsEditable!">
+                              <div class="col-md-5" *ngIf="!!this.comments[getOffsetCommentIndex(i)]?.IsEditable!">
                                 <button cssClass="e-round" iconCss="e-icons e-edit-icon" type="edit" ejs-button
                                   *ngIf="this.selectedCommentIndex != i" style="float: right;"
                                   (click)="onEditComments(fromRTE, i)"></button>
@@ -132,16 +132,13 @@
                                   *ngIf="this.editingComment && ((this.selectedCommentIndex == i))" ejs-button
                                   style="float: right;" (click)="onDeleteEditedComment(i, fromRTE)"></button>
                                 <button type="submit" cssClass="e-round" iconCss="e-icons e-save-icon" ejs-button
-                                  isPrimary="true"
-                                  *ngIf="this.editingComment && ((this.selectedCommentIndex == i))"
+                                  isPrimary="true" *ngIf="this.editingComment && ((this.selectedCommentIndex == i))"
                                   style="float: right;"></button>
                               </div>
                             </div>
-                            <ejs-richtexteditor [toolbarSettings]="tools" [disabled]="this.selectedCommentIndex != i" #fromRTE
-                              #name='ngModel'
-                              [ngModel]="this.comments[getOffsetCommentIndex(i)].Text"
-                              required id="CommentText" name="CommentText" type="text" #RteObj
-                              >
+                            <ejs-richtexteditor [toolbarSettings]="tools" [disabled]="this.selectedCommentIndex != i"
+                              #fromRTE #name='ngModel' [ngModel]="this.comments[getOffsetCommentIndex(i)].Text" required
+                              id="CommentText" name="CommentText" type="text" #RteObj>
                             </ejs-richtexteditor>
 
                           </div>
@@ -154,20 +151,13 @@
                 this.comments.length : 0'>
                 </ejs-pager>
               </div>
-              </fieldset>
-            </div>
-            <div class="col-md-1">
-            </div>
+            </fieldset>
+          </div>
+          <div class="col-md-1">
           </div>
         </div>
+      </div>
     </div>
   </div>
-  </div>
-
-
-
   <div class="col-md-1"></div>
-
-
 </div>
-

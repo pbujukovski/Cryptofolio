@@ -2,15 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
-  combineLatest,
-  concatMap,
   Observable,
-  pipe,
-  repeat,
   Subject,
-  switchMap,
   tap,
-  timer,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CoinBinance, coinBinanceV2 } from '../models/coin-binance';

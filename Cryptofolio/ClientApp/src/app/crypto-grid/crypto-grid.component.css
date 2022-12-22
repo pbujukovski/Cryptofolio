@@ -19,3 +19,24 @@ a{
   color: black;
   text-decoration: none;
 }
+
+.star {
+  visibility:hidden;
+  font-size:30px;
+  cursor:pointer;
+}
+.star:before {
+  content: "\2606";
+  position: absolute;
+  visibility:visible;
+ }
+ .star:checked:before {
+  content: "\2605";
+  position: absolute;
+  color: yellow;
+  text-shadow: 0 0 3px #000;
+ }
+
+ .col-md-10 {
+  margin-bottom: 20px;
+}

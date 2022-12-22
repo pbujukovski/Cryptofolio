@@ -8,6 +8,7 @@ namespace Cryptofolio.Models
         {
             Comments= new List<Comment>();
             Watchlists= new List<Watchlist>();
+            VotingHistories = new List<VotingHistory>();
         }
 
         [Key]
@@ -16,5 +17,7 @@ namespace Cryptofolio.Models
         public List<Comment> Comments { get; set; }
 
         public List<Watchlist> Watchlists { get; set; }
+
+        public List<VotingHistory> VotingHistories { get; set; }
     }
 }

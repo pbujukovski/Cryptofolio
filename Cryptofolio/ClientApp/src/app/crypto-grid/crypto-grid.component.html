@@ -2,109 +2,55 @@
   <div class="col-md-1">
   </div>
   <div class="col-md-10">
+    <ejs-grid #grid [dataSource]="data" [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
+      [editSettings]="editSettings" [toolbar]="toolbar" [enableImmutableMode]='true'  [rowHeight]='60' [allowSelection]="false"
+      (queryCellInfo)='customiseCell($event)'>
 
-    <!-- <div *ngFor="let coin of coinAsTest">
-      <div class="image">
-        <img src="{{this.coin.iconPath}}" width="10px" alt="{{coin.name}}" />
-      </div>
-    </div> -->
-    <ejs-grid #grid
-              [dataSource]="data"
-              [allowPaging]="true"
-              [allowSorting]="true"
-              [pageSettings]="pageSettings"
-              [editSettings]="editSettings"
-              [toolbar]="toolbar"
+      <e-columns>
+        <e-column field="viewdetails" headerText="Watchlist" textAlign="Left" width="33">
+          <ng-template #template let-data>
 
-              (queryCellInfo)='customiseCell($event)'
-              >
-              <e-columns>
-                <e-column
-                field="viewdetails"
-                headerText="Watchlist"
-                textAlign="Left"
-                width="33"
-              >
-                <ng-template #template let-data>
-                  <div>
-                    <button ejs-button (click)="onAddToWatchlist($event)" class="btn"><i class="fa-regular fa-star"></i></button>
-                  </div>
-                </ng-template>
-                </e-column>
-                <e-column headerText='Coin' width=33 textAlign="Left">
-                  <ng-template #template let-data>
-                    <div class="image">
-                      <img src="{{data.iconPath}}" width="32px" alt="{{data.name}}" />
-                    </div>
-                  </ng-template>
-                </e-column>
-                <e-column field='name' headerText='Name' textAlign='Left' width=40></e-column>
-                <e-column isPrimaryKey="true" field='symbol' headerText='Symbol' width=30></e-column>
-                <e-column field='bidPrice'  headerText='Price' textAlign='Right'  width=40 ></e-column>
-                <e-column field='priceChangePercent'  headerText='24h %' textAlign='Right'  width=40>
-                  <!-- <ng-template #template let-data>
-                    <div #myDiv>
-                      <span   class="e-badge e-badge-primary e-badge-pill">{{data.priceChangePercent}}</span>
-                    </div>
-                  </ng-template> -->
-                </e-column>
-                <e-column field='volume' headerText='volume'  textAlign='Right'  width=90  format='c2'></e-column>
-                <e-column
-                field="viewdetails"
-                headerText="Details"
-                textAlign="Right"
-                width="30"
-              >
-                <ng-template #template let-data>
-                  <div>
-                    <button ejs-button (click)="onDetailsClicked($event)" class="btn"><i class="fa-solid fa-circle-info"></i></button>
-                  </div>
-                </ng-template>
-              </e-column>
-              <e-column
-              field="viewdetails"
-              headerText="Buy"
-              textAlign="Right"
-              width="20"
-            >
-              <ng-template #template let-data>
-                <div><a href = "www.binance.com/en/trade/{{data.symbol}}_USDT?theme=light&type=spot">
-                   <i class="fa-solid fa-store"></i> </a>
+              <input class="star" type="checkbox" title="bookmark page"  (click)="onAddToWatchlist($event)" >
+              <!-- <button type="checkbox" ejs-button (click)="onAddToWatchlist($event)" class="btn">Click</button> -->
+              <!-- <h4>{{data.symbol}}</h4> -->
+              <!-- <div *ngFor="let item of this.dataWatchlist.Coins">
+              <ejs-checkbox label="Checked State" cssClass="e-checkicon" [checked]="item.Symbol === data.symbol"></ejs-checkbox>
 
-                </div>
-              </ng-template>
-            </e-column>
-              </e-columns>
+            </div> -->
 
-      <!-- <ng-template #editSettingsTemplate let-data>
-        <div ngForm #residentForm="ngForm">
-
-          <fieldset>
-            <legend>Building Address</legend>
-
-          </fieldset>
-        </div>
-      </ng-template> -->
-    </ejs-grid>
-
-
-    <!-- <ejs-grid [dataSource]='this.coinAsTest' [allowFiltering]='true' [toolbar]='this.toolbar'>
-      <e-columns *ngFor="let coinTest of this.coinAsTest">
-        <e-column field='bidPrice' headerText='bidPrice' textAlign='Right' width=90></e-column>
-        <e-column field='symbol' pattern=".*USDT" headerText='symbol' width=120></e-column>
-        <e-column field='volume' headerText='volume' textAlign='Right' width=90></e-column>
-        <e-column field='name' headerText='Name' textAlign='Right' width=90></e-column>
-        <e-column headerText='Coin logo' width=150 textAlign='Center'>
-          <ng-template #template let-data="coinTest">
-
-            <div>
-              {{data}}
+          </ng-template>
+        </e-column>
+        <e-column headerText='Coin' width=33 textAlign="Left">
+          <ng-template #template let-data>
+            <div class="image">
+              <img src="{{data.iconPath}}" width="32px" alt="{{data.name}}" />
             </div>
           </ng-template>
         </e-column>
-        <e-column field='firstId' headerText='firstId' textAlign='Right' width=120></e-column>
+        <e-column field='name' headerText='Name' textAlign='Left' width=40></e-column>
+        <e-column isPrimaryKey="true" field='symbol' headerText='Symbol' width=30></e-column>
+        <e-column field='bidPrice' headerText='Price' textAlign='Right' width=40></e-column>
+        <e-column field='priceChangePercent' headerText='24h %' textAlign='Right' width=40>
+        </e-column>
+        <e-column field='volume' headerText='volume' textAlign='Right' width=90 format='c2'></e-column>
+        <e-column field="viewdetails" headerText="Details" textAlign="Right" width="30">
+          <ng-template #template let-data>
+            <div>
+              <button ejs-button (click)="onDetailsClicked($event)" class="btn"><i
+                  class="fa-solid fa-circle-info"></i></button>
+            </div>
+          </ng-template>
+        </e-column>
+        <e-column field="viewdetails" headerText="Buy" textAlign="Right" width="20">
+          <ng-template #template let-data>
+            <div><a href="www.binance.com/en/trade/{{data.symbol}}_USDT?theme=light&type=spot">
+                <i class="fa-solid fa-store"></i> </a>
+
+            </div>
+          </ng-template>
+        </e-column>
       </e-columns>
-    </ejs-grid> -->
+    </ejs-grid>
   </div>
   <div class="col-md-1"></div>
 </div>

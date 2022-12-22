@@ -16,7 +16,9 @@ const PROXY_CONFIG = [
       "/_framework",
       "/odata/Coins",
       "/odata/Watchlists",
+      "/api/Watchlists",
       "/odata/Comments",
+      "/odata/VotingHistories"
    ],
     target: target,
     secure: false,

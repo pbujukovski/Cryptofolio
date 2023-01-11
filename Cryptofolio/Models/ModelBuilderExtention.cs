@@ -34,7 +34,7 @@ namespace Cryptofolio.Models
                 applicationUser[0].Email = "admin@mail.com";
                 applicationUser[0].NormalizedEmail = "admin@mail.com";
                 applicationUser[0].EmailConfirmed = true;
-                applicationUser[0].PasswordHash = hasher.HashPassword(null, "Test_123?");
+                applicationUser[0].PasswordHash = hasher.HashPassword(null, "5");
                 applicationUser[0].SecurityStamp = string.Empty;
 
                 modelBuilder.Entity<ApplicationUser>().HasData(applicationUser[0]);

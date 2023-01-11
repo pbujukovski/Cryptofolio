@@ -75,7 +75,7 @@ export class CommentSectionComponent implements OnInit {
 
     public queryVotingHistory!: Query;
 
-  public coinSymbol : string = "";
+  @Input() public coinSymbol : string = "";
 
   public counterPager(): number {
     let number = 0;
@@ -124,7 +124,7 @@ export class CommentSectionComponent implements OnInit {
           crossDomain: true,
         });
 
-        this.binanceApiService.coinSymbol.subscribe(coinSymbol => this.coinSymbol = coinSymbol);
+        // this.binanceApiService.coinSymbol.subscribe(coinSymbol => this.coinSymbol = coinSymbol);
    }
 
   ngOnInit(): void {

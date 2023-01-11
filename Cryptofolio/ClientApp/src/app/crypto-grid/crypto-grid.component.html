@@ -9,15 +9,7 @@
       <e-columns>
         <e-column field="viewdetails" headerText="Watchlist" textAlign="Left" width="33">
           <ng-template #template let-data>
-
-              <input class="star" type="checkbox" title="bookmark page"  (click)="onAddToWatchlist($event)" >
-              <!-- <button type="checkbox" ejs-button (click)="onAddToWatchlist($event)" class="btn">Click</button> -->
-              <!-- <h4>{{data.symbol}}</h4> -->
-              <!-- <div *ngFor="let item of this.dataWatchlist.Coins">
-              <ejs-checkbox label="Checked State" cssClass="e-checkicon" [checked]="item.Symbol === data.symbol"></ejs-checkbox>
-
-            </div> -->
-
+              <input  class="star" type="checkbox" title="bookmark page" [checked]="this.setCheckedValue(data.symbol)"  (click)="onAddToWatchlist($event)" >
           </ng-template>
         </e-column>
         <e-column headerText='Coin' width=33 textAlign="Left">
@@ -32,7 +24,7 @@
         <e-column field='bidPrice' headerText='Price' textAlign='Right' width=40></e-column>
         <e-column field='priceChangePercent' headerText='24h %' textAlign='Right' width=40>
         </e-column>
-        <e-column field='volume' headerText='volume' textAlign='Right' width=90 format='c2'></e-column>
+        <e-column field='quoteVolume' headerText='Volume' textAlign='Right' width=50 format='c2'></e-column>
         <e-column field="viewdetails" headerText="Details" textAlign="Right" width="30">
           <ng-template #template let-data>
             <div>
@@ -41,11 +33,10 @@
             </div>
           </ng-template>
         </e-column>
-        <e-column field="viewdetails" headerText="Buy" textAlign="Right" width="20">
+        <e-column field="viewdetails" headerText="Buy" textAlign="Left" width="30">
           <ng-template #template let-data>
-            <div><a href="www.binance.com/en/trade/{{data.symbol}}_USDT?theme=light&type=spot">
+            <div><a href="https://www.binance.com/en/trade/{{data.symbol}}_USDT?theme=light&type=spot">
                 <i class="fa-solid fa-store"></i> </a>
-
             </div>
           </ng-template>
         </e-column>

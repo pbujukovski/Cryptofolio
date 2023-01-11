@@ -15,12 +15,16 @@
               </div>
               <div class="col-md-7"></div>
               <div class="col-md-4">
-                <button cssClass="e-round" ejs-button class="btn" style="margin-left: 60px"><i
-                    class="fa-regular fa-star"></i></button>
-                <button disabled="{{this.votingStatistics.CurrentUserVoted == true }}" type="back" ejs-button
+
+
+                <!-- <button cssClass="e-round" ejs-button class="btn" style="margin-left: 60px"><i
+                    class="fa-regular fa-star"></i></button> -->
+                      <input  class="star" type="checkbox" title="bookmark page" style="margin-left: 60px" [checked]="this.setCheckedValue(coin.s)"  (click)="onAddToWatchlist(this.coinSymbol)" >
+
+                <button [disabled]=this.votingStatistics.CurrentUserVoted type="back" ejs-button
                   style="margin-left: 20px; color:green;" (click)="onBullishClicked()"><i
                     class="fa-solid fa-arrow-up"></i> Bullish {{this.votingStatistics.BullishCount}} </button>
-                <button disabled="{{this.votingStatistics.CurrentUserVoted == true}}" type="back" ejs-button
+                <button [disabled]=this.votingStatistics.CurrentUserVoted type="back" ejs-button
                   style="margin-left: 15px; color:red;" (click)="onBearishClicked()"><i
                     class="fa-solid fa-arrow-down"></i> Bearish {{this.votingStatistics.BearishCount}}</button>
               </div>
@@ -47,12 +51,25 @@
           </div>
         </div>
         <div class="row">
+          <div class="col-md-7">
+
+          </div>
+          <div class="col-md-5">
+            <h6><span class="binance-details"> Volume: </span> {{this.coinBinance.quoteVolume}} <span class="binance-details"> |  Price Change Percent: </span>  {{this.coinBinance.priceChangePercent}}</h6>
+
+          </div>
+        </div>
+
+        <div class="row">
           <app-crypto-details-chart></app-crypto-details-chart>
         </div>
+
+
         <div class="row">
           <div class="col-md-1"></div>
           <div class="col-md-10">
-            <app-comment-section></app-comment-section>
+
+
 
             <fieldset>
               <legend>Comments for {{this.coin.name}}</legend>

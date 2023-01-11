@@ -1,37 +1,28 @@
-import { HttpClient } from '@angular/common/http';
 import {
   Component,
-  ElementRef,
-  EventEmitter,
-  Inject,
   OnDestroy,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
 import {
-  DialogEditEventArgs,
   EditSettingsModel,
   GridComponent,
   PageSettingsModel,
   QueryCellInfoEventArgs,
-  SaveEventArgs,
   ToolbarItems,
 } from '@syncfusion/ej2-angular-grids';
-import { CoinBinance, coinBinanceV2 } from '../common/models/coin-binance';
+import { CoinBinance } from '../common/models/coin-binance';
 import { cryptoSymbol } from 'crypto-symbol';
-import { DataManager } from '@syncfusion/ej2-data';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { BinanceApiService } from '../common/services/binance-api.service';
-
-import { concatMap, interval, Subscription, switchMap, timer } from 'rxjs';
+import { concatMap, Subscription, switchMap, timer } from 'rxjs';
 import {
   AddCoinToWatchlistRequest,
   Watchlist,
 } from '../common/models/watchlist';
 import { WatchlistService } from '../common/services/watchlist.service';
 import { Coin } from '../common/models/coin';
-import { ChipListComponent } from '@syncfusion/ej2-angular-buttons';
 
 const { nameLookup } = cryptoSymbol({});
 
@@ -46,34 +37,22 @@ export class CryptoGridComponent implements OnInit, OnDestroy {
 
   //Data for all coins
   public data: CoinBinance[] = [];
-
   public selectedSymbol: string = '';
-
   public coin: Coin = new Coin();
-
-  public testData: coinBinanceV2[] = [];
-
   public watchlist: Watchlist = new Watchlist(-1, [], '');
-
   public starIndicator: boolean = false;
-
   public addCoinToWatchlistRequest: AddCoinToWatchlistRequest =
     new AddCoinToWatchlistRequest();
-
   public pageSettings!: PageSettingsModel;
-
   public editSettings!: EditSettingsModel;
-
   public toolbar!: ToolbarItems[] | object;
-
+  public isInWishlist: boolean = false;
+  public coinBinanceBackup: CoinBinance = new CoinBinance();
+  //Subscriptions
   public binanceApiSubscription!: Subscription;
-
   public watchlistSubscription!: Subscription;
   public dataWatchlist!: Watchlist;
 
-  public isInWishlist : boolean = false;
-
-  public coinBinanceBackup: CoinBinance = new CoinBinance();
 
   public previousValuesMap: Record<string, CoinBinance> = {};
   @ViewChild('grid') public grid!: GridComponent;
@@ -93,24 +72,16 @@ export class CryptoGridComponent implements OnInit, OnDestroy {
       }
     );
 
+    //Get Watchlist from sevice
     this.watchlistService.getWatchList();
 
-   this.watchlistSubscription = this.watchlistService.WatchlistUpdate.subscribe(watchlist => {
-      console.log(watchlist);
-     this.dataWatchlist = watchlist;
-      console.log(this.dataWatchlist);
-    });
+    //Subscribe to get wathclist updated from Watchlist Service
+    this.watchlistSubscription =
+      this.watchlistService.WatchlistUpdate.subscribe((watchlist) => {
+        this.dataWatchlist = watchlist;
+      });
 
-
-    // this.binanceApiService.getCoinsv2();
-    // this.binanceApiService.CoinsUpdatedv2.subscribe((test) => {
-    //   this.testData = test;
-    //   console.log(this.testData);
-    // });
-    // this.binanceApiService.comineData();
-
-    // this.binanceApiService.getCoins()
-    this.binanceApiSubscription =  binanceApiObsearvable$
+    this.binanceApiSubscription = binanceApiObsearvable$
       .pipe(concatMap(() => this.binanceApiService.getCoins()))
       .subscribe();
   }
@@ -130,15 +101,22 @@ export class CryptoGridComponent implements OnInit, OnDestroy {
     //Add search to toolbar
     this.toolbar = ['Search'];
 
-        this.data.filter((test)=> this.dataWatchlist.Coins.some(coinSymbol => {
-      if (coinSymbol.Symbol === test.symbol){
-        this.isInWishlist = true;
-      }
-    }))
+    this.data.filter((test) =>
+      this.dataWatchlist.Coins.some((coinSymbol) => {
+        if (coinSymbol.Symbol === test.symbol) {
+          this.isInWishlist = true;
+        }
+      })
+    );
+  }
+
+  //Check if COIN pair is added to watchlist
+  public setCheckedValue(coinSymbol: string): boolean {
+    return this.dataWatchlist.Coins.find((c) => c.Symbol == coinSymbol) != null;
   }
 
 
-
+  //Change color for price when data is updated
   customiseCell(args: QueryCellInfoEventArgs) {
     let dataFromGrid = args.data as CoinBinance;
 
@@ -163,40 +141,43 @@ export class CryptoGridComponent implements OnInit, OnDestroy {
             ? 'green'
             : 'red';
       }
-
       this.coinBinanceBackup = dataFromGrid;
       this.previousValuesMap[dataFromGrid.symbol] = dataFromGrid;
     }
   }
 
+  //When we click details on coin symbol
   public onDetailsClicked(args: any) {
-    let test = this.grid.getRowInfo(args.target).rowData as CoinBinance;
-    this.selectedSymbol = test.symbol;
-    console.log(this.selectedSymbol);
-    this.binanceApiService.coinSymbol.next(this.selectedSymbol);
+    //Step 1: Get coin details from grid row
+    let coinToDetails = this.grid.getRowInfo(args.target)
+      .rowData as CoinBinance;
+
+    //Step 2: Assign selected symbol to this.selectedSymbol
+    this.selectedSymbol = coinToDetails.symbol;
+        //Step 2.2: Notify change and send updaded symbol
+        this.binanceApiService.coinSymbol.next(this.selectedSymbol);
+
+    //Step 3: Navigate to crypto-details
     this.router.navigate(['crypto-details']);
   }
 
+   //When we add symbol to watchlist
   public onAddToWatchlist(args: any) {
-    console.log('this.selectedSymbol');
-    let test = this.grid.getRowInfo(args.target).rowData as CoinBinance;
-    console.log("test.symbol");
-    console.log(test.symbol);
-
-    this.addCoinToWatchlistRequest.CoinSymbol = test.symbol;
+   //Step 1: Get coin details from grid row
+    let coinToWatchlist = this.grid.getRowInfo(args.target)
+      .rowData as CoinBinance;
+    //Step 2: Assign selected symbol to this.selectedSymbol
+    this.addCoinToWatchlistRequest.CoinSymbol = coinToWatchlist.symbol;
+    //Step 2.2: Assign selected symbol StarIndicator to true;
     this.addCoinToWatchlistRequest.StarIndicator = true;
+    //Step 3: Send request to update backend watchlist;
     this.watchlistService.addCoinToWatchlist(this.addCoinToWatchlistRequest);
   }
 
   ngOnDestroy() {
+    //Unsibscribe
     this.binanceApiSubscription.unsubscribe();
-    // this.wat
+
+    this.watchlistSubscription.unsubscribe();
   }
-
-  // public isInWishList: boolean = false;
-  // private isBookInWishList(): void {
-
-  //   this.isInWishList = this.book != null && this.wishListService.getWishList().Books.find(b => b.BookId == this.book!.BookId) != null;
-  //   console.log(this.isInWishList);
-  // }
 }

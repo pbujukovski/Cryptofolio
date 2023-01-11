@@ -50,7 +50,7 @@ namespace Cryptofolio.Controllers
 
 /*                var test = _context.VotingHistories.FirstOrDefaultAsync(cs => cs.CoinSymbol == CoinSymbol && cs.ApplicationUserId == _userAuthService.getCurrentUserId() && cs.Date > DateTime.Now.AddDays(-1));*/
                 
-                voteStatisticsDTO.CurrentUserVoted = _context.VotingHistories.FirstOrDefaultAsync(cs => cs.CoinSymbol == CoinSymbol && cs.ApplicationUserId == _userAuthService.getCurrentUserId() && cs.Date > DateTime.Now.AddDays(-1)) != null ? true : false;
+                voteStatisticsDTO.CurrentUserVoted = _context.VotingHistories.Where(cs => cs.CoinSymbol == CoinSymbol && cs.ApplicationUserId == _userAuthService.getCurrentUserId() && cs.Date > DateTime.Now.AddDays(-1)).Count() > 0 ? true : false;
 
 /*                voteStatisticsDTO.Status = _context.VotingHistories.Where(cs => cs.CoinSymbol == CoinSymbol && cs.Date > DateTime.Now.AddDays(-1) && cs.ApplicationUserId == _userAuthService.getCurrentUserId() && cs.Status == VoteStatus.Bearish) != null ? VoteStatus.Bearish : VoteStatus.Unknown;
 

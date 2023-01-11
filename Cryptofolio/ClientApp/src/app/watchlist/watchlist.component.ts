@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ChipListComponent } from '@syncfusion/ej2-angular-buttons';
 import { EditSettingsModel, GridComponent, PageSettingsModel, ToolbarItems } from '@syncfusion/ej2-angular-grids';
 import { DataManager, ODataV4Adaptor, Query, ReturnOption } from '@syncfusion/ej2-data';
-import { concatMap, Subscription, timer } from 'rxjs';
+import { BehaviorSubject, concatMap, Subject, Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Coin } from '../common/models/coin';
 import { CoinBinance } from '../common/models/coin-binance';
@@ -36,15 +36,17 @@ export class WatchlistComponent implements OnInit, OnDestroy {
   public addCoinToWatchlistRequest: AddCoinToWatchlistRequest =
   new AddCoinToWatchlistRequest();
 
+  public dataGridChanged : Subject<CoinBinance[]> = new Subject<CoinBinance[]>();
+
   @ViewChild('grid') public grid!: GridComponent;
   constructor(public binanceApiService: BinanceApiService,public watchlistService: WatchlistService, public router: Router) {
     const binanceApiObsearvable$ = timer(500, 15000);
     this.watchlistService.getWatchList();
 
    this.watchlistSubscription = this.watchlistService.WatchlistUpdate.subscribe(watchlist => {
-      console.log(watchlist);
+
      this.dataWatchlist = watchlist;
-      console.log(this.dataWatchlist);
+
     });
 
 
@@ -54,13 +56,14 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
     this.binanceApiSubscription = this.binanceApiService.CoinsUpdated.subscribe(coins => {
       this.dataCoins = coins;
-      console.log(this.dataCoins);
 
-      this.dataGrid = this.dataCoins.filter((data)=> this.dataWatchlist.Coins.some(coinSymbol => coinSymbol.Symbol === data.symbol))
 
-      if (this.dataCoins.length > 0){
+        this.dataGrid = this.dataCoins.filter((data)=> this.dataWatchlist.Coins.some(coinSymbol => coinSymbol.Symbol === data.symbol))
+
+        if (this.dataCoins.length > 0){
       this.isDataArrived = true;
     }
+
 
       // this.dataGrid = [];
       // this.dataCoins.filter((data) => {
@@ -70,8 +73,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       //     }
       //   });
       // });
-      console.log("DATA GRID");
-      console.log(this.dataGrid);
+
     });
 
     // this.dataGrid = this.dataCoins.filter((data) =>    this.dataWatchlist.Coins.find(data.symbol == Symbol))
@@ -100,23 +102,15 @@ export class WatchlistComponent implements OnInit, OnDestroy {
   }
 
   public onRemoveCoinClicked(data: CoinBinance) {
-    console.log('this.selectedSymbol');
-    // let test = this.grid.getRowInfo(args.target).rowData as CoinBinance;
-    console.log("test.symbol");
-    // console.log(test.symbol);
-    // console.log(args);
-    // console.log(args.index);
-    console.log(data);
 
-
-    let dataGrid : any = this.dataGrid.find(coin => coin.symbol === data.symbol);
-
-    this.dataGrid.splice(dataGrid, 1);
 
     this.grid.deleteRecord('symbol', data);
     this.grid.refresh();
-    console.log(data);
-    console.log(this.dataGrid);
+    let watchlistCoin = data.symbol as unknown as Coin;
+    const index = this.dataWatchlist.Coins.indexOf(watchlistCoin);
+    console.log(this.dataWatchlist);
+    this.dataWatchlist.Coins.splice(index, 1);
+    console.log(this.dataWatchlist.Coins);
     this.addCoinToWatchlistRequest.CoinSymbol = data.symbol;
     this.addCoinToWatchlistRequest.StarIndicator = true;
     this.watchlistService.addCoinToWatchlist(this.addCoinToWatchlistRequest);

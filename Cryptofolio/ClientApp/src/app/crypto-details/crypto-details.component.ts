@@ -7,14 +7,16 @@ import { DataManager, Query,ODataV4Adaptor,Predicate,ReturnOption } from '@syncf
 
 
 import { cryptoSymbol } from 'crypto-symbol';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, concatMap, Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CoinBinance } from '../common/models/coin-binance';
 import { CoinSocket } from '../common/models/coin-socket';
 import { Comment } from '../common/models/comment';
 import { VotingHistory, VoteStatus } from '../common/models/voting-history';
 import { VotingStatistics } from '../common/models/voting-statistics';
+import { AddCoinToWatchlistRequest, Watchlist } from '../common/models/watchlist';
 import { BinanceApiService } from '../common/services/binance-api.service';
+import { WatchlistService } from '../common/services/watchlist.service';
 import { SyncfusionUtilsService } from '../common/syncfusion-utils';
 
 const { nameLookup } = cryptoSymbol({});
@@ -52,6 +54,7 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
 
     public communicationError: boolean = false;
     private subcriptionCommunicationError!: Subscription;
+    public subscriptionBinance!: Subscription;
     public dataComment!: DataManager;
     public queryComments!: Query;
     public selectedComment!: Comment;
@@ -60,6 +63,19 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
     public isEdit: boolean = false; //For selecting row from grid initial value false
     public editingComment: boolean = false; //For selecting comment for edditing initial value false
     public disableEditButton: boolean = false; //For disabling edit button for comment from other users initial value false
+
+    public watchlistSubscription!: Subscription;
+    public dataWatchlist!: Watchlist;
+
+    public isInWishlist : boolean = false;
+
+
+  public watchlist: Watchlist = new Watchlist(-1, [], '');
+
+  public starIndicator: boolean = false;
+    public coinBinance: CoinBinance = new CoinBinance;
+  public addCoinToWatchlistRequest: AddCoinToWatchlistRequest =
+    new AddCoinToWatchlistRequest();
 
   @ViewChild('commentForm') public commentForm!: FormGroup; //Initialize new comment form
   @ViewChild('toolsRTE') public rteObj?: RichTextEditorComponent; //Rich Text Editor Toolbar
@@ -126,7 +142,9 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
 
   public binanceWebSocket24 : WebSocket;
   public coin!: CoinSocket;
-  constructor(private binanceApiService: BinanceApiService,  public router: Router, private syncfusionUtilsService : SyncfusionUtilsService ) {
+  constructor(private binanceApiService: BinanceApiService,  public router: Router,private watchlistService : WatchlistService , private syncfusionUtilsService : SyncfusionUtilsService ) {
+
+    const binanceApiObsearvable$ = timer(1000, 10000);
 
         //Getting data for Comments
         this.dataComment = new DataManager({
@@ -143,12 +161,12 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
         crossDomain: true,
         });
 
-        console.log("this.coinSymbol");
-        console.log(this.coinSymbol);
+
+
+
 
 
     this.binanceApiService.coinSymbol.subscribe(coinSymbol => this.coinSymbol = coinSymbol);
-    console.log(this.coinSymbol);
     if (this.coinSymbol === ''){
       this.router.navigate(['cryptos']);
     }
@@ -163,14 +181,9 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
     .executeQuery(this.queryComments)
     .then((e: ReturnOption) => {
       var resultList = e.result as Comment[];
-      console.log(e.result);
       if (resultList != null ) {
         this.comments = resultList;
-        console.log("this.comments");
-        console.log(this.comments);
-        // this.WatchlistUpdate.next(this.selectedWatchlist);
-        // this.backUpBuilding = { ...resultList[0] };
-      } else console.log('Result list is empty');
+      } else console.error('Result list is empty');
     })
     .catch((e) => true);
 
@@ -180,15 +193,15 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
       'CoinSymbol',
       this.coinSymbol
     );
+
+
     this.dataVotingHistory
     .executeQuery(this.queryVotingHistory)
     .then((e: ReturnOption) => {
       var result = e.result as VotingStatistics;
-      console.log(e.result);
       if (result != null ) {
         this.votingStatistics = result as VotingStatistics;
-        console.log(this.votingStatistics);
-      } else console.log('Result list is empty');
+      } else console.error('Result list is empty');
     })
     .catch((e) => true);
 
@@ -210,14 +223,30 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
 
       var coinPrice = Number(this.coin.p.replace(/[^0-9.-]+/g,""));
 
-      this.myDiv!.nativeElement!.style.color = !this.lastPrice || this.lastPrice === coinPrice ? 'black' : coinPrice > this.lastPrice ? 'green' : 'red';
 
+      if (this.myDiv.nativeElement != undefined && this.myDiv.nativeElement.style != undefined){
+      this.myDiv.nativeElement.style.color = !this.lastPrice || this.lastPrice === coinPrice ? 'black' : coinPrice > this.lastPrice ? 'green' : 'red';
+      }
       this.lastPrice = coinPrice;
     }
 
 
     this.binanceWebSocket24.onmessage = (event) => {
     }
+
+
+    this.watchlistService.getWatchList();
+
+    this.watchlistSubscription = this.watchlistService.WatchlistUpdate.subscribe(watchlist => {
+      this.dataWatchlist = watchlist;
+     });
+
+   this.subscriptionBinance =  binanceApiObsearvable$
+     .pipe(concatMap(() => this.binanceApiService.getCoin(this.coinSymbol)))
+     .subscribe();
+     this.binanceApiService.CoinUpdated.subscribe(data =>{
+      this.coinBinance = data});
+
   }
 
   ngOnInit(): void {
@@ -232,11 +261,11 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
     ); //Adding predicate to be equal as CommentId
     this.queryComments.queries = [];
     this.queryComments.where(predicate);
-      console.log("HERE AFTER PREDICATE");
 
   }
 
   ngOnDestroy(): void{
+    this.subscriptionBinance.unsubscribe();
     this.binanceWebSocket.close();
   }
 
@@ -298,9 +327,6 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
         commentRTE as RichTextEditorComponent
       ).value;
       this.backUpComment = { ...this.selectedComment };
-      console.log("this.selectedTicket.Comments[i]");
-        console.log(this.comments[i]);
-        console.log(this.comments[i].Id);
       this.dataComment.update('Id', this.comments[i]); //Send updated comment to backend
       (commentRTE as RichTextEditorComponent).toolbarSettings.enable = false; //Set value for toolbar settings in comment section
       (commentRTE as RichTextEditorComponent).setDisabledState(true); //Define state for toolbar in comment section
@@ -317,8 +343,6 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
       this.comments.splice(i, 1); //Delete one element from selectedTicket list
       this.selectedCommentIndex = -1; //Clear value for selected comment
       this.editingComment = false; //Changing state for editing comment
-      console.log(this.selectedCommentIndex);
-      console.log(i);
       (commentRTE as RichTextEditorComponent).toolbarSettings.enable = false;
       (commentRTE as RichTextEditorComponent).setDisabledState(true);
       //(commentRTE as RichTextEditorComponent).refresh();
@@ -330,8 +354,6 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
     this.addComment = true;
     (commentRTE as RichTextEditorComponent).toolbarSettings.enable = true;
     this.selectedComment = { ...this.backUpComment };
-    console.log("on new comment")
-    console.log(this.selectedComment);
 
   }
 
@@ -359,7 +381,6 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
 
 
   onBullishClicked(){
-      console.log(this.votingHistory);
       this.votingHistory!.CoinSymbol = this.coinSymbol;
       this.votingHistory!.Status = VoteStatus.Bullish;
 
@@ -368,17 +389,16 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
       ) as Promise<VotingStatistics>; //Waiting response from backend to be sure that new comment comes with ID.
       temp.then((value: VotingStatistics) => {
         if (this.coinSymbol != null) {
-          console.log(value);
+
          this.votingStatistics = value; //Adding comment to list after the response from the promise
          this.dataVotingHistory
     .executeQuery(this.queryVotingHistory)
     .then((e: ReturnOption) => {
       var result = e.result as VotingStatistics;
-      console.log(e.result);
+
       if (result != null ) {
         this.votingStatistics = result as VotingStatistics;
-        console.log(this.votingStatistics);
-      } else console.log('Result list is empty');
+      } else console.error('Result list is empty');
     })
     .catch((e) => true);
         }
@@ -413,4 +433,19 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
     console.log(this.votingStatistics)
 
   }
+
+  public onAddToWatchlist(coinSymbol : string) {
+    console.log('this.selectedSymbol');
+
+
+    // console.log("test.symbol");
+    // console.log(test.symbol);
+    this.addCoinToWatchlistRequest.CoinSymbol = coinSymbol;
+    this.addCoinToWatchlistRequest.StarIndicator = true;
+    this.watchlistService.addCoinToWatchlist(this.addCoinToWatchlistRequest);
+  }
+
+  public setCheckedValue(coinSymbol: string)  : boolean{
+    return this.dataWatchlist.Coins.find(c => c.Symbol == coinSymbol) != null;
+    }
 }

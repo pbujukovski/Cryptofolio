@@ -25,9 +25,9 @@ export class BinanceApiService {
 
   public coinv2 : coinBinanceV2 = new coinBinanceV2;
 
-  public CoinsUpdatedv2: BehaviorSubject<coinBinanceV2[]> = new BehaviorSubject<
-  coinBinanceV2[]
-  >([]);
+  public CoinUpdated: BehaviorSubject<CoinBinance> = new BehaviorSubject<
+  CoinBinance
+  >(new CoinBinance);
 
 
   public CoinsUpdated: BehaviorSubject<CoinBinance[]> = new BehaviorSubject<
@@ -65,6 +65,7 @@ export class BinanceApiService {
       .pipe(
         tap((data) => {
           //get date as json object
+
           var dataAsJson = data;
 
           this.dataJson = [];
@@ -96,7 +97,7 @@ export class BinanceApiService {
               //Step 2.4: Format price with dollar currency
               this.coin.bidPrice = this.dollarCurr.format(parseFloat(this.coin.bidPrice));
 
-
+              this.coin.quoteVolume = this.dollarCurr.format(parseFloat(this.coin.quoteVolume));
               this.coin.volume = this.dollarCurr.format(parseFloat(this.coin.volume));
               //Step 2.5: Add percentage symbol to coin percent value
               this.coin.priceChangePercent =
@@ -114,75 +115,52 @@ export class BinanceApiService {
       );
   }
 
-
-  public url = "https://www.binance.com/exchange-api/v2/public/asset-service/product/get-products";
-
-
-  public getCoinsv2(): Observable<any> {
+  //Request for binance api to get coins
+  public getCoin(coinSymbol: string): Observable<any> {
     return this.http
-      .get(this.url)
+      .get(this.environment.binanceApiUrl + this.environment.queryCoins + '?symbol=' + coinSymbol + 'USDT')
       .pipe(
-        tap((data: any) => {
-          //get date as json object
-          var dataAsJson = data;
-          console.log("HEREEEE");
-          this.coinsv2 = [];
-          this.dataJson = [];
-          console.log(dataAsJson.data[0].s);
-          // console.log(this.regex.test(dataAsJson[0].s))
-          this.dataJson.push(dataAsJson.data);
+        tap((data) => {
 
-          console.log(this.dataJson[0]);
-          this.coins = [];
+          //get data as CoinBinance object
+          let coin = data as CoinBinance
 
-          this.dataJson[0].forEach((coin: coinBinanceV2) => {
-            this.coinv2 = coin;
-            console.log("HEREEEE");
-            console.log(this.coinv2.s);
-            console.log(this.regex.test(this.coinv2.s));
+
+            this.coin = coin;
+
+
             //Step 2: Check if coin symbol matches regex pattern
-            if (this.regex.test(this.coinv2.s) === true) {
-              console.log("HERE IF REGEX PASSED");
+            if (this.regex.test(coin.symbol) === true) {
 
+              //Step 2.1: Split name to remove symbol pair such as USDT
+              const splitName =
+                coin.symbol.split('USDT').find((x) => x !== 'USDT') ?? '';
+
+              //Step 2.2.1: Set splited name to current coin symbol etc.BTC from BTCUSDT
+              this.coin.symbol = splitName;
 
               //Step 2.2: Find matching path for coin LOGO image
-              this.coinv2.iconPath =
-                './assets/icon/' + `${this.coinv2.b.toLowerCase()}` + '.png';
+              this.coin.iconPath =
+                './assets/icon/' + `${splitName.toLowerCase()}` + '.png';
 
+               //Step 2.3: Find matching name for current symbol
+              this.coin.name = nameLookup(splitName) ?? splitName;
 
-                this.coinv2.marketCap = +this.coinv2.o * this.coinv2.cs;
+              //Step 2.4: Format price with dollar currency
+              this.coin.bidPrice = this.dollarCurr.format(parseFloat(this.coin.bidPrice));
+
+              this.coin.quoteVolume = this.dollarCurr.format(parseFloat(this.coin.quoteVolume));
+              this.coin.volume = this.dollarCurr.format(parseFloat(this.coin.volume));
+              //Step 2.5: Add percentage symbol to coin percent value
+              this.coin.priceChangePercent =
+                parseFloat(this.coin.priceChangePercent).toFixed(2) + '%';
+
               //Step 3: Push coin to list
-              this.coinsv2.push(this.coinv2);
-              console.log(this.coinsv2);
+              // this.coins.push(this.coin);
+              this.CoinUpdated.next(this.coin);
             }
-          });
-
-          //Step 3.1: When all coins are in the list update BehaviorSubject
-          this.CoinsUpdatedv2.next(this.coinsv2);
 
         })
       );
-
-
-
   }
-
-  // public comineData() : any{
-  //   combineLatest(this.CoinsUpdated,this.CoinsUpdatedv2).subscribe(
-  //     ([coinsOne, coinsTwo]) => {
-  //       /*
-  //         Example:
-  //       timerThree first tick: 'Timer One Latest: 0, Timer Two Latest: 0, Timer Three Latest: 0
-  //       timerOne second tick: 'Timer One Latest: 1, Timer Two Latest: 0, Timer Three Latest: 0
-  //       timerTwo second tick: 'Timer One Latest: 1, Timer Two Latest: 1, Timer Three Latest: 0
-  //     */
-
-  //       var jsonData =
-  //       console.log(
-  //         `Timer One Latest: ${coinsOne},
-  //        Timer Two Latest: ${coinsTwo},
-  //        `
-  //       );
-  // });
-  // }
 }

@@ -1,47 +1,44 @@
-<div class="row">
-  <div class="col-md-1">
-  </div>
-  <div class="col-md-10">
-    <ejs-grid #grid [dataSource]="data" [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
-      [editSettings]="editSettings" [toolbar]="toolbar" [enableImmutableMode]='true'  [rowHeight]='60' [allowSelection]="false"
-      (queryCellInfo)='customiseCell($event)'>
+<div class="container-fluid mt-5 px-5">
 
-      <e-columns>
-        <e-column field="viewdetails" headerText="Watchlist" textAlign="Left" width="33">
-          <ng-template #template let-data>
-              <input  class="star" type="checkbox" title="bookmark page" [checked]="this.setCheckedValue(data.symbol)"  (click)="onAddToWatchlist($event)" >
-          </ng-template>
-        </e-column>
-        <e-column headerText='Coin' width=33 textAlign="Left">
-          <ng-template #template let-data>
-            <div class="image">
-              <img src="{{data.iconPath}}" width="32px" alt="{{data.name}}" />
-            </div>
-          </ng-template>
-        </e-column>
-        <e-column field='name' headerText='Name' textAlign='Left' width=40></e-column>
-        <e-column isPrimaryKey="true" field='symbol' headerText='Symbol' width=30></e-column>
-        <e-column field='bidPrice' headerText='Price' textAlign='Right' width=40></e-column>
-        <e-column field='priceChangePercent' headerText='24h %' textAlign='Right' width=40>
-        </e-column>
-        <e-column field='quoteVolume' headerText='Volume' textAlign='Right' width=50 format='c2'></e-column>
-        <e-column field="viewdetails" headerText="Details" textAlign="Right" width="30">
-          <ng-template #template let-data>
-            <div>
-              <button ejs-button (click)="onDetailsClicked($event)" class="btn"><i
-                  class="fa-solid fa-circle-info"></i></button>
-            </div>
-          </ng-template>
-        </e-column>
-        <e-column field="viewdetails" headerText="Buy" textAlign="Left" width="30">
-          <ng-template #template let-data>
-            <div><a href="https://www.binance.com/en/trade/{{data.symbol}}_USDT?theme=light&type=spot">
-                <i class="fa-solid fa-store"></i> </a>
-            </div>
-          </ng-template>
-        </e-column>
-      </e-columns>
-    </ejs-grid>
-  </div>
-  <div class="col-md-1"></div>
+      <ejs-grid #grid [dataSource]="data" [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
+        [editSettings]="editSettings" [toolbar]="toolbar" [enableImmutableMode]='true'  [rowHeight]='60' [allowSelection]="false"
+        (queryCellInfo)='customiseCell($event)'>
+
+        <e-columns>
+          <e-column field="viewdetails" headerText="Watchlist" textAlign="Left" width="33">
+            <ng-template #template let-data>
+                <input  class="star" type="checkbox" title="bookmark page" [checked]="this.setCheckedValue(data.symbol)"  (click)="onAddToWatchlist($event)" >
+            </ng-template>
+          </e-column>
+          <e-column headerText='Coin' width=33 textAlign="Left">
+            <ng-template #template let-data>
+              <div class="image">
+                <img [src]="data.iconPath" (error)="data.iconPath='../../assets/default.png'" width="32px" [alt]="data.name" />
+              </div>
+            </ng-template>
+          </e-column>
+          <e-column field='name' headerText='Name' textAlign='Left' width=40></e-column>
+          <e-column isPrimaryKey="true" field='symbol' headerText='Symbol' width=30></e-column>
+          <e-column field='bidPrice' headerText='Price' textAlign='Right' width=40></e-column>
+          <e-column field='priceChangePercent' headerText='24h %' textAlign='Right' width=40>
+          </e-column>
+          <e-column field='marketCap' headerText='Maket Cap' textAlign='Right' width=50 format='c2'></e-column>
+          <e-column field='quoteVolume' headerText='Volume' textAlign='Right' width=50 format='c2'></e-column>
+          <e-column field="viewdetails" headerText="Details" textAlign="Right" width="30">
+            <ng-template #template let-data>
+              <div>
+                <button ejs-button (click)="onDetailsClicked($event)" class="btn"><i
+                    class="fa-solid fa-circle-info"></i></button>
+              </div>
+            </ng-template>
+          </e-column>
+          <e-column field="viewdetails" headerText="Buy" textAlign="Left" width="30">
+            <ng-template #template let-data>
+              <div><a href="https://www.binance.com/en/trade/{{data.symbol}}_USDT?theme=light&type=spot">
+                  <i class="fa-solid fa-store"></i> </a>
+              </div>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
 </div>

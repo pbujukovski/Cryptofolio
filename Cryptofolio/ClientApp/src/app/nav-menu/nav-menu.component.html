@@ -1,9 +1,10 @@
-<header>
+<header >
   <nav
     class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
   >
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">Cryptofolio</a>
+      <a class="navbar-brand" *ngIf="(isAuthenticated | async) === true" [routerLink]="['/']"><img src="../../assets/logocryptofolio.png" alt="Cryptofolio" height="55px"></a>
+      <a class="navbar-brand" *ngIf="(isAuthenticated | async) !== true"><img src="../../assets/logocryptofolio.png" alt="Cryptofolio" height="55px"></a>
       <button
         class="navbar-toggler"
         type="button"

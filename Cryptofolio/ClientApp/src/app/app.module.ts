@@ -17,14 +17,19 @@ import { CryptoGridComponent } from './crypto-grid/crypto-grid.component';
 import { WatchlistComponent } from './watchlist/watchlist.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
-import { AggregateService, EditService, FilterService, GridModule, GroupService, PagerAllModule, PageService, ResizeService, SearchService, SortService, ToolbarService } from '@syncfusion/ej2-angular-grids';
-import { ButtonModule, CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
+import { AggregateService, EditService, FilterService, GridAllModule, GridModule, GroupService, PagerAllModule, PageService, ResizeService, SearchService, SortService, ToolbarService } from '@syncfusion/ej2-angular-grids';
+import { ButtonAllModule, ButtonModule, CheckBoxModule } from '@syncfusion/ej2-angular-buttons';
 import { LoadingComponent } from './loading/loading.component';
-import { CategoryService, ChartModule, ColumnSeriesService, DataLabelService, DateTimeService, LegendService, LineSeriesService, MultiColoredLineSeriesService, ParetoSeriesService, SplineAreaSeriesService, SplineSeriesService, StackingLineSeriesService, StepLineSeriesService, TooltipService } from '@syncfusion/ej2-angular-charts';
+import { CandleSeriesService, CategoryService, ChartModule, ColumnSeriesService, DataLabelService, DateTimeService, LegendService, LineSeriesService, MultiColoredLineSeriesService, ParetoSeriesService, SplineAreaSeriesService, SplineSeriesService, StackingLineSeriesService, StepLineSeriesService, StockChart, StockChartAllModule, TooltipService } from '@syncfusion/ej2-angular-charts';
 import { CryptoDetailsChartComponent } from './crypto-details/crypto-details-chart/crypto-details-chart.component';
 import { RichTextEditorAllModule, RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 import { CommentSectionComponent } from './crypto-details/comment-section/comment-section.component';
-
+import { DropDownListAllModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { PortfolioComponent } from './portfolio/portfolio.component';
+import { PortfolioDetailsComponent } from './portfolio/portfolio-details/portfolio-details.component';
+import { DialogModule } from '@syncfusion/ej2-angular-popups';
+import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { ZoomService } from '@syncfusion/ej2-angular-charts';
 
 @NgModule({
   declarations: [
@@ -37,7 +42,9 @@ import { CommentSectionComponent } from './crypto-details/comment-section/commen
     WatchlistComponent,
     LoadingComponent,
     CryptoDetailsChartComponent,
-    CommentSectionComponent
+    CommentSectionComponent,
+    PortfolioComponent,
+    PortfolioDetailsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -48,12 +55,17 @@ import { CommentSectionComponent } from './crypto-details/comment-section/commen
     SidebarModule,
     RouterModule,
     AppRoutingModule,
-    GridModule,
+    GridAllModule,
     ButtonModule,
     ChartModule,
+    StockChartAllModule,
     RichTextEditorAllModule,
     PagerAllModule,
-    CheckBoxModule
+    CheckBoxModule,
+    DropDownListAllModule,
+    DialogModule,
+    TextBoxModule,
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
@@ -78,7 +90,9 @@ import { CommentSectionComponent } from './crypto-details/comment-section/commen
         SplineAreaSeriesService,
         MultiColoredLineSeriesService,
         ParetoSeriesService,
-        ColumnSeriesService
+        ColumnSeriesService,
+       CandleSeriesService,
+       ZoomService
   ],
   bootstrap: [AppComponent]
 })

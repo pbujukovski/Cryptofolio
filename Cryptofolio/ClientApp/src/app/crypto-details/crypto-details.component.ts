@@ -92,7 +92,7 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
 
     public queryVotingHistory!: Query;
 
-  public coinSymbol : string = "";
+     public coinSymbol : string = "";
 
   public counterPager(): number {
     let number = 0;
@@ -160,11 +160,6 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
         adaptor: syncfusionUtilsService.getCustomSecureODataV4Adaptor(),
         crossDomain: true,
         });
-
-
-
-
-
 
     this.binanceApiService.coinSymbol.subscribe(coinSymbol => this.coinSymbol = coinSymbol);
     if (this.coinSymbol === ''){

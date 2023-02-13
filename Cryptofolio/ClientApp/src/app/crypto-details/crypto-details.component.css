@@ -171,7 +171,9 @@ span.e-input-group.e-control-wrapper.e-date-wrapper.e-valid-input {
     width: 50% !important;
     padding: 15px 0px 0px 2px;
     margin-left: 20px;
+
   }
+
 
 
   /* button.btn.e-control.e-btn.e-lib.e-round ::before {
@@ -527,11 +529,6 @@ div#content {
 }
 
 
-.e-lib .e-pager .e-pagercontainer {
-  background-color: #e6f5fc08 !important;
-  border-color: #e0e0e0;
-}
-
 .e-badge.e-badge-pill {
   border-radius: 5em;
   font-size: 15px;
@@ -546,21 +543,26 @@ a{
   visibility:hidden;
   font-size:30px;
   cursor:pointer;
+
 }
 .star:before {
   top: 29px;
   right: 27%;
   content: "\2606";
-  position: absolute;
+  /* position: absolute; */
   visibility:visible;
+  position: absolute;
+  right: inherit;
  }
  .star:checked:before {
   top: 29px;
   right: 27%;
   content: "\2605";
-  position: absolute;
+  /* position: absolute; */
   color: yellow;
   text-shadow: 0 0 3px #000;
+  position: absolute;
+  right: inherit;
  }
 
  span.binance-details {
@@ -568,3 +570,35 @@ a{
   font-family: revert;
   padding: 4px;
 }
+
+.e-richtexteditor:not(.e-rte-toolbar-enabled) .e-rte-content {
+  border: 0;
+  border-bottom: 0;
+  border-top: 0;
+  border-radius: 20px;
+  background-color: #bedff600;
+}
+
+ejs-richtexteditor#CommentText {
+  border-radius: 20px;
+}
+
+.e-lib.e-pager .e-pagercontainer {
+  background-color: transparent !important;
+}
+
+.e-lib.e-pager .e-pagercontainer {
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 0;
+  display: inline-block;
+  margin: 59px 6px 5px 18px !important;
+  overflow: hidden;
+}
+
+
+
+/* .e-lib .e-pager .e-pagercontainer {
+  background-color: #e6f5fc08 !important;
+  border-color: #e0e0e0;
+} */

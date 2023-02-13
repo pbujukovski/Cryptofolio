@@ -11,7 +11,15 @@ export const environment = {
    urlCoins: 'odata/Coins',
    urlWatchlists: 'odata/Watchlists',
    urlComments: 'odata/Comments',
-   urlVotingHistories: 'odata/VotingHistories'
+   urlVotingHistories: 'odata/VotingHistories',
+
+   urlTransactions: "odata/Transactions",
+   urlFinanceTransactions: "odata/FinanceTransactions",
+   urlFinanceTransactionSells: "odata/FinanceTransactionSells",
+   urlFinanceTransactionBuys: "odata/FinanceTransactionBuys",
+   urlTransferTransactions: "odata/TransferTransactions",
+   urlTransferTransactionIns: "odata/TransferTransactionIns",
+   urlTransferTransactionOuts: "odata/TransferTransactionOuts"
 };
 
 

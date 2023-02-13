@@ -1,9 +1,20 @@
-<!-- <ejs-chart #chart id='chart-container' [chartArea]='chart'    [primaryYAxis]='primaryYAxis' (loaded)='loaded($event)'>
-    <e-series-collection>
-        <e-series [dataSource]='series1' type='Line' xName='x' yName='y' width=2 [animation]='animation1'>
-        </e-series>
-    </e-series-collection>
-</ejs-chart> -->
+<div class="row">
+  <div class="col-md-8"></div>
+  <div class="col-md-auto ms-auto text-center">
+
+  <div class='e-btn-group e-round-corner' >
+  <button (click)="updateInterval('1m')" [isToggle]="true"  ejs-button> 1m </button>
+  <button (click)="updateInterval('30m')" ariaPressed="true" ejs-button> 30m </button>
+  <button (click)="updateInterval('12h')" ejs-button> 12h </button>
+  <button (click)="updateInterval('1d')" ejs-button> 24h </button>
+  <button (click)="updateInterval('1w')" ejs-button> 1w </button>
+  <button (click)="updateInterval('1M')" ejs-button> 1M </button>
+  </div>
+</div>
 
 
-<!-- <h1>WORKS</h1> -->
+</div>
+
+<div class="container-fluid mt-5 px-5">
+  <ejs-stockchart [primaryXAxis]="primaryXAxis" [series]='data'></ejs-stockchart>
+</div>

@@ -46,6 +46,8 @@ export class CoinBinance {
   public iconPath : string = "";
 
   public color : string = "";
+
+  public marketCap : number = -1;
 }
 
 

@@ -18,6 +18,13 @@ static IEdmModel GetEdmModel()
     var commentDTO = builder.EntitySet<CommentDTO>("Comments");
     var watchlistDTO = builder.EntitySet<WatchlistDTO>("Watchlists");
     var votingHistoryDTO = builder.EntitySet<VotingHistoryDTO>("VotingHistories");
+    var transactionDTO = builder.EntitySet<TransactionDTO>("Transactions");
+    var financeTrancationDTO = builder.EntitySet<FinanceTransactionDTO>("FinanceTransactions");
+    var financeTrancationBuyDTO = builder.EntitySet<FinanceTransactionBuyDTO>("FinanceTransactionBuys");
+    var financeTrancationSellDTO = builder.EntitySet<FinanceTransactionSellDTO>("FinanceTransactionSells");
+    var transferTrancationDTO = builder.EntitySet<TransferTransactionDTO>("TransferTransactions");
+    var transferTrancationInDTO = builder.EntitySet<TransferTransactionInDTO>("TransferTransactionIns");
+    var transferTrancationOutDTO = builder.EntitySet<TransferTransactionOutDTO>("TransferTransactionOuts");
     return builder.GetEdmModel();
 }
 var builder = WebApplication.CreateBuilder(args);

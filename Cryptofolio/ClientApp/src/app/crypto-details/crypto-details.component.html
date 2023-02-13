@@ -1,6 +1,5 @@
+<div class="container-fluid mt-5 px-5">
 <div class="row">
-  <div class="col-md-1"></div>
-  <div class="col-md-10">
     <div *ngIf="this.coin == null || this.coin == undefined">
       <app-loading></app-loading>
     </div>
@@ -13,19 +12,14 @@
                 <button cssClass="e-round" type="back" (click)="onCancel()" ejs-button><i
                     class="fa-solid fa-angle-left"></i></button>
               </div>
-              <div class="col-md-7"></div>
-              <div class="col-md-4">
+              <div class="col-md-auto ms-auto text-center">
 
-
-                <!-- <button cssClass="e-round" ejs-button class="btn" style="margin-left: 60px"><i
-                    class="fa-regular fa-star"></i></button> -->
-                      <input  class="star" type="checkbox" title="bookmark page" style="margin-left: 60px" [checked]="this.setCheckedValue(coin.s)"  (click)="onAddToWatchlist(this.coinSymbol)" >
-
+            <input  class="star" type="checkbox"  [checked]="this.setCheckedValue(coin.s)"  (click)="onAddToWatchlist(this.coinSymbol)" >
                 <button [disabled]=this.votingStatistics.CurrentUserVoted type="back" ejs-button
-                  style="margin-left: 20px; color:green;" (click)="onBullishClicked()"><i
+                  style="color: green;" (click)="onBullishClicked()"><i
                     class="fa-solid fa-arrow-up"></i> Bullish {{this.votingStatistics.BullishCount}} </button>
                 <button [disabled]=this.votingStatistics.CurrentUserVoted type="back" ejs-button
-                  style="margin-left: 15px; color:red;" (click)="onBearishClicked()"><i
+                  style="color:red;" (click)="onBearishClicked()"><i
                     class="fa-solid fa-arrow-down"></i> Bearish {{this.votingStatistics.BearishCount}}</button>
               </div>
             </div>
@@ -40,10 +34,7 @@
               <span class="e-badge e-badge-primary e-badge-pill">{{this.coin.s}}</span>
             </h3>
           </div>
-          <div class="col-md-3">
-
-          </div>
-          <div class="col-md-3">
+          <div class="col-md-auto ms-auto text-center">
             <h3 #myDiv> {{this.coin.p}} <span style="color:rgb(0, 0, 0)"> | </span>
               <a href="https://www.binance.com/en/buy-sell-crypto"> Trade
                 <i class="fa-solid fa-store"></i></a>
@@ -51,25 +42,23 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-7">
-
+          <div class="col-md-8">
+            <h6><span class="binance-details"> Market Cap: </span> {{this.coinBinance.marketCap}} </h6>
           </div>
-          <div class="col-md-5">
+          <div class="col-md-auto ms-auto text-center">
             <h6><span class="binance-details"> Volume: </span> {{this.coinBinance.quoteVolume}} <span class="binance-details"> |  Price Change Percent: </span>  {{this.coinBinance.priceChangePercent}}</h6>
 
           </div>
         </div>
 
         <div class="row">
-          <app-crypto-details-chart></app-crypto-details-chart>
+          <app-crypto-details-chart [coinSymbol]="this.coinSymbol"></app-crypto-details-chart>
         </div>
 
 
         <div class="row">
-          <div class="col-md-1"></div>
-          <div class="col-md-10">
-
-
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
 
             <fieldset>
               <legend>Comments for {{this.coin.name}}</legend>
@@ -170,11 +159,10 @@
               </div>
             </fieldset>
           </div>
-          <div class="col-md-1">
+          <div class="col-md-2">
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-md-1"></div>
 </div>

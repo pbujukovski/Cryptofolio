@@ -1,0 +1,23 @@
+.e-btn{
+  border-radius: 20px;
+  background-color: transparent;
+
+}
+
+.e-btn-group{
+  border-radius: 20px;
+  width: fit-content;
+}
+
+div#stockChart_57723_0_Secondary_Element {
+  visibility: hidden !important;
+}
+
+rect#stockChart_57723_0_stockChart_rangeSelector_ChartBorder {
+  fill: #45a7f400 !important;
+}
+div#stockChart_57723_0_stock_border {
+  border: none !important;
+}
+
+

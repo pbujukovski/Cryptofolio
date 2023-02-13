@@ -18,7 +18,15 @@ const PROXY_CONFIG = [
       "/odata/Watchlists",
       "/api/Watchlists",
       "/odata/Comments",
-      "/odata/VotingHistories"
+      "/odata/VotingHistories",
+      "/odata/Transactions",
+      "/odata/FinanceTransactions",
+      "/odata/FinanceTransactionSells",
+      "/odata/FinanceTransactionBuys",
+      "/odata/TransferTransactions",
+      "/odata/TransferTransactionIns",
+      "/odata/TransferTransactionOuts"
+
    ],
     target: target,
     secure: false,

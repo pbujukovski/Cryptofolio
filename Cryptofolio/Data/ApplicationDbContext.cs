@@ -27,5 +27,19 @@ namespace Cryptofolio.Data
         public DbSet<Cryptofolio.Models.Watchlist>? Watchlists { get; set; }
         public DbSet<Cryptofolio.Models.Comment>? Comments { get; set; }
         public DbSet<Cryptofolio.Models.VotingHistory>? VotingHistories { get; set; }
+
+        public DbSet<Cryptofolio.Models.Transaction>? Transactions { get; set; }
+
+        public DbSet<Cryptofolio.Models.FinanceTransaction>? FinanceTransactions { get; set; }
+
+        public DbSet<Cryptofolio.Models.FinanceTransactionBuy>? FinanceTransactionBuys { get; set; }
+
+        public DbSet<Cryptofolio.Models.FinanceTransactionSell>? FinanceTransactionSells { get; set; }
+
+        public DbSet<Cryptofolio.Models.TransferTransaction>? TransferTransactions { get; set; }
+
+        public DbSet<Cryptofolio.Models.TransferTransactionIn>? TransferTransactionIns { get; set; }
+
+        public DbSet<Cryptofolio.Models.TransferTransactionOut>? TransferTransactionOuts { get; set; }
     }
 }

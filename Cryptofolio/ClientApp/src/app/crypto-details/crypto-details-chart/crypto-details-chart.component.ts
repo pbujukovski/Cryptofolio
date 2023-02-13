@@ -1,106 +1,87 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ChartComponent, getElement, ILoadedEventArgs } from '@syncfusion/ej2-angular-charts';
-
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Chart } from '@syncfusion/ej2-charts';
+import { StockChart } from '@syncfusion/ej2-charts';
+import * as ej2 from '@syncfusion/ej2-charts';
+import { DateTimeService, LegendService, TooltipService, DataLabelService, CandleSeriesService, StockChartComponent, PeriodsModel, StockChartAxisModel, getElement } from '@syncfusion/ej2-angular-charts';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, concatMap, interval, map, Subscription, timer } from 'rxjs';
+import { BinanceKlineService } from 'src/app/common/services/binance-kline.service';
+import { CoinKlineStream } from 'src/app/common/models/coin-kline-stream';
+// import { SplitButton } from '@syncfusion/ej2-splitbuttons';
+// import { ButtonGroup } from '@syncfusion/ej2-buttons';
+declare var WebSocket: any;
 @Component({
   selector: 'app-crypto-details-chart',
   templateUrl: './crypto-details-chart.component.html',
-  styleUrls: ['./crypto-details-chart.component.css']
+  styleUrls: ['./crypto-details-chart.component.css'],
+  providers: [ DateTimeService, LegendService, TooltipService, DataLabelService, CandleSeriesService ]
 })
-export class CryptoDetailsChartComponent implements OnInit {
+export class CryptoDetailsChartComponent implements OnInit, OnDestroy {
 
-  public binanceWebSocket !: WebSocket;
+  @Input() public coinSymbol : string = "";
+  public data!: Object[];
+  public primaryXAxis!: Object;
+  public interval: string;
+  private refreshSubscription!: Subscription;
 
-  public data: any;
-
-
-
-
-  // constructor() { }
-
-  // ngOnInit(): void {
-  //   console.log("HEREE ON CHART");
-  //   this.binanceWebSocket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_1m");
-
-  //   this.binanceWebSocket.onmessage = (event) => {
-
-  //     var data = JSON.parse(event.data);
-  //     this.data =data;
-  //     console.log(this.data);
-
-  //   }
-  //   this.primaryXAxis = {
-  //     interval: 1, valueType: 'Category'
-  // };
-  // // this.primaryYAxis =
-  // // {
-  // //     title: 'Expense',
-  // //     interval: 100,
-  // //     labelFormat: '${value}',
-  // // },
-  //   this.marker = { visible: true };
-  // }
-  public series1: Object[] = [];
-    public value: number = 10;
-    public intervalId: any;
-    public setTimeoutValue!: number;
-    public i: number = 0;
-    //Initializing Primary Y Axis
-    public primaryYAxis: Object = {
-        minimum:0,
-        maximum: 50
-    };
-    @ViewChild('chart')
-    public chart!: ChartComponent;
-
-    public marker: Object = {
-        visible: true
-    };
-    public animation1: Object = {
-        enable: false
-    };
-    public loaded(args: ILoadedEventArgs): void {
-        this.setTimeoutValue = 100;
-        this.intervalId = setInterval(
-            () => {
-                let i: number;
-                if (getElement('chart-container') === null) {
-                    clearInterval(this.intervalId);
-                } else {
-                    if (Math.random() > .5) {
-                        if (this.value < 25) {
-                            this.value += Math.random() * 2.0;
-                        } else {
-                            this.value -= 2.0;
-                        }
-                    }
-                    this.i++;
-                    this.series1.push({ x: this.i, y: this.value });
-                    this.series1.shift();
-                    args.chart.series[0].dataSource = this.series1;
-
-                    args.chart.refresh();
-                }
-            },
-            this.setTimeoutValue);
-    }
-    constructor() {
-        for (; this.i < 100; this.i++) {
-            if (Math.random() > .5) {
-                if (this.value < 25) {
-                    this.value += Math.random() * 2.0;
-                } else {
-                    this.value -= 2.0;
-                }
-            }
-            this.series1[this.i] = { x: this.i, y: this.value };
-
-        }
-
-    }
-
-    ngOnInit(): void {
-
+  public tooltip!: Object;
+  public title!: Object;
+  constructor(private stockService: BinanceKlineService) {
+    // this.primaryXAxis = { valueType: 'DateTime' };
+    this.interval = '1m';
   }
 
+  ngOnInit(): void {
+    this.updateData();
+    this.refreshSubscription = interval(300000).subscribe(() => {
+      this.updateData();
+    });
 
+    this.primaryXAxis = {
+      valueType: 'DateTime',
+      majorGridLines: { width: 0 },
+      intervalType: 'Minutes',
+      edgeLabelPlacement: 'Shift'
+    };
+    this.tooltip = { enable: true };
+    this.title = { text: 'BTCUSDT Stock Chart' };
+  }
+
+  ngOnDestroy(): void {
+    this.refreshSubscription.unsubscribe();
+  }
+
+  updateInterval(interval: string) {
+    this.interval = interval;
+    this.updateData();
+  }
+
+  updateData() {
+    this.stockService.getStockData(this.interval, this.coinSymbol)
+      .subscribe((data:any) => {
+        this.data = this.processData(data);
+      });
+  }
+
+  processData(data: any) {
+    let processedData = [];
+    for (let i = 0; i < data.length; i++) {
+      let point = {
+        x: new Date(data[i][0]),
+        open: data[i][1],
+        high: data[i][2],
+        low: data[i][3],
+        close: data[i][4]
+      };
+      processedData.push(point);
+    }
+    return [
+      {
+        dataSource: processedData,
+        xName: 'x',
+        yName: 'close',
+        type: 'Candle'
+      }
+    ];
+  }
 }

@@ -88,8 +88,11 @@ html{
 #app-container {
   min-height: 90vh;
   /* background-image:linear-gradient(to bottom, rgb(255 255 255 / 0%), rgb(32 149 242 / 31%)),url("../src/assets/3d-illustration-ethereum-blockchain-png.webp"); */
+  background:linear-gradient(to bottom, rgb(255 255 255),rgba(41, 169, 223, 0)), url(../src/assets/abstract-blue-flip.png);
   background-size: cover;
-  background:linear-gradient(to bottom, rgb(255 255 255),rgba(41, 169, 223, 0)), url(https://static.vecteezy.com/system/resources/previews/002/395/537/original/abstract-blue-and-white-geometric-background-free-vector.jpg);
+  /* 0 */
+  background-attachment: fixed;
+  background-position: right;
 }
 
 /* Home page */
@@ -163,3 +166,30 @@ a.btn-arrow:hover {
    border-top: none;
   border-radius: 9px;
 }
+
+.container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+  max-width: 1645px;
+}
+
+.col-md-1 {
+  flex: 0 0 auto;
+  width: 3.33333333%;
+}
+.col-md-10 {
+    flex: 0 0 auto;
+    width: 93.33333333%;
+}
+
+
+/* .e-lib.e-pager .e-pagercontainer {
+  background-color: transparent !important;
+}
+
+.e-lib.e-pager .e-pagercontainer {
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 0;
+  display: inline-block;
+  margin: 59px 6px 5px 18px !important;
+  overflow: hidden;
+} */

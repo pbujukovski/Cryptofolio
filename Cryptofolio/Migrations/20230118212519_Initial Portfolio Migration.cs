@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cryptofolio.Migrations
 {
     /// <inheritdoc />
-    public partial class Relationcoinvotehistory : Migration
+    public partial class InitialPortfolioMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -275,6 +275,36 @@ namespace Cryptofolio.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Transaction",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Amount = table.Column<float>(type: "real", nullable: false),
+                    Fee = table.Column<float>(type: "real", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CoinSymbol = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transaction", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Transaction_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Transaction_Coin_CoinSymbol",
+                        column: x => x.CoinSymbol,
+                        principalTable: "Coin",
+                        principalColumn: "Symbol",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "VotingHistory",
                 columns: table => new
                 {
@@ -325,14 +355,117 @@ namespace Cryptofolio.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "FinanceTransaction",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FinanceTransaction", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FinanceTransaction_Transaction_Id",
+                        column: x => x.Id,
+                        principalTable: "Transaction",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TransferTransaction",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TransferTransaction", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TransferTransaction_Transaction_Id",
+                        column: x => x.Id,
+                        principalTable: "Transaction",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FinanceTransactionBuy",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FinanceTransactionBuy", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FinanceTransactionBuy_FinanceTransaction_Id",
+                        column: x => x.Id,
+                        principalTable: "FinanceTransaction",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FinanceTransactionSell",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FinanceTransactionSell", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FinanceTransactionSell_FinanceTransaction_Id",
+                        column: x => x.Id,
+                        principalTable: "FinanceTransaction",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TransferTransactionIn",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TransferTransactionIn", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TransferTransactionIn_TransferTransaction_Id",
+                        column: x => x.Id,
+                        principalTable: "TransferTransaction",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TransferTransactionOut",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TransferTransactionOut", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TransferTransactionOut_TransferTransaction_Id",
+                        column: x => x.Id,
+                        principalTable: "TransferTransaction",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "013761f3-4c5e-4de3-a80a-adefec3c163e", 0, "cf742e6d-741f-4157-92dd-60b4f1be6ebb", "pbujukovski@gmail.com", true, "Petar", "Bujukovski", false, null, "pbujukovski@gmail.com", "pbujukovski@gmail.com", "AQAAAAIAAYagAAAAEGUOEBl2sexta6+uYSVRZ0rbKYtauNeunNi8t4sPxKSrdYZhG3XAKRntqzjKwh+5uA==", null, false, "", false, "pbujukovski@gmail.com" },
-                    { "2d935a04-6fcd-45df-8500-1d2a2b227173", 0, "2e10bf9f-cdfc-4c7b-b531-bb957f252c31", "jhon@gmail.com", true, "Jhon", "Smith", false, null, "jhon@gmail.com", "jhon@gmail.com", "AQAAAAIAAYagAAAAELTVtBIlwCGEX83l17Zur8Q1KLsssg1HUDUQhcpUzd7/wZTyjfKljG9TjX8OwsWbNg==", null, false, "", false, "jhon@mail.com" },
-                    { "a8e984ee-5076-4f06-9b93-8d32e2c0de1f", 0, "c4f64200-d581-4fa7-974b-96abdb5886d3", "admin@mail.com", true, "Admin", "Admin", false, null, "admin@mail.com", "admin@mail.com", "AQAAAAIAAYagAAAAEP6677UDpNTDHe0/VqHLGEW3lVcT6Q/aHWpXiSDQdx66CGuG4f9iwsIVQz90f/FlHg==", null, false, "", false, "admin@mail.com" }
+                    { "8a401d38-9d95-47d0-b704-6e35df0f0e7a", 0, "39651d7a-cfc7-4a1c-ab57-8438333b924b", "jhon@gmail.com", true, "Jhon", "Smith", false, null, "jhon@gmail.com", "jhon@gmail.com", "AQAAAAIAAYagAAAAEIbTlXnvh086Om486P6fss0eK3rswNJYAxuphSN1btNSaSJL4cg1NsNsOuFl2/uVIA==", null, false, "", false, "jhon@mail.com" },
+                    { "afc1a336-def8-41f8-acf2-9eecbc2667ac", 0, "d77eab2c-852e-4ce6-afa9-f3a11870ea63", "pbujukovski@gmail.com", true, "Petar", "Bujukovski", false, null, "pbujukovski@gmail.com", "pbujukovski@gmail.com", "AQAAAAIAAYagAAAAEMdNOIV/xceFkqNH5LbM5UW8Q0Pxv9VngYIIxSTCcTRaZ35KYedeDgtBzkwKcILijg==", null, false, "", false, "pbujukovski@gmail.com" },
+                    { "cbf9f10a-28d4-459f-b49d-7a6eeb23eb1f", 0, "22f481ab-2f01-45ca-b0c8-13b43e28e8a6", "admin@mail.com", true, "Admin", "Admin", false, null, "admin@mail.com", "admin@mail.com", "AQAAAAIAAYagAAAAEPywTYmkkia4yPj6RQLFviRnrpJtTehLNCyPf5GpZfquKPSXBUg5kFiFMDlOUtt+ag==", null, false, "", false, "admin@mail.com" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -426,6 +559,16 @@ namespace Cryptofolio.Migrations
                 columns: new[] { "SubjectId", "SessionId", "Type" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Transaction_ApplicationUserId",
+                table: "Transaction",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transaction_CoinSymbol",
+                table: "Transaction",
+                column: "CoinSymbol");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_VotingHistory_ApplicationUserId",
                 table: "VotingHistory",
                 column: "ApplicationUserId");
@@ -469,10 +612,22 @@ namespace Cryptofolio.Migrations
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
+                name: "FinanceTransactionBuy");
+
+            migrationBuilder.DropTable(
+                name: "FinanceTransactionSell");
+
+            migrationBuilder.DropTable(
                 name: "Keys");
 
             migrationBuilder.DropTable(
                 name: "PersistedGrants");
+
+            migrationBuilder.DropTable(
+                name: "TransferTransactionIn");
+
+            migrationBuilder.DropTable(
+                name: "TransferTransactionOut");
 
             migrationBuilder.DropTable(
                 name: "VotingHistory");
@@ -484,10 +639,19 @@ namespace Cryptofolio.Migrations
                 name: "Watchlist");
 
             migrationBuilder.DropTable(
-                name: "Coin");
+                name: "FinanceTransaction");
+
+            migrationBuilder.DropTable(
+                name: "TransferTransaction");
+
+            migrationBuilder.DropTable(
+                name: "Transaction");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Coin");
         }
     }
 }

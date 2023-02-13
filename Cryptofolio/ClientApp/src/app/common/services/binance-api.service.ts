@@ -97,7 +97,14 @@ export class BinanceApiService {
               //Step 2.4: Format price with dollar currency
               this.coin.bidPrice = this.dollarCurr.format(parseFloat(this.coin.bidPrice));
 
+              var test =  Number(coin.lastPrice) * Number(coin.quoteVolume);
+              this.coin.marketCap = Number(coin.lastPrice) * Number(coin.quoteVolume);
+              console.log(this.coin.marketCap);
+              console.log(test);
+
               this.coin.quoteVolume = this.dollarCurr.format(parseFloat(this.coin.quoteVolume));
+
+
               this.coin.volume = this.dollarCurr.format(parseFloat(this.coin.volume));
               //Step 2.5: Add percentage symbol to coin percent value
               this.coin.priceChangePercent =
@@ -149,6 +156,9 @@ export class BinanceApiService {
               //Step 2.4: Format price with dollar currency
               this.coin.bidPrice = this.dollarCurr.format(parseFloat(this.coin.bidPrice));
 
+              this.coin.marketCap = Number(coin.lastPrice) * Number(coin.quoteVolume);
+
+              // this.coin.marketCap = this.dollarCurr.format(parseFloat(this.coin.marketCap));
               this.coin.quoteVolume = this.dollarCurr.format(parseFloat(this.coin.quoteVolume));
               this.coin.volume = this.dollarCurr.format(parseFloat(this.coin.volume));
               //Step 2.5: Add percentage symbol to coin percent value

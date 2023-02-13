@@ -16,7 +16,14 @@ namespace Cryptofolio.Models
                 builder.Entity<Watchlist>().ToTable("Watchlist");
                 builder.Entity<Comment>().ToTable("Comment");
                 builder.Entity<VotingHistory>().ToTable("VotingHistory");
-        }
+                builder.Entity<Transaction>().ToTable("Transaction");
+                builder.Entity<FinanceTransaction>().ToTable("FinanceTransaction");
+                builder.Entity<FinanceTransactionBuy>().ToTable("FinanceTransactionBuy");
+                builder.Entity<FinanceTransactionSell>().ToTable("FinanceTransactionSell");
+                builder.Entity<TransferTransaction>().ToTable("TransferTransaction");
+                builder.Entity<TransferTransactionIn>().ToTable("TransferTransactionIn");
+                builder.Entity<TransferTransactionOut>().ToTable("TransferTransactionOut");
+            }
             public static Task SeedAsync(this ModelBuilder modelBuilder, ApplicationDbContext applicationDbContext)
             {
                 PasswordHasher<IdentityUser> hasher = new PasswordHasher<IdentityUser>();

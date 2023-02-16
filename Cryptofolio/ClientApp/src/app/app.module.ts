@@ -30,6 +30,8 @@ import { PortfolioDetailsComponent } from './portfolio/portfolio-details/portfol
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ZoomService } from '@syncfusion/ej2-angular-charts';
+import { AbbreviateNumberPipe } from './common/abbreviate-number-pipe';
+import { RemoveChar } from './common/pipes/remove-char.pipe';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { ZoomService } from '@syncfusion/ej2-angular-charts';
     CryptoDetailsChartComponent,
     CommentSectionComponent,
     PortfolioComponent,
-    PortfolioDetailsComponent
+    PortfolioDetailsComponent,
+    AbbreviateNumberPipe,
+    RemoveChar
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

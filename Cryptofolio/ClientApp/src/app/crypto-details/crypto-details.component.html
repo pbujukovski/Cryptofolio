@@ -43,7 +43,7 @@
         </div>
         <div class="row">
           <div class="col-md-8">
-            <h6><span class="binance-details"> Market Cap: </span> {{this.coinBinance.marketCap}} </h6>
+            <h6><span class="binance-details"> Market Cap: </span> {{this.coinBinance.marketCap | abbreviateNumber }} </h6>
           </div>
           <div class="col-md-auto ms-auto text-center">
             <h6><span class="binance-details"> Volume: </span> {{this.coinBinance.quoteVolume}} <span class="binance-details"> |  Price Change Percent: </span>  {{this.coinBinance.priceChangePercent}}</h6>

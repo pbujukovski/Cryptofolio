@@ -62,7 +62,7 @@ export class CryptoGridComponent implements OnInit, OnDestroy {
     public router: Router,
     public watchlistService: WatchlistService
   ) {
-    const binanceApiObsearvable$ = timer(1000, 10000);
+    const binanceApiObsearvable$ = timer(1000, 20000);
 
     //Subscribe to get coins updated from Binance Service
     this.binanceApiSubscription = this.binanceApiService.CoinsUpdated.subscribe(

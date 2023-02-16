@@ -1,10 +1,10 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EditSettingsModel, PagerComponent, PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { RichTextEditorComponent, ToolbarItems } from '@syncfusion/ej2-angular-richtexteditor';
 import { DataManager, Query,ODataV4Adaptor,Predicate,ReturnOption } from '@syncfusion/ej2-data';
-
+import {AbbreviateNumberPipe} from '../common/abbreviate-number-pipe'
 
 import { cryptoSymbol } from 'crypto-symbol';
 import { BehaviorSubject, concatMap, Subscription, timer } from 'rxjs';
@@ -26,7 +26,7 @@ const { nameLookup } = cryptoSymbol({});
   templateUrl: './crypto-details.component.html',
   styleUrls: ['./crypto-details.component.css']
 })
-export class CryptoDetailsComponent implements OnInit, OnDestroy {
+export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     //Toolbar settings
     public tools: object = {
@@ -144,7 +144,7 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
   public coin!: CoinSocket;
   constructor(private binanceApiService: BinanceApiService,  public router: Router,private watchlistService : WatchlistService , private syncfusionUtilsService : SyncfusionUtilsService ) {
 
-    const binanceApiObsearvable$ = timer(1000, 10000);
+    const binanceApiObsearvable$ = timer(1000, 20000);
 
         //Getting data for Comments
         this.dataComment = new DataManager({
@@ -240,7 +240,11 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
      .pipe(concatMap(() => this.binanceApiService.getCoin(this.coinSymbol)))
      .subscribe();
      this.binanceApiService.CoinUpdated.subscribe(data =>{
-      this.coinBinance = data});
+      this.coinBinance = data
+
+    }
+
+      );
 
   }
 
@@ -256,6 +260,10 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
     ); //Adding predicate to be equal as CommentId
     this.queryComments.queries = [];
     this.queryComments.where(predicate);
+
+  }
+
+  ngAfterViewInit() {
 
   }
 

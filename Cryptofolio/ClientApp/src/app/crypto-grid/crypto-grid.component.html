@@ -1,4 +1,7 @@
-<div class="container-fluid mt-5 px-5">
+<div class="container-fluid mt-5 px-5" *ngIf="this.data.length == 0">
+  <app-loading></app-loading>
+</div>
+<div class="container-fluid mt-5 px-5" *ngIf="this.data.length > 0">
 
       <ejs-grid #grid [dataSource]="data" [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
         [editSettings]="editSettings" [toolbar]="toolbar" [enableImmutableMode]='true'  [rowHeight]='60' [allowSelection]="false"

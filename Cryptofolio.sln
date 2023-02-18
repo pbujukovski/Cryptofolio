@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cryptofolio", "Cryptofolio\Cryptofolio.csproj", "{B3FE79E2-6219-4F0C-90F2-A448EA9C72E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptofolio", "Cryptofolio\Cryptofolio.csproj", "{B3FE79E2-6219-4F0C-90F2-A448EA9C72E4}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Hangfire.Database", "Databases\Hangfire.Database\Hangfire.Database.sqlproj", "{27D8C7F6-CEC9-4E97-8412-C27C289AC6A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,12 @@ Global
 		{B3FE79E2-6219-4F0C-90F2-A448EA9C72E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3FE79E2-6219-4F0C-90F2-A448EA9C72E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3FE79E2-6219-4F0C-90F2-A448EA9C72E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27D8C7F6-CEC9-4E97-8412-C27C289AC6A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27D8C7F6-CEC9-4E97-8412-C27C289AC6A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27D8C7F6-CEC9-4E97-8412-C27C289AC6A0}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{27D8C7F6-CEC9-4E97-8412-C27C289AC6A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27D8C7F6-CEC9-4E97-8412-C27C289AC6A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27D8C7F6-CEC9-4E97-8412-C27C289AC6A0}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

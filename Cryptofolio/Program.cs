@@ -1,7 +1,10 @@
 using Cryptofolio.Data;
+using Cryptofolio.Email.Services;
 using Cryptofolio.Models;
 using Cryptofolio.Services;
 using Cryptofolio.ViewModels;
+using Hangfire;
+using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -31,6 +34,16 @@ static IEdmModel GetEdmModel()
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+var fromEmail = builder.Configuration.GetValue<string>("Email:Sendgrid:FromEmail");
+
+var sendgridEmailKey = Environment.GetEnvironmentVariable("CRYPTOFOLIO_SENDGRID_API_KEY");
+
+builder.Services
+               .AddFluentEmail(fromEmail)
+               .AddRazorRenderer(Directory.GetCurrentDirectory())
+               .AddSendGridSender(sendgridEmailKey);
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -40,6 +53,25 @@ builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
+
+builder.Services.AddHangfire(configuration => configuration
+        .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+        .UseSimpleAssemblyNameTypeSerializer()
+        .UseRecommendedSerializerSettings()
+        .UseSqlServerStorage(builder.Configuration.GetConnectionString("Hangfire"), new SqlServerStorageOptions
+        {
+            CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+            SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+            QueuePollInterval = TimeSpan.Zero,
+            UseRecommendedIsolationLevel = true,
+            DisableGlobalLocks = true
+        }));
+
+// Add the processing server as IHostedService
+builder.Services.AddHangfireServer();
+
+builder.Services.AddScoped<IBackgroundJobClient>(sp => new BackgroundJobClient(JobStorage.Current));
+
 
 builder.Services.AddControllers()
     .AddOData(options => options
@@ -54,6 +86,8 @@ builder.Services.AddControllers()
     );
 
 builder.Services.AddScoped<IUserAuthService, UserAuthService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<ICryptoNotifierService, CryptoNotifierService>();
 
 /*builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();*/
@@ -86,6 +120,8 @@ builder.Services.AddMvc(m => m.EnableEndpointRouting = false);
 
 var app = builder.Build();
 
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -104,11 +140,22 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseIdentityServer();
 app.UseAuthorization();
+
+DashboardOptions options = new DashboardOptions
+{
+    DashboardTitle = "Cryptofolio Hangfire",
+    IgnoreAntiforgeryToken = true
+};
+
+app.UseHangfireDashboard("/hangfire", options);
+
 /*
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());*/
 app.UseCors();
 app.UseMvc();
 app.UseStaticFiles();
+
+RecurringJobService.StartRecurringBackgroundJobs();
 
 app.MapControllerRoute(
     name: "default",

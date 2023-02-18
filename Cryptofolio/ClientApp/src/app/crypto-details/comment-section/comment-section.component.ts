@@ -9,10 +9,10 @@ import { DataManager, Query,ODataV4Adaptor,Predicate,ReturnOption } from '@syncf
 import { cryptoSymbol } from 'crypto-symbol';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CoinSocket } from '../../common/models/coin-socket';
+import { CoinSocket } from '../../common/models/coin-models/coin-socket';
 import { Comment } from '../../common/models/comment';
-import { VotingHistory, VoteStatus } from '../../common/models/voting-history';
-import { VotingStatistics } from '../../common/models/voting-statistics';
+import { VotingHistory, VoteStatus } from '../../common/models/voting-history-models/voting-history';
+import { VotingStatistics } from '../../common/models/voting-history-models/voting-statistics';
 import { BinanceApiService } from '../../common/services/binance-api.service';
 import { SyncfusionUtilsService } from '../../common/syncfusion-utils';
 @Component({

@@ -15,10 +15,13 @@ namespace Cryptofolio.ViewModels
         public string Symbol { get; set; } = string.Empty;
 
         [JsonPropertyName("Comments")]
-        List<CommentDTO>? Comments { get; set; }
+        public List<CommentDTO>? Comments { get; set; }
+        
+        [JsonPropertyName("Notifiers")]
+        public List<NotifierDTO>? Notifiers { get; set; }
 
         [JsonPropertyName("Watchlists")]
-        List<WatchlistDTO>? Watchlists { get; set; }
+        public List<WatchlistDTO>? Watchlists { get; set; }
 
         [JsonPropertyName("VotingHistories")]
         public List<VotingHistoryDTO>? VotingHistories { get; set; }
@@ -31,8 +34,10 @@ namespace Cryptofolio.ViewModels
             {
                 Comments = coinDTO.Comments;
             }
+            Notifiers = coinDTO.Notifiers;
             Watchlists = coinDTO.Watchlists;
             VotingHistories = coinDTO.VotingHistories;
+
         }
 
         public CoinDTO(Coin coin, string applicationUserId)
@@ -63,6 +68,8 @@ namespace Cryptofolio.ViewModels
             coin.Symbol = Symbol;
 
             coin.Comments = Comments.Select(c => c.convertToComment()).ToList();
+
+            coin.Notifiers = Notifiers.Select(n => n.convertToNotifier()).ToList();
 
             coin.Watchlists = Watchlists.Select(w => w.convertToWatchlist()).ToList();
 

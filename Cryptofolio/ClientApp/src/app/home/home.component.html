@@ -40,11 +40,11 @@
             <div class="col-md-5 ms-5 text-left">
             <h4 style="padding-bottom: 15px;">News feed for cryptocurrencies</h4></div>
           </div>
-          <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-auto ms-5 text-left">
-              <div *ngFor="let article of articles">
-                <div class="row">
+          <div class="row" style="max-height: 80vh; overflow-y: auto;">
+            <!-- <div class="col-md-1"></div> -->
+            <div class="col-md-12 ms-5 text-left">
+
+                <div class="row" *ngFor="let article of articles">
                   <div class="col-md-2">
                     <img src="{{article.urlToImage}}" alt="" height="fit-content" width="220px">
                   </div>
@@ -53,8 +53,7 @@
                     <h6 *ngIf="article.content != null"> {{article.content | removeChar}} | <a href="{{ article.url }}" target="_blank">Read more</a> </h6>
                     <h6 *ngIf="article.content == null"> <a href="{{ article.url }}" target="_blank"><i class="fa-brands fa-youtube"></i> Proceed to watch the video </a> </h6>
                   </div>
-                </div>
-                <hr>
+                <hr style="width: 80%;">
               </div>
               <!-- <fieldset>
                 <legend>NEWS FEED</legend>

@@ -1,15 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  Observable,
-  Subject,
-  tap,
-} from 'rxjs';
+import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CoinBinance, coinBinanceV2 } from '../models/coin-binance';
+import { CoinBinance, coinBinanceV2 } from '../models/coin-models/coin-binance';
 import { cryptoSymbol } from 'crypto-symbol';
-import { Watchlist } from '../models/watchlist';
 
 const { nameLookup } = cryptoSymbol({});
 
@@ -22,17 +16,15 @@ export class BinanceApiService {
   private coins: CoinBinance[] = [];
 
   private topCoins: CoinBinance[] = [];
-  private coinsv2 : coinBinanceV2[] = [];
 
-  public coinv2 : coinBinanceV2 = new coinBinanceV2;
+  public coinv2: coinBinanceV2 = new coinBinanceV2();
 
-  public CoinUpdated: BehaviorSubject<CoinBinance> = new BehaviorSubject<
-  CoinBinance
-  >(new CoinBinance);
+  public CoinUpdated: BehaviorSubject<CoinBinance> =
+    new BehaviorSubject<CoinBinance>(new CoinBinance());
 
   public TopCoinsUpdated: BehaviorSubject<CoinBinance[]> = new BehaviorSubject<
-  CoinBinance[]
->([]);
+    CoinBinance[]
+  >([]);
 
   public CoinsUpdated: BehaviorSubject<CoinBinance[]> = new BehaviorSubject<
     CoinBinance[]
@@ -53,14 +45,13 @@ export class BinanceApiService {
 
   public coinSymbol: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
-
   //Format coin price to Dollar
   public dollarCurr: Intl.NumberFormat = new Intl.NumberFormat(undefined, {
     style: 'currency',
-    currency: 'USD'});
+    currency: 'USD',
+  });
 
   constructor(private http: HttpClient) {}
-
 
   //Request for binance api to get coins
   public getCoins(): Observable<any> {
@@ -83,7 +74,6 @@ export class BinanceApiService {
 
             //Step 2: Check if coin symbol matches regex pattern
             if (this.regex.test(coin.symbol) === true) {
-
               //Step 2.1: Split name to remove symbol pair such as USDT
               const splitName =
                 coin.symbol.split('USDT').find((x) => x !== 'USDT') ?? '';
@@ -95,162 +85,173 @@ export class BinanceApiService {
               this.coin.iconPath =
                 './assets/icon/' + `${splitName.toLowerCase()}` + '.png';
 
-               //Step 2.3: Find matching name for current symbol
+              //Step 2.3: Find matching name for current symbol
               this.coin.name = nameLookup(splitName) ?? splitName;
 
+              var coinPrice = parseFloat(this.coin.bidPrice);
               //Step 2.4: Format price with dollar currency
-              this.coin.bidPrice = this.dollarCurr.format(parseFloat(this.coin.bidPrice));
+              this.coin.bidPrice = this.dollarCurr.format(
+                parseFloat(this.coin.bidPrice)
+              );
 
-              var test =  Number(coin.lastPrice) * Number(coin.quoteVolume);
-              this.coin.marketCap = Number(coin.lastPrice) * Number(coin.quoteVolume);
-              console.log(this.coin.marketCap);
-              console.log(test);
+              this.coin.marketCap =
+                Number(coin.lastPrice) * Number(coin.quoteVolume);
 
-              this.coin.quoteVolume = this.dollarCurr.format(parseFloat(this.coin.quoteVolume));
+              this.coin.quoteVolume = this.dollarCurr.format(
+                parseFloat(this.coin.quoteVolume)
+              );
 
-
-              this.coin.volume = this.dollarCurr.format(parseFloat(this.coin.volume));
+              this.coin.volume = this.dollarCurr.format(
+                parseFloat(this.coin.volume)
+              );
               //Step 2.5: Add percentage symbol to coin percent value
               this.coin.priceChangePercent =
                 parseFloat(this.coin.priceChangePercent).toFixed(2) + '%';
 
-              //Step 3: Push coin to list
-              this.coins.push(this.coin);
+              if (coin.symbol.length > 0 && coinPrice > 0) {
+                //Step 3: Push coin to list
+                this.coins.push(this.coin);
+              }
             }
           });
 
           //Step 3.1: When all coins are in the list update BehaviorSubject
           this.CoinsUpdated.next(this.coins);
-
         })
       );
   }
 
-    //Request for binance api to get top coins
-    public getTopCoins(): Observable<any> {
-      return this.http
-        .get(this.environment.binanceApiUrl + this.environment.queryCoins)
-        .pipe(
-          tap((data) => {
-            //get date as json object
+  //Request for binance api to get top coins
+  public getTopCoins(): Observable<any> {
+    return this.http
+      .get(this.environment.binanceApiUrl + this.environment.queryCoins)
+      .pipe(
+        tap((data) => {
+          //get date as json object
 
-            var dataAsJson = data;
+          var dataAsJson = data;
 
-            this.dataJson = [];
+          this.dataJson = [];
 
-            this.dataJson.push(dataAsJson);
+          this.dataJson.push(dataAsJson);
 
-            this.coins = [];
+          this.coins = [];
 
-            this.dataJson[0].forEach((coin: CoinBinance) => {
-              this.coin = coin;
+          this.dataJson[0].forEach((coin: CoinBinance) => {
+            this.coin = coin;
 
-              //Step 2: Check if coin symbol matches regex pattern
-              if (this.regex.test(coin.symbol) === true) {
+            //Step 2: Check if coin symbol matches regex pattern
+            if (this.regex.test(coin.symbol) === true) {
+              //Step 2.1: Split name to remove symbol pair such as USDT
+              const splitName =
+                coin.symbol.split('USDT').find((x) => x !== 'USDT') ?? '';
 
-                //Step 2.1: Split name to remove symbol pair such as USDT
-                const splitName =
-                  coin.symbol.split('USDT').find((x) => x !== 'USDT') ?? '';
+              //Step 2.2.1: Set splited name to current coin symbol etc.BTC from BTCUSDT
+              this.coin.symbol = splitName;
 
-                //Step 2.2.1: Set splited name to current coin symbol etc.BTC from BTCUSDT
-                this.coin.symbol = splitName;
+              //Step 2.2: Find matching path for coin LOGO image
+              this.coin.iconPath =
+                './assets/icon/' + `${splitName.toLowerCase()}` + '.png';
 
-                //Step 2.2: Find matching path for coin LOGO image
-                this.coin.iconPath =
-                  './assets/icon/' + `${splitName.toLowerCase()}` + '.png';
+              //Step 2.3: Find matching name for current symbol
+              this.coin.name = nameLookup(splitName) ?? splitName;
 
-                 //Step 2.3: Find matching name for current symbol
-                this.coin.name = nameLookup(splitName) ?? splitName;
+              //Step 2.4: Format price with dollar currency
+              this.coin.bidPrice = this.dollarCurr.format(
+                parseFloat(this.coin.bidPrice)
+              );
 
-                //Step 2.4: Format price with dollar currency
-                this.coin.bidPrice = this.dollarCurr.format(parseFloat(this.coin.bidPrice));
+              this.coin.lowPrice = this.dollarCurr.format(
+                parseFloat(this.coin.lowPrice)
+              );
 
-                this.coin.lowPrice = this.dollarCurr.format(parseFloat(this.coin.lowPrice));
+              this.coin.highPrice = this.dollarCurr.format(
+                parseFloat(this.coin.highPrice)
+              );
 
-                this.coin.highPrice = this.dollarCurr.format(parseFloat(this.coin.highPrice));
+              this.coin.marketCap =
+                Number(coin.lastPrice) * Number(coin.quoteVolume);
 
-                var test =  Number(coin.lastPrice) * Number(coin.quoteVolume);
-                this.coin.marketCap = Number(coin.lastPrice) * Number(coin.quoteVolume);
-                console.log(this.coin.marketCap);
-                console.log(test);
+              this.coin.quoteVolume = this.dollarCurr.format(
+                parseFloat(this.coin.quoteVolume)
+              );
 
-                this.coin.quoteVolume = this.dollarCurr.format(parseFloat(this.coin.quoteVolume));
+              this.coin.volume = this.dollarCurr.format(
+                parseFloat(this.coin.volume)
+              );
+              //Step 2.5: Add percentage symbol to coin percent value
+              this.coin.priceChangePercent =
+                parseFloat(this.coin.priceChangePercent).toFixed(2) + '%';
 
-
-                this.coin.volume = this.dollarCurr.format(parseFloat(this.coin.volume));
-                //Step 2.5: Add percentage symbol to coin percent value
-                this.coin.priceChangePercent =
-                  parseFloat(this.coin.priceChangePercent).toFixed(2) + '%';
-
-                  if (coin.symbol.length > 0){
+              if (coin.symbol.length > 0) {
                 //Step 3: Push coin to list
                 this.coins.push(this.coin);
-                  }
               }
-            });
+            }
+          });
           // Step 4: Sort coins by market cap in descending order
           this.coins.sort((a, b) => b.marketCap - a.marketCap);
           // Step 5: Get the top N coins by market cap
           this.topCoins = this.coins.slice(0, 10);
           // Step 6: When all coins are in the list update BehaviorSubject
           this.TopCoinsUpdated.next(this.topCoins);
-            //Step 3.1: When all coins are in the list update BehaviorSubject
+        })
+      );
+  }
 
-
-          })
-        );
-    }
-
-
-
-  //Request for binance api to get coins
+  //Request for binance api to get coin for details
   public getCoin(coinSymbol: string): Observable<any> {
     return this.http
-      .get(this.environment.binanceApiUrl + this.environment.queryCoins + '?symbol=' + coinSymbol + 'USDT')
+      .get(
+        this.environment.binanceApiUrl +
+          this.environment.queryCoins +
+          '?symbol=' +
+          coinSymbol +
+          'USDT'
+      )
       .pipe(
         tap((data) => {
-
           //get data as CoinBinance object
-          let coin = data as CoinBinance
+          let coin = data as CoinBinance;
+          this.coin = coin;
+          //Step 2: Check if coin symbol matches regex pattern
+          if (this.regex.test(coin.symbol) === true) {
+            //Step 2.1: Split name to remove symbol pair such as USDT
+            const splitName =
+              coin.symbol.split('USDT').find((x) => x !== 'USDT') ?? '';
 
+            //Step 2.2.1: Set splited name to current coin symbol etc.BTC from BTCUSDT
+            this.coin.symbol = splitName;
 
-            this.coin = coin;
+            //Step 2.2: Find matching path for coin LOGO image
+            this.coin.iconPath =
+              './assets/icon/' + `${splitName.toLowerCase()}` + '.png';
 
+            //Step 2.3: Find matching name for current symbol
+            this.coin.name = nameLookup(splitName) ?? splitName;
 
-            //Step 2: Check if coin symbol matches regex pattern
-            if (this.regex.test(coin.symbol) === true) {
+            //Step 2.4: Format price with dollar currency
+            this.coin.bidPrice = this.dollarCurr.format(
+              parseFloat(this.coin.bidPrice)
+            );
 
-              //Step 2.1: Split name to remove symbol pair such as USDT
-              const splitName =
-                coin.symbol.split('USDT').find((x) => x !== 'USDT') ?? '';
+            this.coin.marketCap =
+              Number(coin.lastPrice) * Number(coin.quoteVolume);
 
-              //Step 2.2.1: Set splited name to current coin symbol etc.BTC from BTCUSDT
-              this.coin.symbol = splitName;
+            // this.coin.marketCap = this.dollarCurr.format(parseFloat(this.coin.marketCap));
+            this.coin.quoteVolume = this.dollarCurr.format(
+              parseFloat(this.coin.quoteVolume)
+            );
+            this.coin.volume = this.dollarCurr.format(
+              parseFloat(this.coin.volume)
+            );
+            //Step 2.5: Add percentage symbol to coin percent value
+            this.coin.priceChangePercent =
+              parseFloat(this.coin.priceChangePercent).toFixed(2) + '%';
 
-              //Step 2.2: Find matching path for coin LOGO image
-              this.coin.iconPath =
-                './assets/icon/' + `${splitName.toLowerCase()}` + '.png';
-
-               //Step 2.3: Find matching name for current symbol
-              this.coin.name = nameLookup(splitName) ?? splitName;
-
-              //Step 2.4: Format price with dollar currency
-              this.coin.bidPrice = this.dollarCurr.format(parseFloat(this.coin.bidPrice));
-
-              this.coin.marketCap = Number(coin.lastPrice) * Number(coin.quoteVolume);
-
-              // this.coin.marketCap = this.dollarCurr.format(parseFloat(this.coin.marketCap));
-              this.coin.quoteVolume = this.dollarCurr.format(parseFloat(this.coin.quoteVolume));
-              this.coin.volume = this.dollarCurr.format(parseFloat(this.coin.volume));
-              //Step 2.5: Add percentage symbol to coin percent value
-              this.coin.priceChangePercent =
-                parseFloat(this.coin.priceChangePercent).toFixed(2) + '%';
-
-              //Step 3: Push coin to list
-              // this.coins.push(this.coin);
-              this.CoinUpdated.next(this.coin);
-            }
-
+            //Step 3: Send only this coin becouse we are expecting only one element with matching symbol in Details Component
+            this.CoinUpdated.next(this.coin);
+          }
         })
       );
   }

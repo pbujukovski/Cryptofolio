@@ -4,16 +4,14 @@ import { Router } from '@angular/router';
 import { EditSettingsModel, PagerComponent, PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { RichTextEditorComponent, ToolbarItems } from '@syncfusion/ej2-angular-richtexteditor';
 import { DataManager, Query,ODataV4Adaptor,Predicate,ReturnOption } from '@syncfusion/ej2-data';
-import {AbbreviateNumberPipe} from '../common/abbreviate-number-pipe'
-
 import { cryptoSymbol } from 'crypto-symbol';
 import { BehaviorSubject, concatMap, Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CoinBinance } from '../common/models/coin-binance';
-import { CoinSocket } from '../common/models/coin-socket';
+import { CoinBinance } from '../common/models/coin-models/coin-binance';
+import { CoinSocket } from '../common/models/coin-models/coin-socket';
 import { Comment } from '../common/models/comment';
-import { VotingHistory, VoteStatus } from '../common/models/voting-history';
-import { VotingStatistics } from '../common/models/voting-statistics';
+import { VotingHistory, VoteStatus } from '../common/models/voting-history-models/voting-history';
+import { VotingStatistics } from '../common/models/voting-history-models/voting-statistics';
 import { AddCoinToWatchlistRequest, Watchlist } from '../common/models/watchlist';
 import { BinanceApiService } from '../common/services/binance-api.service';
 import { WatchlistService } from '../common/services/watchlist.service';
@@ -380,8 +378,6 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
       this.addComment = false;
     }
   }
-
-
 
   onBullishClicked(){
       this.votingHistory!.CoinSymbol = this.coinSymbol;

@@ -25,6 +25,7 @@ static IEdmModel GetEdmModel()
     var transferTrancationDTO = builder.EntitySet<TransferTransactionDTO>("TransferTransactions");
     var transferTrancationInDTO = builder.EntitySet<TransferTransactionInDTO>("TransferTransactionIns");
     var transferTrancationOutDTO = builder.EntitySet<TransferTransactionOutDTO>("TransferTransactionOuts");
+    var notifierDTO = builder.EntitySet<NotifierDTO>("Notifiers");
     return builder.GetEdmModel();
 }
 var builder = WebApplication.CreateBuilder(args);

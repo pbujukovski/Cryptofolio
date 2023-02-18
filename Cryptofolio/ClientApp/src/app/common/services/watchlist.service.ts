@@ -3,11 +3,9 @@ import { DataManager, ODataV4Adaptor, Query, ReturnOption } from '@syncfusion/ej
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CustomSecureODataV4Adaptor } from '../custom-secure-odatav4-adaptor';
-import { Coin } from '../models/coin';
+import { Coin } from '../models/coin-models/coin';
 import { AddCoinToWatchlistRequest, Watchlist } from '../models/watchlist';
 import { SyncfusionUtilsService } from '../syncfusion-utils';
-import { ApiService } from './api.service';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +14,6 @@ export class WatchlistService {
   public data: DataManager;
   public queryWatchlist : Query;
   public selectedWatchlist!: Watchlist;
-
 
   watchlistChanged = new Subject();
   isLoadingChanged = new Subject();
@@ -42,7 +39,6 @@ export class WatchlistService {
       if (resultList != null ) {
         this.selectedWatchlist = resultList;
         this.WatchlistUpdate.next(this.selectedWatchlist);
-        // this.backUpBuilding = { ...resultList[0] };
       } else console.log('Result list is empty');
     })
     .catch((e) => true);

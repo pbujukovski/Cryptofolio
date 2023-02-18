@@ -6,7 +6,7 @@ import { DateTimeService, LegendService, TooltipService, DataLabelService, Candl
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, concatMap, interval, map, Subscription, timer } from 'rxjs';
 import { BinanceKlineService } from 'src/app/common/services/binance-kline.service';
-import { CoinKlineStream } from 'src/app/common/models/coin-kline-stream';
+import { CoinKlineStream } from 'src/app/common/models/coin-models/coin-kline-stream';
 import { Button } from '@syncfusion/ej2-angular-buttons';
 // import { SplitButton } from '@syncfusion/ej2-splitbuttons';
 // import { ButtonGroup } from '@syncfusion/ej2-buttons';

@@ -5,8 +5,8 @@ import { EditSettingsModel, GridComponent, PageSettingsModel, ToolbarItems } fro
 import { DataManager, ODataV4Adaptor, Query, ReturnOption } from '@syncfusion/ej2-data';
 import { BehaviorSubject, concatMap, Subject, Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Coin } from '../common/models/coin';
-import { CoinBinance } from '../common/models/coin-binance';
+import { Coin } from '../common/models/coin-models/coin';
+import { CoinBinance } from '../common/models/coin-models/coin-binance';
 import { AddCoinToWatchlistRequest, Watchlist } from '../common/models/watchlist';
 import { BinanceApiService } from '../common/services/binance-api.service';
 import { WatchlistService } from '../common/services/watchlist.service';

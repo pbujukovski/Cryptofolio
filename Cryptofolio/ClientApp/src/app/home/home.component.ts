@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { concatMap, Subscription, timer } from 'rxjs';
-import { CoinBinance } from '../common/models/coin-binance';
+import { ApplicationPaths } from 'src/api-authorization/api-authorization.constants';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { CoinBinance } from '../common/models/coin-models/coin-binance';
 import { BinanceApiService } from '../common/services/binance-api.service';
 
 @Component({
@@ -15,9 +18,21 @@ export class HomeComponent {
   private apiKey = 'abf821aef3294839aa9cc34dcc08628f';
   public articles: any[] = [];
   private binanceApiSubscription: Subscription;
+  private subscriptionisAuthenticated: Subscription;
   public data: CoinBinance[] = [];
 
-  constructor(private http: HttpClient, private binanceApiService: BinanceApiService) {
+  constructor(private http: HttpClient, private router: Router, private binanceApiService: BinanceApiService, private authorizeService: AuthorizeService) {
+
+    this.subscriptionisAuthenticated = this.authorizeService.isAuthenticated().pipe().subscribe(isAuthenticated => {
+
+      if (isAuthenticated == true){
+
+      }
+
+      this.manageUserAuthorization(isAuthenticated);
+    }
+    );
+
     const binanceApiObsearvable$ = timer(1000, 20000);
 
     //Subscribe to get coins updated from Binance Service
@@ -54,11 +69,12 @@ export class HomeComponent {
   }
 
 
-  onScrollDown() {
-    console.log("scrolled down!!");
-  }
+  manageUserAuthorization(isAuthenticated: boolean): void {
+    console.log("manageUserAuthorization: Begin");
+    if (!isAuthenticated) {
+      // If it is not authenticated log in
+      this.router.navigate(ApplicationPaths.LoginPathComponents);
 
-  onScrollUp() {
-    console.log("scrolled up!!");
-  }
+    }
+}
 }

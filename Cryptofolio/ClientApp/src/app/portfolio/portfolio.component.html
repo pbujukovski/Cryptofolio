@@ -1,10 +1,44 @@
+<!--
+<button (click)="showDialog()">Open Dialog</button>
 
+<ejs-dialog #dialog [header]='header' [content]='content'>
+  <ng-template #content>
+    <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+      <div>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" ngModel required>
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" ngModel required>
+      </div>
+      <div>
+        <label for="message">Message</label>
+        <textarea id="message" name="message" ngModel required></textarea>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  </ng-template>
+</ejs-dialog> -->
+<!-- <ejs-dialog id='dialog' #template showCloseIcon='true' (open)="dialogOpen()" [height]='height' [target]='targetElement' width='435px'>
+<ng-template #footerTemplate>
+      <input id="inVal" class="e-input" type="text" placeholder="Enter your message here!"/>
+      <button id="sendButton" class="e-control e-btn e-primary sendButton" data-ripple="true">Send</button>
+  </ng-template>
+  <ng-template #content>
+      <div class="dialogContent">
+          <span class="dialogText">Greetings Nancy! When will you share me the source files of the project?</span>
+      </div>
+  </ng-template>
+  <ng-template #header>
+      <img class="img2" src="https://ej2.syncfusion.com/products/typescript/dialog/template/images/1.png" style="display: inline-block;" alt="header image"/>
+      <div title="Nancy" class="e-icon-settings dlg-template"> Nancy </div>
+  </ng-template>
+</ejs-dialog> -->
 
-<app-portfolio-details></app-portfolio-details>
-<!-- <ejs-dropdownlist cssClass="e-outline" [dataSource]='this.data' [fields]="fieldsDropDownCoins" [valueTemplate]="valueTemplate" [itemTemplate]="template"
+<ejs-dropdownlist cssClass="e-outline" [dataSource]='this.data' [fields]="fieldsDropDownCoins" [valueTemplate]="valueTemplate" [itemTemplate]="template"
  type="text" placeholder="Select Coin" cssClass="e-outline" [allowFiltering]='true'
 floatLabelType="Auto" popupHeight='600px' >
-
 </ejs-dropdownlist>
 <ng-template #template let-data>
 <h6>
@@ -19,4 +53,4 @@ floatLabelType="Auto" popupHeight='600px' >
     {{data.name}}
    {{data.symbol}}
   </h6>
-  </ng-template> -->
+  </ng-template>

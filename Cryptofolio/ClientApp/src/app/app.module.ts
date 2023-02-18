@@ -30,8 +30,10 @@ import { PortfolioDetailsComponent } from './portfolio/portfolio-details/portfol
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ZoomService } from '@syncfusion/ej2-angular-charts';
-import { AbbreviateNumberPipe } from './common/abbreviate-number-pipe';
+import { AbbreviateNumberPipe } from './common/pipes/abbreviate-number.pipe';
 import { RemoveChar } from './common/pipes/remove-char.pipe';
+import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { NotifyerComponent } from './notifyer/notifyer.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,8 @@ import { RemoveChar } from './common/pipes/remove-char.pipe';
     PortfolioComponent,
     PortfolioDetailsComponent,
     AbbreviateNumberPipe,
-    RemoveChar
+    RemoveChar,
+    NotifyerComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -69,6 +72,7 @@ import { RemoveChar } from './common/pipes/remove-char.pipe';
     DropDownListAllModule,
     DialogModule,
     TextBoxModule,
+    DateTimePickerModule
 
   ],
   providers: [

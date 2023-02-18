@@ -16,7 +16,7 @@
           <e-column headerText='Coin' width=33 textAlign="Left">
             <ng-template #template let-data>
               <div class="image">
-                <img [src]="data.iconPath" (error)="data.iconPath='../../assets/default.png'" width="32px" [alt]="data.name" />
+                <img [src]="data.iconPath" (error)="$event.preventDefault();data.iconPath='../../assets/default.png'" width="32px" [alt]="data.name" />
               </div>
             </ng-template>
           </e-column>

@@ -23,7 +23,8 @@ namespace Cryptofolio.Models
                 builder.Entity<TransferTransaction>().ToTable("TransferTransaction");
                 builder.Entity<TransferTransactionIn>().ToTable("TransferTransactionIn");
                 builder.Entity<TransferTransactionOut>().ToTable("TransferTransactionOut");
-            }
+                builder.Entity<Notifier>().ToTable("Notifier");
+        }
             public static Task SeedAsync(this ModelBuilder modelBuilder, ApplicationDbContext applicationDbContext)
             {
                 PasswordHasher<IdentityUser> hasher = new PasswordHasher<IdentityUser>();

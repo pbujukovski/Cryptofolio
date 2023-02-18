@@ -7,6 +7,7 @@ namespace Cryptofolio.Models
         public Coin()
         {
             Comments= new List<Comment>();
+            Notifiers = new List<Notifier>();
             Watchlists= new List<Watchlist>();
             VotingHistories = new List<VotingHistory>();
         }
@@ -15,6 +16,8 @@ namespace Cryptofolio.Models
         public string Symbol { get; set; } = string.Empty;
 
         public List<Comment> Comments { get; set; }
+
+        public List<Notifier> Notifiers { get; set; }
 
         public List<Watchlist> Watchlists { get; set; }
 

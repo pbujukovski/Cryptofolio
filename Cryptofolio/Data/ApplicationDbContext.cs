@@ -41,5 +41,7 @@ namespace Cryptofolio.Data
         public DbSet<Cryptofolio.Models.TransferTransactionIn>? TransferTransactionIns { get; set; }
 
         public DbSet<Cryptofolio.Models.TransferTransactionOut>? TransferTransactionOuts { get; set; }
+
+        public DbSet<Cryptofolio.Models.Notifier>? Notifiers { get; set; }
     }
 }

@@ -19,7 +19,9 @@ export const environment = {
    urlFinanceTransactionBuys: "odata/FinanceTransactionBuys",
    urlTransferTransactions: "odata/TransferTransactions",
    urlTransferTransactionIns: "odata/TransferTransactionIns",
-   urlTransferTransactionOuts: "odata/TransferTransactionOuts"
+   urlTransferTransactionOuts: "odata/TransferTransactionOuts",
+
+   urlNotifiers: "odata/Notifiers"
 };
 
 

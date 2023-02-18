@@ -1,6 +1,6 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable, Inject } from "@angular/core";
-import { Observable } from "rxjs";
+import { HttpClient } from '@angular/common/http';
+import { Injectable, Inject } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,10 @@ import { Observable } from "rxjs";
 export class ApiService {
   private baseUrl: string;
 
-  public constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  public constructor(
+    private http: HttpClient,
+    @Inject('BASE_URL') baseUrl: string
+  ) {
     this.baseUrl = baseUrl + 'api';
   }
 

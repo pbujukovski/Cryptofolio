@@ -12,7 +12,7 @@ import {
   QueryCellInfoEventArgs,
   ToolbarItems,
 } from '@syncfusion/ej2-angular-grids';
-import { CoinBinance } from '../common/models/coin-binance';
+import { CoinBinance } from '../common/models/coin-models/coin-binance';
 import { cryptoSymbol } from 'crypto-symbol';
 import { Router } from '@angular/router';
 import { BinanceApiService } from '../common/services/binance-api.service';
@@ -22,7 +22,7 @@ import {
   Watchlist,
 } from '../common/models/watchlist';
 import { WatchlistService } from '../common/services/watchlist.service';
-import { Coin } from '../common/models/coin';
+import { Coin } from '../common/models/coin-models/coin';
 
 const { nameLookup } = cryptoSymbol({});
 

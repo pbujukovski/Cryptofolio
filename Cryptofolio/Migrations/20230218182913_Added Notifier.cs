@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cryptofolio.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialPortfolioMigration : Migration
+    public partial class AddedNotifier : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -275,6 +275,33 @@ namespace Cryptofolio.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Notifier",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DesiredPrice = table.Column<double>(type: "float", nullable: false),
+                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CoinSymbol = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notifier", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notifier_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Notifier_Coin_CoinSymbol",
+                        column: x => x.CoinSymbol,
+                        principalTable: "Coin",
+                        principalColumn: "Symbol",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transaction",
                 columns: table => new
                 {
@@ -463,9 +490,9 @@ namespace Cryptofolio.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "8a401d38-9d95-47d0-b704-6e35df0f0e7a", 0, "39651d7a-cfc7-4a1c-ab57-8438333b924b", "jhon@gmail.com", true, "Jhon", "Smith", false, null, "jhon@gmail.com", "jhon@gmail.com", "AQAAAAIAAYagAAAAEIbTlXnvh086Om486P6fss0eK3rswNJYAxuphSN1btNSaSJL4cg1NsNsOuFl2/uVIA==", null, false, "", false, "jhon@mail.com" },
-                    { "afc1a336-def8-41f8-acf2-9eecbc2667ac", 0, "d77eab2c-852e-4ce6-afa9-f3a11870ea63", "pbujukovski@gmail.com", true, "Petar", "Bujukovski", false, null, "pbujukovski@gmail.com", "pbujukovski@gmail.com", "AQAAAAIAAYagAAAAEMdNOIV/xceFkqNH5LbM5UW8Q0Pxv9VngYIIxSTCcTRaZ35KYedeDgtBzkwKcILijg==", null, false, "", false, "pbujukovski@gmail.com" },
-                    { "cbf9f10a-28d4-459f-b49d-7a6eeb23eb1f", 0, "22f481ab-2f01-45ca-b0c8-13b43e28e8a6", "admin@mail.com", true, "Admin", "Admin", false, null, "admin@mail.com", "admin@mail.com", "AQAAAAIAAYagAAAAEPywTYmkkia4yPj6RQLFviRnrpJtTehLNCyPf5GpZfquKPSXBUg5kFiFMDlOUtt+ag==", null, false, "", false, "admin@mail.com" }
+                    { "a212f5e6-3ce2-48fe-8006-9e03f0241cc2", 0, "533938d6-972e-4b26-958a-f5ea3d6a1eff", "admin@mail.com", true, "Admin", "Admin", false, null, "admin@mail.com", "admin@mail.com", "AQAAAAIAAYagAAAAELur3woatOOXvG3BG+6ZrBm58ZMUsOxHyH3oKlvJPCpZKRo9jwab7Tum5hV+A298Og==", null, false, "", false, "admin@mail.com" },
+                    { "d1f55280-f2b0-48e7-b2a8-ff2b63a7a22a", 0, "72a09e91-7ce2-4922-a507-19ed4fd706a1", "pbujukovski@gmail.com", true, "Petar", "Bujukovski", false, null, "pbujukovski@gmail.com", "pbujukovski@gmail.com", "AQAAAAIAAYagAAAAEKTWdG9nLNhPpGCoDEMJOdD+4VR6O6ubGoEhcJgHMsFT8V1IH/ozAqTj6iwFCCT1Pw==", null, false, "", false, "pbujukovski@gmail.com" },
+                    { "fee4b827-a353-42b8-947b-f7b94f6f7c3f", 0, "a3f05621-67ca-4e22-983b-42b5e2447bcb", "jhon@gmail.com", true, "Jhon", "Smith", false, null, "jhon@gmail.com", "jhon@gmail.com", "AQAAAAIAAYagAAAAEFgLRJ4b9isXPN58/Gmt/GJ7Va/hRLzxjH5TjuFuPr/zQFLY5WvCVa7XqIB0uq+LUQ==", null, false, "", false, "jhon@mail.com" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -537,6 +564,16 @@ namespace Cryptofolio.Migrations
                 name: "IX_Keys_Use",
                 table: "Keys",
                 column: "Use");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifier_ApplicationUserId",
+                table: "Notifier",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifier_CoinSymbol",
+                table: "Notifier",
+                column: "CoinSymbol");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_ConsumedTime",
@@ -619,6 +656,9 @@ namespace Cryptofolio.Migrations
 
             migrationBuilder.DropTable(
                 name: "Keys");
+
+            migrationBuilder.DropTable(
+                name: "Notifier");
 
             migrationBuilder.DropTable(
                 name: "PersistedGrants");

@@ -1,5 +1,5 @@
 import { ApplicationUser } from "./application-user";
-import { Coin } from "./coin";
+import { Coin } from "./coin-models/coin";
 
 export class Watchlist {
 

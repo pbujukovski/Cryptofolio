@@ -221,11 +221,10 @@ legend {
   font-size: 21px;
   margin-top: -19px;
   padding-left: 29px;
-  color: #2095f2;
-  font-family: cursive;
+  /* color: #2095f2;
   -webkit-text-fill-color: #2095f2;
   -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: #494a4a;
+  -webkit-text-stroke-color: #494a4a; */
 
 }
 

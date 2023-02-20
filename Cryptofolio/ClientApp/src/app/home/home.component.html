@@ -38,13 +38,13 @@
           </div>
           <div class="row">
             <div class="col-md-5 ms-5 text-left">
-            <h4 style="padding-bottom: 15px;">News feed for cryptocurrencies</h4></div>
+            <h4 style="padding-bottom: 1px;">News feed for cryptocurrencies</h4></div>
           </div>
-          <div class="row" style="max-height: 80vh; overflow-y: auto;">
+          <div class="row" style=" max-height: 80vh; overflow-y: auto; overflow-x: hidden;">
             <!-- <div class="col-md-1"></div> -->
             <div class="col-md-12 ms-5 text-left">
 
-                <div class="row" *ngFor="let article of articles">
+                <div class="row" style=" padding-top: 30px;" *ngFor="let article of articles">
                   <div class="col-md-2">
                     <img src="{{article.urlToImage}}" alt="" height="fit-content" width="220px">
                   </div>
@@ -53,8 +53,9 @@
                     <h6 *ngIf="article.content != null"> {{article.content | removeChar}} | <a href="{{ article.url }}" target="_blank">Read more</a> </h6>
                     <h6 *ngIf="article.content == null"> <a href="{{ article.url }}" target="_blank"><i class="fa-brands fa-youtube"></i> Proceed to watch the video </a> </h6>
                   </div>
-                <hr style="width: 80%;">
+                  <!-- <hr style="padding-top: 20px;"> -->
               </div>
+
               <!-- <fieldset>
                 <legend>NEWS FEED</legend>
                 <div *ngFor="let article of articles">

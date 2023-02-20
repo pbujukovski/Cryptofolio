@@ -77,8 +77,9 @@ namespace Cryptofolio.Controllers
                 notifier.Id = notifierDTO.Id;
                 notifier.DesiredPrice = notifierDTO.DesiredPrice;
                 notifier.DueDate = notifierDTO.DueDate;
+                notifier.isHigher = notifierDTO.isHigher;
                 notifier.CoinSymbol = notifierDTO.CoinSymbol;
-                notifier.ApplicationUserId = notifierDTO.ApplicationUserId;
+                notifier.ApplicationUserId = notifierDTO.ApplicationUserId?.ToString();
 
                 _context.Entry(notifier).State = EntityState.Modified;
 
@@ -181,9 +182,11 @@ namespace Cryptofolio.Controllers
                 await _context.SaveChangesAsync();
 
                 notifierDTO.Id = notifier.Id;
+             /*   notifierDTO.ApplicationUserId = notifier.ApplicationUserId != null ?  new Guid(notifier.ApplicationUserId) : null;*/
                 notifierDTO.ApplicationUserId = notifier.ApplicationUserId;
                 notifierDTO.DesiredPrice = notifier.DesiredPrice;
                 notifierDTO.DueDate = notifier.DueDate;
+                notifierDTO.isHigher = notifierDTO.isHigher;
                 notifierDTO.CoinSymbol = notifier.CoinSymbol;
                 return CreatedAtAction("GetNotifier", new { id = notifierDTO.Id }, notifierDTO);
             }

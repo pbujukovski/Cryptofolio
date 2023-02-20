@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { DropDownList } from '@syncfusion/ej2-angular-dropdowns';
+import { DialogComponent, DialogUtility } from '@syncfusion/ej2-angular-popups';
 import { DataManager, Query, ReturnOption } from '@syncfusion/ej2-data';
+import { EmitType } from '@syncfusion/ej2/base';
 import { BehaviorSubject, Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CoinBinance } from '../common/models/coin-models/coin-binance';
@@ -15,16 +17,21 @@ import { SyncfusionUtilsService } from '../common/syncfusion-utils';
   styleUrls: ['./notifyer.component.css']
 })
 export class NotifyerComponent implements OnInit {
-
+  public targetElement!: HTMLElement;
   public data!: DataManager;
   public query!: Query;
   public notifier: Notifier = {} as Notifier;
   public notifiers: Notifier[] = [];
+
+  public isNewSubscriptionBtnClicked: boolean = false;
   public notifierUpdate: BehaviorSubject<Notifier> = new BehaviorSubject<Notifier>(new Notifier());
   @ViewChild('ddl') ddl!: DropDownList;
   @ViewChild('notifierForm') public notifierForm!: FormGroup;
   public dateValue: Date =  new Date();
 
+  @ViewChild("dialog") dialog!: DialogComponent;
+
+  public interval : string = 'Bearish';
   public binanceApiSubscription!: Subscription;
   //Dropdown menu for Ticket Statuses
   public fieldsDropDownCoins: Object = {
@@ -35,6 +42,10 @@ export class NotifyerComponent implements OnInit {
   public coinSymbol : string = "";
 
 
+  getButtonClass(interval  : string) {
+    console.log(interval);
+    return this.interval === interval ? 'selected' : '';
+  }
   constructor(private binanceApiService: BinanceApiService, private syncfusionUtilsService: SyncfusionUtilsService) {
     this.data = new DataManager({
       url: environment.urlNotifiers,
@@ -83,6 +94,10 @@ export class NotifyerComponent implements OnInit {
       // this.isEdit = false;
     }
 
+    onAddNewNotifierSubscripiton(){
+      this.isNewSubscriptionBtnClicked = true;
+      this.dialog.show();
+    }
     //Click on button Sumbit
     onSubmit() {
       //Send updated request from edited residential association form
@@ -92,7 +107,34 @@ export class NotifyerComponent implements OnInit {
       this.notifier.ApplicationUserId = 'x';
       this.notifier.Id = -1;
       this.data.insert(this.notifier);
+      this.isNewSubscriptionBtnClicked = false;
+      this.notifierForm.reset();
       // this.isEdit = false;
       // this.grid.refresh();
     }
+
+    onUpdatePriceVariation(interval : boolean){
+      this.notifier.isHigher = interval;
+      // this.interval =
+    }
+
+    onDelete(eventDataNotifier : Notifier, i : number){
+      console.log("data in delete");
+      console.log(eventDataNotifier);
+       this.data.remove("Id", eventDataNotifier);
+       this.notifiers.slice(i,1);
+    }
+
+    //Hide dialog component if on side is clicked
+    public onOverlayClick: EmitType<object> = () => {
+      this.isNewSubscriptionBtnClicked = false;
+      this.dialog.hide();
+      this.notifierForm.reset();
+    }
+
+  //   public onOpenDialog = function(): void {
+  //     DialogUtility.confirm('Are you sure you want to delete this subscription?');
+  // }
+
+
 }

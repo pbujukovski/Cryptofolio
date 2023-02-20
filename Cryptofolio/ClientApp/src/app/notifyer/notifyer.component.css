@@ -1,47 +1,81 @@
-span.e-input-group.e-control-wrapper.e-date-wrapper.e-valid-input {
-  width: 30%;
+
+
+  /* For Round Button*/
+  .e-edit-icon::before {
+    content: '\e891';
   }
 
-  .e-comments-icon::before{
-    content: '\ec10';
+
+  .e-close-icon::before{
+    content: '\e7fc';
   }
 
-  button {
-    margin: 25px 5px 20px 20px;
+  .e-save-icon::before{
+    content: '\e98e';
+  }
+
+  /* For Round Button*/
+  .e-edit-icon::before {
+    content: '\e891';
+  }
+
+
+  .e-close-icon::before{
+    content: '\e7fc';
+  }
+
+  .e-back-icon::before{
+    content: '\e610';
+  }
+
+  .e-dialog {
+    max-height: fit-content !important;
+    max-width: fit-content !important;
+    min-width: 240px;
+    position: absolute;
+    margin-bottom: 29px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.62);
+  }
+
+  .e-dialog .e-dlg-content{
+    border-radius: 16px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+  }
+  .e-dialog .e-dlg-header-content{
+    border-radius: 16px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+
+  .e-btn{
+    border-radius: 20px;
+    background-color: transparent;
+    color: #189ad3;
     width: fit-content;
   }
 
-  #container {
-    visibility: hidden;
+  .e-btn-group{
+    border-radius: 20px;
+    width: fit-content;
   }
 
-  #loader {
-    color: #008cff;
-    height: 40px;
-    left: 45%;
-    position: absolute;
-    top: 45%;
-    width: 30%;
+  .selected {
+    background-color: #2095f2 !important;
+    color: white !important;
   }
 
 
-  .work-input {
-    width: calc(100% - 100px);
-  }
-
-  .input-name {
-    width: 100px;
-  }
-
-  .e-card-btn {
-    width: 100%;
+  a {
+    color: #2095f2;
+    text-decoration: none;
+    font-size: 20px;
   }
 
 
 
-  button {
-    margin: 5px;
-  }
 
   .e-btn.e-round .e-btn-icon,
   .e-css.e-btn.e-round .e-btn-icon {
@@ -51,7 +85,7 @@ span.e-input-group.e-control-wrapper.e-date-wrapper.e-valid-input {
     width: auto;
   }
 
-   .e-btn.e-round,
+  .e-btn.e-round,
   .e-css.e-btn.e-round {
     border-radius: 50%;
     height: 2em;
@@ -71,15 +105,20 @@ span.e-input-group.e-control-wrapper.e-date-wrapper.e-valid-input {
   }
 
 
-  button {
-    margin: 25px 5px 20px 20px;
-  }
 
   /* For Round Button*/
   .e-edit-icon::before {
     content: '\e891';
   }
 
+  .e-trash-icon::before {
+    content: '\e94a';
+  }
+
+
+  .e-circle-close-2-icon::before {
+    content: '\e917';
+  }
 
   .e-close-icon::before{
     content: '\e7fc';
@@ -90,22 +129,85 @@ span.e-input-group.e-control-wrapper.e-date-wrapper.e-valid-input {
   }
 
 
+  .e-comments-icon::before{
+    content: '\ec10';
+  }
+
+  .e-plus-2-icon::before{
+    content: '\e963';
+  }
+
+  .e-back-icon::before{
+    content: '\e610';
+  }
+
+
+
+
   .e-card.e-card-horizontal {
-    background: linear-gradient(to top, #fffffff7  23%, #f5f5f5 102%);
-    width: 500px !important;
-    min-width: fit-content !important;
+    width: fit-content;
+    min-width: 800px;
+    position: relative;
+    background: linear-gradient(to top, #ffffffde 23%, #f5f5f5 102%);
+    margin-bottom: 20%;
+    border-radius: 17px;
+    border-radius: 9px;
+    border: solid;
+    border-color: #f5f5f5;
+    background: rgba(255, 255, 255, 0.22);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.6px);
+  -webkit-backdrop-filter: blur(7.6px);
+  border: 1px solid rgba(255, 255, 255, 0.62);
+
   }
-  .e-dialog {
-    max-height: fit-content !important;
-    max-width: fit-content !important;
-    min-width: 240px;
-    position: absolute;
+
+  .col{
+    padding: 12px;
   }
 
 
-  span.e-input-group.e-control-wrapper.e-date-wrapper {
-    width: 50% !important;
-    padding: 15px 0px 0px 2px;
-    margin-left: 20px;
+
+  div#content {
+    padding: 0px 25px 0px 25px !important;
   }
+
+  .imgNoPost{
+    width: 200px;
+  }
+
+  .e-richtexteditor .e-rte-toolbar {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    border-bottom: 0;
+  }
+
+  .e-card {
+    border: 1px none #000;
+    border-radius: 20px;
+    background-image: url("../../assets/3d-illustration-ethereum-blockchain-png.webp");
+    margin-bottom: 29px;
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.6px);
+    -webkit-backdrop-filter: blur(7.6px);
+    border: 1px solid rgba(255, 255, 255, 0.62);
+  }
+
+
+  .e-badge.e-badge-pill {
+    border-radius: 5em;
+    font-size: 15px;
+  }
+
+  a{
+    color: black;
+    text-decoration: none;
+  }
+
+
+
 

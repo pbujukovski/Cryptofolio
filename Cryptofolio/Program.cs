@@ -1,3 +1,6 @@
+using Binance.Net.Clients;
+using Binance.Net.Objects;
+using CryptoExchange.Net.Authentication;
 using Cryptofolio.Data;
 using Cryptofolio.Email.Services;
 using Cryptofolio.Models;
@@ -86,8 +89,25 @@ builder.Services.AddControllers()
     );
 
 builder.Services.AddScoped<IUserAuthService, UserAuthService>();
+builder.Services.AddScoped(options =>
+{
+    var binanceOptions = new BinanceClientOptions()
+    {
+        ApiCredentials = new ApiCredentials(
+                        key: "5NN39zgBACmjHRQztBD1mFaEAv8Tn97dUcZ6k3m8eaLvThwFvB6VzRkSX3XBIEJc",
+            secret: "eM9zxQ8KMSXOOD4zttPRK3V2PSE9gKr8fpC6ylZRkgkO7cEcp0scVzsXwC6eeL3V"
+            )
+    };
+
+    var client = new BinanceClient(binanceOptions);
+
+    return client;
+});
+
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ICryptoNotifierService, CryptoNotifierService>();
+
+
 
 /*builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();*/

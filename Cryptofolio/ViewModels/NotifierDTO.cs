@@ -21,6 +21,9 @@ namespace Cryptofolio.ViewModels
         [JsonPropertyName("DueDate")]
         [JsonProperty("DueDate")]
         public DateTime DueDate { get; set; }
+        [JsonPropertyName("isHigher")]
+        [JsonProperty("isHigher")]
+        public bool isHigher { get; set; }
         [JsonPropertyName("ApplicationUserId")]
         [JsonProperty("ApplicationUserId")]
         public string? ApplicationUserId { get; set; }
@@ -45,6 +48,7 @@ namespace Cryptofolio.ViewModels
             Id = notifierDTO.Id;
             DesiredPrice = notifierDTO.DesiredPrice;
             DueDate = notifierDTO.DueDate;
+            isHigher = notifierDTO.isHigher;
             ApplicationUserId = notifierDTO.ApplicationUserId;
             CoinSymbol = notifierDTO.CoinSymbol;
         }
@@ -54,9 +58,11 @@ namespace Cryptofolio.ViewModels
             Id = notifier.Id;
             DesiredPrice = notifier.DesiredPrice;
             DueDate = notifier.DueDate;
+            isHigher = notifier.isHigher;
             if (notifier.ApplicationUserId != null)
             {
-                ApplicationUserId = notifier.ApplicationUserId;
+ /*               ApplicationUserId = new Guid(notifier.ApplicationUserId);*/
+                   ApplicationUserId = notifier.ApplicationUserId;
 
             }
             CoinSymbol = notifier.CoinSymbol;
@@ -69,9 +75,11 @@ namespace Cryptofolio.ViewModels
             notifier.Id = this.Id;
             notifier.DesiredPrice = this.DesiredPrice;
             notifier.DueDate = this.DueDate;
+            notifier.isHigher = this.isHigher;
             if (ApplicationUserId != null)
             {
-                notifier.ApplicationUserId = ApplicationUserId;
+             /*   notifier.ApplicationUserId = ApplicationUserId.Value.ToString();*/
+             notifier.ApplicationUserId = ApplicationUserId;
             }
             notifier.CoinSymbol = this.CoinSymbol;
 

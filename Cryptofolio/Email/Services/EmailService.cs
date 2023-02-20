@@ -1,4 +1,5 @@
-﻿using Cryptofolio.Email.Models;
+﻿using Binance.Net.Clients;
+using Cryptofolio.Email.Models;
 using FluentEmail.Core;
 using FluentEmail.Core.Models;
 
@@ -7,7 +8,6 @@ namespace Cryptofolio.Email.Services
     public class EmailService : IEmailService
     {
         private readonly IFluentEmail _fluentEmail;
-
         public EmailService(IFluentEmail fluentEmail)
         {
             _fluentEmail = fluentEmail;
@@ -15,6 +15,8 @@ namespace Cryptofolio.Email.Services
 
         public async Task<SendResponse> SendEmailAsync(BaseEmailDTO email)
         {
+
+
 
             SendResponse result = await _fluentEmail
                         .To(email.Recipient)

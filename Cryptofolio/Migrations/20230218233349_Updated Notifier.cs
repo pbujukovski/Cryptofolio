@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cryptofolio.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedNotifier : Migration
+    public partial class UpdatedNotifier : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -282,6 +282,7 @@ namespace Cryptofolio.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DesiredPrice = table.Column<double>(type: "float", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    isHigher = table.Column<bool>(type: "bit", nullable: false),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CoinSymbol = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -490,9 +491,9 @@ namespace Cryptofolio.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "a212f5e6-3ce2-48fe-8006-9e03f0241cc2", 0, "533938d6-972e-4b26-958a-f5ea3d6a1eff", "admin@mail.com", true, "Admin", "Admin", false, null, "admin@mail.com", "admin@mail.com", "AQAAAAIAAYagAAAAELur3woatOOXvG3BG+6ZrBm58ZMUsOxHyH3oKlvJPCpZKRo9jwab7Tum5hV+A298Og==", null, false, "", false, "admin@mail.com" },
-                    { "d1f55280-f2b0-48e7-b2a8-ff2b63a7a22a", 0, "72a09e91-7ce2-4922-a507-19ed4fd706a1", "pbujukovski@gmail.com", true, "Petar", "Bujukovski", false, null, "pbujukovski@gmail.com", "pbujukovski@gmail.com", "AQAAAAIAAYagAAAAEKTWdG9nLNhPpGCoDEMJOdD+4VR6O6ubGoEhcJgHMsFT8V1IH/ozAqTj6iwFCCT1Pw==", null, false, "", false, "pbujukovski@gmail.com" },
-                    { "fee4b827-a353-42b8-947b-f7b94f6f7c3f", 0, "a3f05621-67ca-4e22-983b-42b5e2447bcb", "jhon@gmail.com", true, "Jhon", "Smith", false, null, "jhon@gmail.com", "jhon@gmail.com", "AQAAAAIAAYagAAAAEFgLRJ4b9isXPN58/Gmt/GJ7Va/hRLzxjH5TjuFuPr/zQFLY5WvCVa7XqIB0uq+LUQ==", null, false, "", false, "jhon@mail.com" }
+                    { "07599bc6-639d-44ae-9dbe-5af7dcfbf930", 0, "3d7ad040-8a6b-4b3d-8056-18a8c78fd1a7", "pbujukovski@gmail.com", true, "Petar", "Bujukovski", false, null, "pbujukovski@gmail.com", "pbujukovski@gmail.com", "AQAAAAIAAYagAAAAEPYFLY/rgxzD/9xa3GKDjWtGfrgneX/MB/vjp3Mxs+zL8E0iF1rf5D7x73Q+EQwdjw==", null, false, "", false, "pbujukovski@gmail.com" },
+                    { "6287510e-b650-4dd7-8ffc-36f1877e4bda", 0, "3119e66f-6c5a-4fe0-a016-6fa394865cb6", "admin@mail.com", true, "Admin", "Admin", false, null, "admin@mail.com", "admin@mail.com", "AQAAAAIAAYagAAAAEKxGJO+wWx47f5dY9Utb0ppBkQDdxTqDB7R2Tbvc/siGKfk6jUtAZOOsysg/w87fvw==", null, false, "", false, "admin@mail.com" },
+                    { "87dc604e-aea0-4daf-99fd-4697982231cb", 0, "6ccfffab-a45c-417f-8312-cdfa8a64c6b1", "jhon@gmail.com", true, "Jhon", "Smith", false, null, "jhon@gmail.com", "jhon@gmail.com", "AQAAAAIAAYagAAAAEIYqUYXcioqSladoukuJwy0TgLHnjjcuVEDAPvzux88b7eBQzkFwxVL/DiZ7U+UdJQ==", null, false, "", false, "jhon@mail.com" }
                 });
 
             migrationBuilder.CreateIndex(

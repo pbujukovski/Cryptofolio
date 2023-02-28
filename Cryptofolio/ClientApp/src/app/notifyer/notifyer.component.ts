@@ -106,7 +106,13 @@ export class NotifyerComponent implements OnInit {
       console.log(this.notifier.DesiredPrice);
       this.notifier.ApplicationUserId = 'x';
       this.notifier.Id = -1;
-      this.data.insert(this.notifier);
+      var temp =  this.data.insert(this.notifier) as Promise<Notifier>; //Waiting response from backend to be sure that new notifaer comes with ID.
+      temp.then((value: Notifier) => {
+        if (this.coinSymbol != null) {
+          this.notifiers.push((value)); //Adding notifier to list after the response from the promise
+        }
+      });
+
       this.isNewSubscriptionBtnClicked = false;
       this.notifierForm.reset();
       // this.isEdit = false;
@@ -114,15 +120,23 @@ export class NotifyerComponent implements OnInit {
     }
 
     onUpdatePriceVariation(interval : boolean){
+
+      console.log("interval");
+      console.log(interval);
       this.notifier.isHigher = interval;
-      // this.interval =
+      if(interval == true){
+        this.interval = "Bullish";
+      }
+      else{
+        this.interval = "Bearish"
+      }
+      console.log("after");
+      console.log(interval);
     }
 
     onDelete(eventDataNotifier : Notifier, i : number){
-      console.log("data in delete");
-      console.log(eventDataNotifier);
        this.data.remove("Id", eventDataNotifier);
-       this.notifiers.slice(i,1);
+       this.notifiers.splice(i,1);
     }
 
     //Hide dialog component if on side is clicked

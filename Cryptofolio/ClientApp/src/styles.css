@@ -148,13 +148,13 @@ a.btn-arrow:hover {
 .e-lib.e-grid {
   border-color: #e0e0e0;
   border: none;
+  border-radius: 9px;
+  margin-bottom: 30px;
 }
 .e-toolbar .e-toolbar-items.e-tbar-pos .e-toolbar-right {
   left: 11px;
 }
-.e-lib.e-grid {
-  border-radius: 9px;
-}
+
 .e-toolbar .e-toolbar-items.e-tbar-pos {
   display: block;
   border-radius: 9px;
@@ -179,7 +179,27 @@ a.btn-arrow:hover {
     flex: 0 0 auto;
     width: 93.33333333%;
 }
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
 
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 16px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 16px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #2095f2;
+}
 
 /* .e-lib.e-pager .e-pagercontainer {
   background-color: transparent !important;
@@ -194,3 +214,20 @@ a.btn-arrow:hover {
   overflow: hidden;
 } */
 
+.e-btn{
+  border-radius: 20px;
+  background-color: transparent;
+  color: #189ad3;
+  width: fit-content;
+}
+
+.col{
+  padding: 12px;
+}
+
+.e-save-icon::before{
+  content: '\e98e';
+}
+
+@import url('./assets/celero-material.css');
+@import url('./assets/celero-styles.css');

@@ -34,6 +34,10 @@ import { AbbreviateNumberPipe } from './common/pipes/abbreviate-number.pipe';
 import { RemoveChar } from './common/pipes/remove-char.pipe';
 import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { NotifyerComponent } from './notifyer/notifyer.component';
+import { TransactionSellComponent } from './portfolio/transaction-sell/transaction-sell.component';
+import { TransactionBuyComponent } from './portfolio/transaction-buy/transaction-buy.component';
+import { TransactionInComponent } from './portfolio/transaction-in/transaction-in.component';
+import { TransactionOutComponent } from './portfolio/transaction-out/transaction-out.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +55,11 @@ import { NotifyerComponent } from './notifyer/notifyer.component';
     PortfolioDetailsComponent,
     AbbreviateNumberPipe,
     RemoveChar,
-    NotifyerComponent
+    NotifyerComponent,
+    TransactionSellComponent,
+    TransactionBuyComponent,
+    TransactionInComponent,
+    TransactionOutComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

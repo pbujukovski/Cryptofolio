@@ -19,7 +19,7 @@ export class HomeComponent {
   public articles: any[] = [];
   private binanceApiSubscription: Subscription;
   private subscriptionisAuthenticated: Subscription;
-  public data: CoinBinance[] = [];
+  public topCoinsBinance: CoinBinance[] = [];
 
   constructor(private http: HttpClient, private router: Router, private binanceApiService: BinanceApiService, private authorizeService: AuthorizeService) {
 
@@ -39,11 +39,7 @@ export class HomeComponent {
     this.binanceApiSubscription = this.binanceApiService.TopCoinsUpdated.subscribe(
       (data) => {
         //Set data to data from binance service
-        this.data = data;
-
-        console.log("DATA IN HOME");
-        console.log(this.data);
-
+        this.topCoinsBinance = data;
       }
     );
 
@@ -57,14 +53,13 @@ export class HomeComponent {
   }
 
   ngOnDestroy(){
+    this.subscriptionisAuthenticated.unsubscribe();
     this.binanceApiSubscription.unsubscribe();
   }
   getNews() {
     const url = `https://newsapi.org/v2/top-headlines?q=crypto&category=business&language=en&apiKey=abf821aef3294839aa9cc34dcc08628f`;
      this.http.get(url).subscribe((data:  any) => {
-      console.log(data);
       this.articles = data.articles;
-      console.log(this.articles);
     })
   }
 
@@ -74,7 +69,6 @@ export class HomeComponent {
     if (!isAuthenticated) {
       // If it is not authenticated log in
       this.router.navigate(ApplicationPaths.LoginPathComponents);
-
     }
 }
 }

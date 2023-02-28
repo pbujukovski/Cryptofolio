@@ -1,75 +1,57 @@
-
-<ejs-sidebar *ngIf="(isAuthenticated | async) === true" id="sidebarMenu" #sidebarMenu [type]='type' [target]='target'
-[width]="width" [enableDock]="enableDock" [dockSize]="dockSize" (created)="onSidebarCreated($event)">
-
-<div class="mt-5 pt-1">
-  <ul class="nav flex-column mt-3">
-    <li class="nav-item ms-3" (click)="onSidebarToggle()" title="Menu">
-      <span class="e-icons expand align-middle">
-      </span>
-      <span class="e-text">Menu</span>
-    </li>
-    <li>
-      <hr class="dropdown-divider">
-    </li>
-
-    <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
-      <a class="nav-link text-dark" [routerLink]="['home']"
-        title="Dashboard">
-        <span class="e-icons ps-1">
-          <i class="fa-solid fa-house"></i>
+<div class="row" *ngIf="(isAuthenticated | async) === true">
+<ejs-sidebar  id="sidebarMenu" #sidebarMenu [type]='type' [target]='target'
+  [width]="width" [enableDock]="enableDock" [dockSize]="dockSize" (created)="onSidebarCreated($event)">
+  <div class="mt-5 pt-1">
+    <ul class="nav flex-column mt-3">
+      <li class="nav-item ms-3" (click)="onSidebarToggle()" title="Menu">
+        <span class="e-icons expand align-middle">
         </span>
-        <span class="e-text">Dashboard</span>
-      </a>
-    </li>
-
-
-    <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
-      <a class="nav-link text-dark" [routerLink]="['cryptos']"
-        title="Cryptocurrencies">
-        <span class="e-icons ps-1">
-          <i class="fa-brands fa-bitcoin"></i>
-        </span>
-        <span class="e-text">Cryptocurrencies</span>
-      </a>
-    </li>
-
-    <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
-      <a class="nav-link text-dark" [routerLink]="['watchlist']"
-        title="Watchlist">
-        <span class="e-icons ps-1">
-          <i class="fa-solid fa-star"></i>
-        </span>
-        <span class="e-text">Watchlist</span>
-      </a>
-    </li>
-
-    <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
-      <a class="nav-link text-dark" [routerLink]="['portfolio']"
-        title="Portfolio">
-        <span class="e-icons ps-1">
-          <i class="fa-solid fa-table-list"></i>
-        </span>
-        <span class="e-text">Portfolio</span>
-      </a>
-    </li>
-
-    <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
-      <a class="nav-link text-dark" [routerLink]="['notifyler']"
-        title="Notifyer">
-        <span class="e-icons ps-1">
-          <i class="fa-solid fa-bell"></i>
-        </span>
-        <span class="e-text">Notifyer</span>
-      </a>
-    </li>
-
-
-
-
-
-
-
-  </ul>
-</div>
+        <span class="e-text">Menu</span>
+      </li>
+      <li>
+        <hr class="dropdown-divider">
+      </li>
+      <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
+        <a class="nav-link text-dark" [routerLink]="['home']" title="Dashboard">
+          <span class="e-icons ps-1">
+            <i class="fa-solid fa-house"></i>
+          </span>
+          <span class="e-text">Dashboard</span>
+        </a>
+      </li>
+      <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
+        <a class="nav-link text-dark" [routerLink]="['cryptos']" title="Cryptocurrencies">
+          <span class="e-icons ps-1">
+            <i class="fa-brands fa-bitcoin"></i>
+          </span>
+          <span class="e-text">Cryptocurrencies</span>
+        </a>
+      </li>
+      <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
+        <a class="nav-link text-dark" [routerLink]="['watchlist']" title="Watchlist">
+          <span class="e-icons ps-1">
+            <i class="fa-solid fa-star"></i>
+          </span>
+          <span class="e-text">Watchlist</span>
+        </a>
+      </li>
+      <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
+        <a class="nav-link text-dark" [routerLink]="['portfolio']" title="Portfolio">
+          <span class="e-icons ps-1">
+            <i class="fa-solid fa-table-list"></i>
+          </span>
+          <span class="e-text">Portfolio</span>
+        </a>
+      </li>
+      <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
+        <a class="nav-link text-dark" [routerLink]="['notifyler']" title="Notifier">
+          <span class="e-icons ps-1">
+            <i class="fa-solid fa-bell"></i>
+          </span>
+          <span class="e-text">Notifier</span>
+        </a>
+      </li>
+    </ul>
+  </div>
 </ejs-sidebar>
+</div>

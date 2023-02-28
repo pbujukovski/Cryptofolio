@@ -8,5 +8,11 @@
         }
 
         public string Symbol { get; set; }
+
+        public string Price { get; set; }
+
+        public string AvgPrice { get; set; }
+
+
     }
 }

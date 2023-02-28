@@ -1,12 +1,9 @@
 <div class="row">
+  <div class="col-md-1">
+
+  </div>
   <div class="col-md-8">
-    <div class='e-btn-group e-round-corner' >
-      <!-- <button (click)="updateInterval('1m')" [isToggle]="true"  ejs-button> 1m </button>
-      <button (click)="updateInterval('30m')" ariaPressed="true" ejs-button> 30m </button>
-      <button (click)="updateInterval('12h')" ejs-button> 12h </button>
-      <button (click)="updateInterval('1d')" ejs-button> 24h </button>
-      <button (click)="updateInterval('1w')" ejs-button> 1w </button>
-      <button (click)="updateInterval('1M')" ejs-button> 1M </button> -->
+    <div class='e-btn-group e-round-corner'  >
       <button (click)="updateInterval('1m')" [isToggle]="true" class="{{ getButtonClass('1m') }}" ejs-button> 1m </button>
       <button (click)="updateInterval('30m')" class="{{ getButtonClass('30m') }}" ejs-button> 30m </button>
       <button (click)="updateInterval('12h')" class="{{ getButtonClass('12h') }}" ejs-button> 12h </button>
@@ -23,7 +20,7 @@
 
   </div>
   <div class="col-md-10">
-    <ejs-stockchart  id="chart-container" [tooltip]="true" [enablePeriodSelector]="false" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis" [rows]="rows" [crosshair]="crosshair" >
+    <ejs-stockchart  id="chart-container"  [zoomSettings]="zoomSettings"  [tooltip]="true" [enablePeriodSelector]="false" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis" [rows]="rows" [crosshair]="crosshair" >
       <e-stockchart-series-collection>
         <e-stockchart-series type='Candle' [dataSource]="candleData" xName='x' high='high' low='low' open='open' close='close'>
         </e-stockchart-series>

@@ -19,6 +19,10 @@ namespace Cryptofolio.ViewModels
         [JsonPropertyName("Note")]
         public string Note { get; set; } = string.Empty;
 
+
+        [JsonPropertyName("Price")]
+        public float Price { get; set; }
+
         [JsonPropertyName("Amount")]
         public float Amount { get; set; }
 
@@ -40,6 +44,9 @@ namespace Cryptofolio.ViewModels
         [JsonIgnore]
         public CoinDTO? Coin { get; set; }
 
+        [JsonPropertyName("FinanceTransactions")]
+        public ICollection<FinanceTransaction> FinanceTransactions { get; set; }
+
 
         public TransactionDTO() { }
 
@@ -48,10 +55,12 @@ namespace Cryptofolio.ViewModels
             Id = transactionDTO.Id;
             Date = transactionDTO.Date;
             Note = transactionDTO.Note;
+            Price = transactionDTO.Price;
             Amount = transactionDTO.Amount;
             Fee = transactionDTO.Fee;
             ApplicationUserId = transactionDTO.ApplicationUserId;
             CoinSymbol = transactionDTO.CoinSymbol;
+            FinanceTransactions = transactionDTO.FinanceTransactions;
         }
 
         public TransactionDTO(Transaction transaction)
@@ -60,9 +69,11 @@ namespace Cryptofolio.ViewModels
             Date = transaction.Date;
             Note = transaction.Note;
             Amount = transaction.Amount;
+            Price = 0;
             Fee = transaction.Fee;
             ApplicationUserId = transaction.ApplicationUserId;
             CoinSymbol = transaction.CoinSymbol;
+            FinanceTransactions = transaction.FinanceTransactions;
         }
 
         public void convertToTransaction<TransactionType>(ref TransactionType transaction) where TransactionType : Transaction

@@ -1,13 +1,12 @@
 <div class="container-fluid mt-5 px-5">
   <div class="row">
-      <div *ngIf="this.articles.length == 0 && this.data.length == 0 ">
+      <div *ngIf="this.articles.length == 0 && this.topCoinsBinance.length == 0 ">
         <app-loading></app-loading>
       </div>
-      <div tabindex="0" class="e-card" id="basic" *ngIf="this.articles.length > 0 && this.data.length > 0">
+      <div tabindex="0" class="e-card" id="basic" *ngIf="this.articles.length > 0 || this.topCoinsBinance.length > 0">
         <div class="e-card-header">
           <div class="e-card-header-caption">
             <div class="e-card-title">
-
             </div>
           </div>
         </div>
@@ -17,7 +16,7 @@
             <h4 style="padding-bottom: 10px;">Popular cryptocurrencies</h4></div>
           </div>
           <div class="row">
-            <div class="col-md-2 ms-5 text-left" *ngFor="let coin of data">
+            <div class="col-md-2 ms-5 text-left" *ngFor="let coin of topCoinsBinance">
             <div tabindex="0" class="e-card" id="basic">
               <div class="e-card-header">
                   <div class="e-card-header-caption">
@@ -41,9 +40,7 @@
             <h4 style="padding-bottom: 1px;">News feed for cryptocurrencies</h4></div>
           </div>
           <div class="row" style=" max-height: 80vh; overflow-y: auto; overflow-x: hidden;">
-            <!-- <div class="col-md-1"></div> -->
             <div class="col-md-12 ms-5 text-left">
-
                 <div class="row" style=" padding-top: 30px;" *ngFor="let article of articles">
                   <div class="col-md-2">
                     <img src="{{article.urlToImage}}" alt="" height="fit-content" width="220px">
@@ -55,26 +52,7 @@
                   </div>
                   <!-- <hr style="padding-top: 20px;"> -->
               </div>
-
-              <!-- <fieldset>
-                <legend>NEWS FEED</legend>
-                <div *ngFor="let article of articles">
-                  <div class="row">
-                    <div class="col-md-2">
-                      <img src="{{article.urlToImage}}" alt="" height="fit-content" width="220px">
-                    </div>
-                    <div class="col-md-8">
-                      <h4><a href="{{ article.url }}" target="_blank">{{ article.title }}</a></h4>
-                      <h6 *ngIf="article.content != null"> {{article.content | removeChar}} | <a href="{{ article.url }}" target="_blank">Read more</a> </h6>
-                      <h6 *ngIf="article.content == null"> <a href="{{ article.url }}" target="_blank"><i class="fa-brands fa-youtube"></i> Proceed to watch the video </a> </h6>
-                    </div>
-                  </div>
-                  <hr>
-                </div>
-              </fieldset> -->
             </div>
-            <!-- <div class="col-md-1">
-            </div> -->
           </div>
         </div>
       </div>

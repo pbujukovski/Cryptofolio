@@ -32,3 +32,18 @@ svg#chart-container_stockChart_svg {
   /* border: 1px solid red !important; */
   background-color: blue !important;
 }
+.e-btn-group{
+  margin: 20px;
+  margin-left: 0;
+}
+
+hr {
+  margin: 1rem 0;
+  color: inherit;
+  border: 0;
+  border-top: 4px solid;
+  opacity: .25;
+  border-radius: 60px;
+  margin-left: 20px;
+  border-color: #2095f2;
+}

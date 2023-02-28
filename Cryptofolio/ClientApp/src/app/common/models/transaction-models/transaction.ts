@@ -16,4 +16,7 @@ export class Transaction{
 
   public CoinSymbol : string = "";
 
+  constructor(data?: Partial<Transaction>) {
+    Object.assign(this, data);
+  }
 }

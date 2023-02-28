@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cryptofolio.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdatedNotifier : Migration
+    public partial class Addedtransactions : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -388,7 +388,8 @@ namespace Cryptofolio.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<float>(type: "real", nullable: false)
+                    Price = table.Column<float>(type: "real", nullable: false),
+                    TransactionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -399,13 +400,19 @@ namespace Cryptofolio.Migrations
                         principalTable: "Transaction",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FinanceTransaction_Transaction_TransactionId",
+                        column: x => x.TransactionId,
+                        principalTable: "Transaction",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "TransferTransaction",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    TransactionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -416,6 +423,11 @@ namespace Cryptofolio.Migrations
                         principalTable: "Transaction",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TransferTransaction_Transaction_TransactionId",
+                        column: x => x.TransactionId,
+                        principalTable: "Transaction",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -491,9 +503,9 @@ namespace Cryptofolio.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "07599bc6-639d-44ae-9dbe-5af7dcfbf930", 0, "3d7ad040-8a6b-4b3d-8056-18a8c78fd1a7", "pbujukovski@gmail.com", true, "Petar", "Bujukovski", false, null, "pbujukovski@gmail.com", "pbujukovski@gmail.com", "AQAAAAIAAYagAAAAEPYFLY/rgxzD/9xa3GKDjWtGfrgneX/MB/vjp3Mxs+zL8E0iF1rf5D7x73Q+EQwdjw==", null, false, "", false, "pbujukovski@gmail.com" },
-                    { "6287510e-b650-4dd7-8ffc-36f1877e4bda", 0, "3119e66f-6c5a-4fe0-a016-6fa394865cb6", "admin@mail.com", true, "Admin", "Admin", false, null, "admin@mail.com", "admin@mail.com", "AQAAAAIAAYagAAAAEKxGJO+wWx47f5dY9Utb0ppBkQDdxTqDB7R2Tbvc/siGKfk6jUtAZOOsysg/w87fvw==", null, false, "", false, "admin@mail.com" },
-                    { "87dc604e-aea0-4daf-99fd-4697982231cb", 0, "6ccfffab-a45c-417f-8312-cdfa8a64c6b1", "jhon@gmail.com", true, "Jhon", "Smith", false, null, "jhon@gmail.com", "jhon@gmail.com", "AQAAAAIAAYagAAAAEIYqUYXcioqSladoukuJwy0TgLHnjjcuVEDAPvzux88b7eBQzkFwxVL/DiZ7U+UdJQ==", null, false, "", false, "jhon@mail.com" }
+                    { "8febf4a8-d7d0-4055-b7b9-2246f87c2bd2", 0, "de2e5025-173d-4b8b-b22a-bc7a4b5762b3", "jhon@gmail.com", true, "Jhon", "Smith", false, null, "jhon@gmail.com", "jhon@gmail.com", "AQAAAAIAAYagAAAAEDYlvaO+F4B67TZmBR6EZTnh9kTtRP9C3cqK05QQkeNrCJbuc9XiJ2KG1VZ/vlVOtA==", null, false, "", false, "jhon@mail.com" },
+                    { "edd34dc4-96e2-42b2-b097-6ee337e118a2", 0, "f963d70c-8fcf-482d-9a8f-af7f9bc35e85", "admin@mail.com", true, "Admin", "Admin", false, null, "admin@mail.com", "admin@mail.com", "AQAAAAIAAYagAAAAELfaF+IfM3TdsWombZ5K0KTebbVGcBx0rd+iXVaK2esGKUdHR584DrLoInoUxoHgvw==", null, false, "", false, "admin@mail.com" },
+                    { "ef0492b1-3b80-466e-82de-5704796d9511", 0, "bbb2aebb-70bd-4c48-a2b3-1520c2c75cb6", "pbujukovski@gmail.com", true, "Petar", "Bujukovski", false, null, "pbujukovski@gmail.com", "pbujukovski@gmail.com", "AQAAAAIAAYagAAAAEGiw2W6IOPAaG9L4yzojnAUWu0k/Eju1ziFvwCSYrXwFLX37N+XIM3roy7cDUAufhA==", null, false, "", false, "pbujukovski@gmail.com" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -562,6 +574,11 @@ namespace Cryptofolio.Migrations
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FinanceTransaction_TransactionId",
+                table: "FinanceTransaction",
+                column: "TransactionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Keys_Use",
                 table: "Keys",
                 column: "Use");
@@ -605,6 +622,11 @@ namespace Cryptofolio.Migrations
                 name: "IX_Transaction_CoinSymbol",
                 table: "Transaction",
                 column: "CoinSymbol");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TransferTransaction_TransactionId",
+                table: "TransferTransaction",
+                column: "TransactionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_VotingHistory_ApplicationUserId",

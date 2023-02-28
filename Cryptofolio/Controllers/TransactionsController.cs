@@ -29,7 +29,7 @@ namespace Cryptofolio.Controllers
         // GET: api/Transactions
         [EnableQuery]
         [HttpGet("/odata/Transactions")]
-        public ActionResult<List<TransactionDTO>> GetTransactions()
+        public async Task<ActionResult<List<CoinTransactionSummaryDTO>>> GetTransactionsAsync()
         {
 
             if (_context.Transactions == null && _userAuthService.getCurrentUserId() == null)
@@ -38,8 +38,39 @@ namespace Cryptofolio.Controllers
             }
             else if (_context.Transactions != null && _userAuthService.getCurrentUserId() != null)
             {
-                List<TransactionDTO> transactions = _context.Transactions.Where(cs => cs.ApplicationUserId == _userAuthService.getCurrentUserId()).Include(c => c.ApplicationUser).Select(transactions => new TransactionDTO(transactions)).ToList();
-                return Ok(transactions);
+
+
+                List<TransactionDTO> transactions = _context.Transactions.OfType<Transaction>().Where(cs => cs.ApplicationUserId == _userAuthService.getCurrentUserId()).Include(c => c.ApplicationUser).Select(transactions => new TransactionDTO(transactions)).ToList();
+
+                var transactionIds = transactions.Select(x => x.Id).ToList();
+
+                Dictionary<int, FinanceTransactionBuy> coinBought = await _context.FinanceTransactionBuys.OfType<FinanceTransactionBuy>().Where(ft => transactionIds.Contains(ft.Id)).ToDictionaryAsync(g => g.Id);
+                Dictionary<int, FinanceTransactionSell> coinsSold = await _context.FinanceTransactionSells?.OfType<FinanceTransactionSell>().Where(ft => transactionIds.Contains(ft.Id)).ToDictionaryAsync(g => g.Id) ;
+
+                Dictionary<int, TransferTransactionIn> coinsTransferredIn = await _context.TransferTransactionIns?.OfType<TransferTransactionIn>().Where(ti => transactionIds.Contains(ti.Id)).ToDictionaryAsync(t => t.Id);
+                Dictionary<int, TransferTransactionOut> coinsTransferredOut = await _context.TransferTransactionOuts?.OfType<TransferTransactionOut>().Where(ti => transactionIds.Contains(ti.Id)).ToDictionaryAsync(t => t.Id);
+
+                Dictionary<string, List<TransactionDTO>> transactionsByCoin = transactions.GroupBy(t => t.CoinSymbol).ToDictionary(t => t.Key, t => t.ToList());
+
+                List<CoinTransactionSummaryDTO> result = new();
+                foreach(KeyValuePair<string, List<TransactionDTO>> coin in transactionsByCoin){
+                    float profitLoss = 0;
+                    foreach(var transaction in coin.Value)
+                    {
+                        var coinBoughtTransaction = coinBought.GetValueOrDefault(transaction.Id);
+                        profitLoss += coinBoughtTransaction is not null ? coinBoughtTransaction.Price : 0;
+                        var coinSoldTransaction = coinsSold.GetValueOrDefault(transaction.Id);
+                        profitLoss -= coinSoldTransaction is not null ? coinSoldTransaction.Price : 0;
+
+                    }
+
+                    result.Add(new CoinTransactionSummaryDTO(
+                        coin.Key, profitLoss));
+
+
+                }
+
+                return Ok(result);
             }
             else return BadRequest();
 

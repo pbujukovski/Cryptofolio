@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@ang
 import { Chart } from '@syncfusion/ej2-charts';
 import { StockChart } from '@syncfusion/ej2-charts';
 import * as ej2 from '@syncfusion/ej2-charts';
-import { DateTimeService, LegendService, TooltipService, DataLabelService, CandleSeriesService} from '@syncfusion/ej2-angular-charts';
+import { DateTimeService, LegendService, TooltipService, DataLabelService, CandleSeriesService, ZoomSettingsModel} from '@syncfusion/ej2-angular-charts';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, concatMap, interval, map, Subscription, timer } from 'rxjs';
 import { BinanceKlineService } from 'src/app/common/services/binance-kline.service';
@@ -33,6 +33,7 @@ export class CryptoDetailsChartComponent implements OnInit {
   rows!: string[];
   columns!: string[];
 
+  public zoomSettings!: ZoomSettingsModel;
   public crosshair!: Object;
   public tooltip!: Object;
   private refreshSubscription!: Subscription;
@@ -63,6 +64,12 @@ export class CryptoDetailsChartComponent implements OnInit {
 
     this.tooltip = {
       enable: true
+    };
+
+    this.zoomSettings = {
+      enableMouseWheelZooming: true,
+      enablePinchZooming: false, // disable pinch zooming to enable scroll zooming
+      enableSelectionZooming: false // disable selection zooming to enable scroll zooming
     };
   }
 

@@ -153,6 +153,10 @@ export class BinanceApiService {
               this.coin.iconPath =
                 './assets/icon/' + `${splitName.toLowerCase()}` + '.png';
 
+                // if (!fs.existsSync(this.coin.iconPath)){
+                //   this.coin.iconPath = '../../assets/default.png';
+                // }
+
               //Step 2.3: Find matching name for current symbol
               this.coin.name = nameLookup(splitName) ?? splitName;
 

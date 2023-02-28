@@ -3,50 +3,65 @@ import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { DropDownList } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { EmitType, isNullOrUndefined, detach } from '@syncfusion/ej2/base';
+import { DataManager, Query, ReturnOption } from '@syncfusion/ej2-data';
 import { concatMap, Subscription, timer } from 'rxjs';
 import { CoinBinance } from '../common/models/coin-models/coin-binance';
 import { BinanceApiService } from '../common/services/binance-api.service';
+import { Transaction } from '../common/models/transaction-models/transaction';
+import { environment } from 'src/environments/environment';
+import { SyncfusionUtilsService } from '../common/syncfusion-utils';
+import { EditSettingsModel, ToolbarItems, PageSettingsModel } from '@syncfusion/ej2-angular-grids';
+import { CoinTransactionSummary } from '../common/models/transaction-models/coin-transaction-summary';
 
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
-  styleUrls: ['./portfolio.component.css']
+  styleUrls: ['./portfolio.component.css'],
 })
 export class PortfolioComponent implements OnInit {
   @ViewChild('ddl') ddl!: DropDownList;
-
   @ViewChild('dialog') dialog!: DialogComponent;
-  public form!: FormGroup;
-
-  public header = 'Contact Us';
-
-  public showDialog(): void {
-    this.dialog.show();
-  }
-
-  public onSubmit(form: NgForm): void {
-    console.log(form.value);
-    this.dialog.hide();
-  }
-
+  public targetElement!: HTMLElement;
   public binanceApiSubscription!: Subscription;
+  public isNewTransactionBtnClicked: boolean = false;
+  public selectedFormValue: string = 'Buy';
+
+
+  public dataTransactions!: DataManager;
+  public queryTransactions!: Query;
+  public transactions: Transaction[] = [];
+  public coinTransactionSummary: CoinTransactionSummary[] = [];
+  public editSettings!: EditSettingsModel;
+  public toolbar!: ToolbarItems[] | object;
+  public pageSettings!: PageSettingsModel;
   //Dropdown menu for Ticket Statuses
   public fieldsDropDownCoins: Object = {
     text: 'name',
     value: 'symbol',
   };
+
+  getButtonClass(selectedFormValue  : string) {
+    return this.selectedFormValue === selectedFormValue ? 'selected' : '';
+  }
   public data: CoinBinance[] = [];
-  public coinSymbol : string = "";
+  public coinSymbol: string = '';
 
-
-  onChange(args :any) {
+  onChange(args: any) {
     console.log(args.value);
   }
 
-  constructor(private binanceApiService: BinanceApiService) {
+  constructor(private binanceApiService: BinanceApiService, private syncfusionUtilsService: SyncfusionUtilsService) {
 
-    const binanceApiObsearvable$ = timer(1000, 10000);
+    this.dataTransactions = new DataManager({
+      url: environment.urlTransactions,
+      adaptor:  syncfusionUtilsService.getCustomSecureODataV4Adaptor(),
+      crossDomain: true,
+    });
 
+    this.queryTransactions = new Query();
+    this.getTransactions();
+
+    const binanceApiObsearvable$ = timer(1000, 1000000);
     //Subscribe to get coins updated from Binance Service
     this.binanceApiSubscription = this.binanceApiService.CoinsUpdated.subscribe(
       (data) => {
@@ -54,59 +69,47 @@ export class PortfolioComponent implements OnInit {
         this.data = data;
       }
     );
-
-
-
     this.binanceApiSubscription = this.binanceApiService.getCoins().subscribe();
   }
 
+  ngOnInit(): void {
+    this.editSettings = {
+      allowEditing: false,
+      allowAdding: false,
+      allowDeleting: true,
+      mode: 'Dialog',
+    };
 
-  @ViewChild('template') template!: DialogComponent;
-  // Create element reference for dialog target element.
-  @ViewChild('container', { read: ElementRef }) container!: ElementRef;
-  // The Dialog shows within the target element.
-  public targetElement!: HTMLElement;
-  public proxy: any = this;
-
-  //To get all element of the dialog component after component get initialized.
-  ngOnInit() {
-    this.initilaizeTarget();
+    //Add search to toolbar
+    this.toolbar = ['Search'];
   }
 
-  // Initialize the Dialog component target element.
-  public initilaizeTarget: EmitType<object> = () => {
-    this.targetElement = this.container.nativeElement.parentElement;
-  }
-  public height: string = '250px';
-  public dialogOpen: EmitType<object> = () => {
-      (document.getElementById('sendButton') as any).keypress = (e: any) => {
-          if (e.keyCode === 13) { this.updateTextValue(); }
-      };
-      (document.getElementById('inVal')as HTMLElement).onkeydown = (e: any) => {
-          if (e.keyCode === 13) { this.updateTextValue(); }
-      };
-      document.getElementById('sendButton')!.onclick = (): void => {
-          this.updateTextValue();
-      };
+  getTransactions(){
+    this.dataTransactions
+    .executeQuery(this.queryTransactions)
+    .then((e: ReturnOption) => {
+      var resultList = e.result as CoinTransactionSummary[];
+      if (resultList != null ) {
+        this.coinTransactionSummary = resultList;
+        console.log("CoinTransactionSummary");
+        console.log(this.coinTransactionSummary);
+      } else console.log('Result list is empty');
+    })
+    .catch((e) => true);
   }
 
-  public updateTextValue: EmitType<object> = () => {
-      let enteredVal: HTMLInputElement = document.getElementById('inVal') as HTMLInputElement;
-      let dialogTextElement: HTMLElement = document.getElementsByClassName('dialogText')[0] as HTMLElement;
-      let dialogTextWrap : HTMLElement = document.getElementsByClassName('dialogContent')[0] as HTMLElement;
-      if (!isNullOrUndefined(document.getElementsByClassName('contentText')[0])) {
-          detach(document.getElementsByClassName('contentText')[0]);
-      }
-      if (enteredVal.value !== '') {
-          dialogTextElement.innerHTML = enteredVal.value;
-      }
-      enteredVal.value = '';
+  onAddNewTransaction() {
+    this.isNewTransactionBtnClicked = true;
+    this.dialog.show();
   }
 
-  // Sample level code to handle the button click action
-  public onOpenDialog = (event: any): void => {
-      // Call the show method to open the Dialog
-      this.template.show();
+  onChangeFormModel(value: string) {
+    this.selectedFormValue = value;
   }
+
+  //Hide dialog component if on side is clicked
+  public onOverlayClick: EmitType<object> = () => {
+    this.isNewTransactionBtnClicked = false;
+    this.dialog.hide();
+  };
 }
-

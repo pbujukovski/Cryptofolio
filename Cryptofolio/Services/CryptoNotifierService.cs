@@ -27,7 +27,9 @@ namespace Cryptofolio.Services
         {
 
             List<Notifier> notifiers = await _applicationDbContext.Notifiers?.Where(n => n.DueDate >= DateTime.UtcNow).Include(n => n.ApplicationUser).ToListAsync();
-           
+
+            List<CoinBinance> coinBinances = new List<CoinBinance>();
+
             if (!notifiers.Any())
             {
                 return;
@@ -42,6 +44,8 @@ namespace Cryptofolio.Services
                 return;
             }
 
+          
+
             var coinDictionary = coinResult.Data.ToDictionary(x => x.Symbol);
 
 
@@ -51,7 +55,13 @@ namespace Cryptofolio.Services
             {
                 var currentCoinPrice = coinDictionary[$@"{notifier.CoinSymbol}USDT"];
 
-                if(currentCoinPrice is not null)
+                /*              var test = coinResult.Data.Where(x => x.Symbol is currentCoinPrice).FirstOrDefault().ToList();*/
+
+                /*	var currentCoinPrice1 = coinDictionary.LastPrice;*/
+
+                coinBinances.Add(currentCoinPrice as CoinBinance);
+                if(notifier.CoinSymbol == currentCoinPrice.Symbol) 
+				if (currentCoinPrice is not null)
                 {
                     emails.Add(_emailService.SendEmailAsync(new CryptoNotificationEmail(notifier.ApplicationUser?.Email ?? "", "Trkalo", notifier.CoinSymbol)));
                 }

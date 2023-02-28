@@ -582,9 +582,6 @@ ejs-richtexteditor#CommentText {
   border-radius: 20px;
 }
 
-.e-lib.e-pager .e-pagercontainer {
-  background-color: transparent !important;
-}
 
 .e-lib.e-pager .e-pagercontainer {
   border-radius: 4px;
@@ -596,8 +593,10 @@ ejs-richtexteditor#CommentText {
 }
 
 
+.e-pager{
+  background-color: white;
+  margin-top: 50px;
+  border-radius: 30px;
+}
 
-/* .e-lib .e-pager .e-pagercontainer {
-  background-color: #e6f5fc08 !important;
-  border-color: #e0e0e0;
-} */
+

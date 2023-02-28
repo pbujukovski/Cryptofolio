@@ -163,12 +163,6 @@
 
   }
 
-  .col{
-    padding: 12px;
-  }
-
-
-
   div#content {
     padding: 0px 25px 0px 25px !important;
   }
@@ -208,6 +202,10 @@
     text-decoration: none;
   }
 
+
+  .e-card .e-card-content {
+    color: rgb(8 8 8);
+  }
 
 
 

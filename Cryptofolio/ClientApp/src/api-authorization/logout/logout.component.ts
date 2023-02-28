@@ -110,7 +110,12 @@ export class LogoutComponent implements OnInit {
       fromQuery ||
       ApplicationPaths.LoggedOut;
   }
+
+  public onClickHome(){
+    this.router.navigate(["/authentication/login"]);
+  }
 }
+
 
 interface INavigationState {
   [ReturnUrlType]: string;

@@ -18,7 +18,7 @@
 <div class="container px-4 py-5 mx-auto back-ground-color-L">
     <div class="card card0 " style="background: rgba(255, 255, 255, 0.2);
 border-radius: 16px;
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+ box-shadow: 0 4px 30px rgb(0 0 0 / 59%);
 backdrop-filter: blur(15px);
 -webkit-backdrop-filter: blur(15px);
 border: 1px solid rgba(255, 255, 255, 0.3);">
@@ -30,7 +30,7 @@ border: 1px solid rgba(255, 255, 255, 0.3);">
                             <div class="col-md-2">
                                 </div>
                                 <div class="col-md-8">
-                                <div class="login-title d-flex justify-content-center"><span>Welcome back to Cryptofolio system</span></div>
+                         @*       <div class="login-title d-flex justify-content-center"><span>Welcome back to Cryptofolio system</span></div>*@
                                 </div>
                                 <div class="col-md-2">
                                     </div>
@@ -43,12 +43,14 @@ border: 1px solid rgba(255, 255, 255, 0.3);">
                                     <div class="d-flex justify-content-center">
                                         <div class="brand_logo_container">
                                             <img src="https://cdn3d.iconscout.com/3d/premium/thumb/bitcoin-cryptocurrency-5245184-4386258.png" width="95px" class="brand_logo">
+                            @*                <img src="~/advocate-logo.png">
+                                            <img src="~/logocryptofolio.png" width="95px" >*@
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-center form_container">
                                         <form id="account" method="post">
                                             <!--fieldset id="FormFields"-->
-                                            <div class="form-title"><span>Login to the system</span></div>
+                                        @*    <div class="form-title"><span>Login to the system</span></div>*@
                                             <div class="input-group mb-2">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text"><i class="fas fa-user">
@@ -79,16 +81,47 @@ border: 1px solid rgba(255, 255, 255, 0.3);">
                                                 <label class="custom-control-label" for="rememberMe">Remember me</label>
                                             </div>
                                             <div class="d-flex justify-content-center mt-3 login_container">
-                                                <button type="submit" id="loginButton" class="btn btn-outline-primary btn-md" onclick="onLoginSubmit();">
+@*                                                <button type="submit" id="loginButton" class="btn btn-outline-primary btn-md" onclick="onLoginSubmit();">
                                                     <div id="commNotInProgress">
                                                         Login
+                                                    </div>*@
+
+                                                    <div class="d-flex justify-content-center mt-3 login_container">
+                                                    <h6 class="nav-link text-dark" asp-area="Identity">
+                                                        <button type="submit" style="border-radius:30px; border:none; 
+                                                                font-size: 18px;
+                                                                color: black;
+                                                                border: none;
+                                                                margin-bottom: -20px;" id="loginButton" class="btn btn-outline-primary btn-md" onclick="onLoginSubmit();">
+                                                            <div id="commNotInProgress">
+                                                                Login
+                                                            </div>
+                                                            <div id="commInProgress" class="row align-items-center" style="display: none;">
+                                                                <div class="spinner-border p-2" role="status">
+                                                                    <span class="sr-only">Loading...</span>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    </h6>
+  
                                                     </div>
                                     @*                <div id="commInProgress" class="row align-items-center" style="display: none;">
                                                         <div class="spinner-border p-2" role="status">
                                                             <span class="sr-only">Loading...</span>
                                                         </div>
                                                     </div>*@
-                                                </button>
+                                               @* </button>*@
+                                            </div>
+                                            <hr />
+                                            <div class="d-flex justify-content-center mt-3 login_container">
+                                                <h6 class="nav-link text-dark" asp-area="Identity">
+                                                    <button class="btn btn-outline-primary btn-md" style="border-radius:30px; border:none; line-height: 6px;">
+                                                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@returnUrl">
+                                                            Create new Account Id
+                                                        </a>
+                                                    </button>
+                                                </h6>
+
                                             </div>
 
                                             
@@ -116,25 +149,24 @@ border: 1px solid rgba(255, 255, 255, 0.3);">
                 <div class="my-auto mx-md-5 px-md-5 right">
                     <div class="row align-items-center" >
                         <div class="col-md-12 login-note">
-@*                            <img url="https://cdn3d.iconscout.com/3d/premium/thumb/user-login-5000917-4165668.png" />*@
-                            <div class="d-flex justify-content-center">
-                                <div class="brand_logo_container">
-                                   @* <img src="~/assets/test.png">*@
-                                 @*   <img src="https://toppng.com/uploads/preview/black-and-white-stockportable-network-account-icon-11553436383dwuayhjyvo.png" style="width: 26px; height: 26px" />*@
-                                    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/user-login-5000917-4165668.png" width="295px" class="brand_logo">
-                                </div>
-                            </div>
+                            <h2>Note:</h2>
+                            <p>
+                                If you have any problem to login in to the system, please contact the support:<br />
+                                <img src="https://cdn2.iconfinder.com/data/icons/font-awesome/1792/phone-512.png" width="25px" />    +389 2 308 4885 <br />
+                                <img src="https://www.iconpacks.net/icons/1/free-mail-icon-142-thumb.png" width="25px" /> <a href="mailto: llc.cryptofoli@gmail.com"> llc.cryptofoli@gmail.com </a><br />
+                            </p>
+                     
 
-                            <div class="d-flex justify-content-center mt-3 login_container">
+@*                            <div class="d-flex justify-content-center mt-3 login_container">
 
                                 <h6 class="nav-link text-dark" asp-area="Identity">
-                                    <button class="btn btn-outline-primary btn-md" style="padding: 2px; line-height: 6px;">
+                                    <button class="btn btn-outline-primary btn-md" style="padding: 2px; border-radius:30px; border:none; line-height: 6px;">
                                         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@returnUrl">
                                             Register now
                                         </a>
                                     </button>
                                 </h6>
-                            </div>
+                            </div>*@
 @*                            <h2>Note:</h2>
                             <p>
                                 If you have any problem to login in to the system, please contact the support:<br />

@@ -13,7 +13,6 @@
                     class="fa-solid fa-angle-left"></i></button>
               </div>
               <div class="col-md-auto ms-auto text-center">
-
             <input  class="star" type="checkbox"  [checked]="this.setCheckedValue(coin.s)"  (click)="onAddToWatchlist(this.coinSymbol)" >
                 <button [disabled]=this.votingStatistics.CurrentUserVoted type="back" ejs-button
                   style="color: green;" (click)="onBullishClicked()"><i
@@ -42,15 +41,15 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-8">
-            <h6><span class="binance-details"> Market Cap: </span> {{this.coinBinance.marketCap | abbreviateNumber }} </h6>
+          <div class="col-md-5">
+            <h6><span style="margin-left: 20px;" class="binance-details"> Market Cap: </span> {{this.coinBinance.marketCap | abbreviateNumber }} </h6>
           </div>
           <div class="col-md-auto ms-auto text-center">
             <h6><span class="binance-details"> Volume: </span> {{this.coinBinance.quoteVolume}} <span class="binance-details"> |  Price Change Percent: </span>  {{this.coinBinance.priceChangePercent}}</h6>
 
           </div>
         </div>
-
+          <hr>
         <div class="row">
           <app-crypto-details-chart [coinSymbol]="this.coinSymbol"></app-crypto-details-chart>
         </div>

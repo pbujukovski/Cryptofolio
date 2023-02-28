@@ -30,6 +30,11 @@ namespace Cryptofolio.Models
         [ForeignKey("CoinSymbol")]
         public Coin? Coin { get; set; }
 
+        public ICollection<FinanceTransaction> FinanceTransactions { get; set; }
+
+        public ICollection<TransferTransaction> TransferTransactions { get; set; }
+
+
 
     }
 }

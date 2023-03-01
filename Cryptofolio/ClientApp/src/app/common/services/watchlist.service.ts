@@ -37,6 +37,8 @@ export class WatchlistService {
     .then((e: ReturnOption) => {
       var resultList = e.result as Watchlist;
       if (resultList != null ) {
+        console.log("this.selectedWatchlist");
+        console.log(resultList);
         this.selectedWatchlist = resultList;
         this.WatchlistUpdate.next(this.selectedWatchlist);
       } else console.log('Result list is empty');

@@ -3,15 +3,6 @@
 /* Provide sufficient contrast against white background */
 @import url('assets/material.css');
 
-/* Custom SF theme */
-/* @import url('assets/celero-material.css'); */
-/* .footer {
-  box-shadow: 0 -0.25rem 0.75rem rgb(0 0 0 / 5%);
-  border-top: 1px solid #dee2e6 !important;
-} */
-/* Celero Global Styles */
-/* @import url('assets/celero-styles.css'); */
-
 
 html{
   font-family: cursive;
@@ -201,19 +192,6 @@ a.btn-arrow:hover {
   background: #2095f2;
 }
 
-/* .e-lib.e-pager .e-pagercontainer {
-  background-color: transparent !important;
-}
-
-.e-lib.e-pager .e-pagercontainer {
-  border-radius: 4px;
-  border-style: solid;
-  border-width: 0;
-  display: inline-block;
-  margin: 59px 6px 5px 18px !important;
-  overflow: hidden;
-} */
-
 .e-btn{
   border-radius: 20px;
   background-color: transparent;
@@ -229,5 +207,3 @@ a.btn-arrow:hover {
   content: '\e98e';
 }
 
-@import url('./assets/celero-material.css');
-@import url('./assets/celero-styles.css');

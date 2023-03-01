@@ -20,7 +20,7 @@
 
   </div>
   <div class="col-md-10">
-    <ejs-stockchart  id="chart-container"  [zoomSettings]="zoomSettings"  [tooltip]="true" [enablePeriodSelector]="false" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis" [rows]="rows" [crosshair]="crosshair" >
+    <ejs-stockchart  id="chart-container"   [enablePeriodSelector]="false" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis" [rows]="rows" [crosshair]="crosshair" >
       <e-stockchart-series-collection>
         <e-stockchart-series type='Candle' [dataSource]="candleData" xName='x' high='high' low='low' open='open' close='close'>
         </e-stockchart-series>

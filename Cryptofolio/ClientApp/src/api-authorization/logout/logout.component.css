@@ -1,5 +1,7 @@
 button{
   border-radius: 20px;
+  color: black;
+  border: none;
 }
 
 .container{

@@ -54,6 +54,7 @@ export class CryptoGridComponent implements OnInit, OnDestroy {
   public dataWatchlist!: Watchlist;
 
 
+
   public previousValuesMap: Record<string, CoinBinance> = {};
   @ViewChild('grid') public grid!: GridComponent;
 
@@ -168,10 +169,26 @@ export class CryptoGridComponent implements OnInit, OnDestroy {
       .rowData as CoinBinance;
     //Step 2: Assign selected symbol to this.selectedSymbol
     this.addCoinToWatchlistRequest.CoinSymbol = coinToWatchlist.symbol;
+
+    this.coin.Symbol = coinToWatchlist.symbol;
+
+    var exists =  this.dataWatchlist.Coins.some(coinExists => coinToWatchlist.symbol == coinExists.Symbol);
+
+    if(exists == true){
+      const index = this.dataWatchlist.Coins.findIndex(coinExists => coinToWatchlist.symbol == coinExists.Symbol);
+      this.dataWatchlist.Coins.splice(index,1);
+    }
+    else{
+      this.dataWatchlist.Coins.push(this.coin);
+    }
+
+    this.watchlistService.WatchlistUpdate.next(this.dataWatchlist);
     //Step 2.2: Assign selected symbol StarIndicator to true;
     this.addCoinToWatchlistRequest.StarIndicator = true;
     //Step 3: Send request to update backend watchlist;
     this.watchlistService.addCoinToWatchlist(this.addCoinToWatchlistRequest);
+
+
   }
 
   ngOnDestroy() {

@@ -4,7 +4,7 @@
       <app-loading></app-loading>
     </div>
 
-    <div *ngIf="this.isDataArrived == true">
+    <div *ngIf="this.isDataArrived == true && this.dataGrid.length == 0">
     <div class="d-flex justify-content-center"> <span>
       <img class="imgNoPost" src="https://cdn3d.iconscout.com/3d/premium/thumb/no-data-found-4810740-4009512.png" style="width: 300px;" alt="No comments for Symbol">
     </span>
@@ -18,7 +18,7 @@
   </div>
 
 
-  <div class="container-fluid mt-5 px-5" *ngIf="this.dataGrid.length > 0">
+  <div class="container-fluid mt-5 px-5" *ngIf="this.isDataArrived == true && this.dataGrid.length > 0">
     <ejs-grid #grid [dataSource]="dataGrid" [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
       [editSettings]="editSettings" [toolbar]="toolbar" [enableImmutableMode]='true'  [rowHeight]='60'
       >

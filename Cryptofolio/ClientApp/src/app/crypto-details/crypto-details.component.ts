@@ -7,6 +7,7 @@ import { DataManager, Query,ODataV4Adaptor,Predicate,ReturnOption } from '@syncf
 import { cryptoSymbol } from 'crypto-symbol';
 import { BehaviorSubject, concatMap, Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Coin } from '../common/models/coin-models/coin';
 import { CoinBinance } from '../common/models/coin-models/coin-binance';
 import { CoinSocket } from '../common/models/coin-models/coin-socket';
 import { Comment } from '../common/models/comment';
@@ -50,6 +51,7 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
     public toolbar!: ToolbarItems[] | object;
     public selectedCommentIndex: number = -1; //Define selected comment
 
+    public coinWatchlist: Coin = new Coin();
     public communicationError: boolean = false;
     private subcriptionCommunicationError!: Subscription;
     public subscriptionBinance!: Subscription;
@@ -436,6 +438,16 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
   public onAddToWatchlist(coinSymbol : string) {
     console.log('this.selectedSymbol');
 
+    var exists = this.dataWatchlist.Coins.some(coinExists => coinSymbol == coinExists.Symbol);
+
+    this.coinWatchlist.Symbol = coinSymbol;
+    if(exists == true){
+      const index = this.dataWatchlist.Coins.findIndex(coinExists => coinSymbol == coinExists.Symbol);
+      this.dataWatchlist.Coins.splice(index,1);
+    }
+    else{
+      this.dataWatchlist.Coins.push(this.coinWatchlist);
+    }
 
     // console.log("test.symbol");
     // console.log(test.symbol);

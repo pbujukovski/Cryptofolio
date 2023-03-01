@@ -33,7 +33,7 @@ export class CoinBinance {
 
   public priceChangePercent : string = "";
 
-  public quoteVolume : string = "";
+  public quoteVolume : number = -1;
 
   public symbol : string = "";
 

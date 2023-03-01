@@ -97,9 +97,9 @@ export class BinanceApiService {
               this.coin.marketCap =
                 Number(coin.lastPrice) * Number(coin.quoteVolume);
 
-              this.coin.quoteVolume = this.dollarCurr.format(
-                parseFloat(this.coin.quoteVolume)
-              );
+              // this.coin.quoteVolume = this.dollarCurr.format(
+              //   parseFloat(this.coin.quoteVolume)
+              // );
 
               this.coin.volume = this.dollarCurr.format(
                 parseFloat(this.coin.volume)
@@ -176,9 +176,9 @@ export class BinanceApiService {
               this.coin.marketCap =
                 Number(coin.lastPrice) * Number(coin.quoteVolume);
 
-              this.coin.quoteVolume = this.dollarCurr.format(
-                parseFloat(this.coin.quoteVolume)
-              );
+              // this.coin.quoteVolume = this.dollarCurr.format(
+              //   parseFloat(this.coin.quoteVolume)
+              // );
 
               this.coin.volume = this.dollarCurr.format(
                 parseFloat(this.coin.volume)
@@ -243,9 +243,9 @@ export class BinanceApiService {
               Number(coin.lastPrice) * Number(coin.quoteVolume);
 
             // this.coin.marketCap = this.dollarCurr.format(parseFloat(this.coin.marketCap));
-            this.coin.quoteVolume = this.dollarCurr.format(
-              parseFloat(this.coin.quoteVolume)
-            );
+            // this.coin.quoteVolume = this.dollarCurr.format(
+            //   parseFloat(this.coin.quoteVolume)
+            // );
             this.coin.volume = this.dollarCurr.format(
               parseFloat(this.coin.volume)
             );

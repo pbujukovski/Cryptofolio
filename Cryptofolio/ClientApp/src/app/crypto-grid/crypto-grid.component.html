@@ -25,8 +25,16 @@
           <e-column field='bidPrice' headerText='Price' textAlign='Right' width=40></e-column>
           <e-column field='priceChangePercent' headerText='24h %' textAlign='Right' width=40>
           </e-column>
-          <e-column field='marketCap' headerText='Maket Cap' textAlign='Right' width=50 format='c2'></e-column>
-          <e-column field='quoteVolume' headerText='Volume' textAlign='Right' width=50 format='c2'></e-column>
+          <e-column field='marketCap' headerText='Maket Cap' textAlign='Right' width=50 format='c2'>
+            <ng-template #template let-data>
+              {{data.marketCap | abbreviateNumber}}
+            </ng-template>
+          </e-column>
+          <e-column field='quoteVolume' headerText='Volume' textAlign='Right' width=50 format='c2'>
+            <ng-template #template let-data>
+              {{data.quoteVolume | abbreviateNumber}}
+            </ng-template>
+          </e-column>
           <e-column field="viewdetails" headerText="Details" textAlign="Right" width="30">
             <ng-template #template let-data>
               <div>

@@ -197,4 +197,9 @@ export class CryptoGridComponent implements OnInit, OnDestroy {
 
     this.watchlistSubscription.unsubscribe();
   }
+  public imageUrl : string = ''
+  handleImageError(event: Event): void {
+    event.preventDefault();
+    this.imageUrl = '../../assets/default.png';
+  }
 }

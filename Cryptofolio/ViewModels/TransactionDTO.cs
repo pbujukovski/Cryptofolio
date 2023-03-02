@@ -1,6 +1,7 @@
 ﻿using Cryptofolio.Controllers;
 using Cryptofolio.Models;
 using Microsoft.AspNetCore.OData.Deltas;
+using Microsoft.OData.ModelBuilder;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -44,9 +45,6 @@ namespace Cryptofolio.ViewModels
         [JsonIgnore]
         public CoinDTO? Coin { get; set; }
 
-        [JsonPropertyName("FinanceTransactions")]
-        public ICollection<FinanceTransaction> FinanceTransactions { get; set; }
-
 
         public TransactionDTO() { }
 
@@ -60,7 +58,6 @@ namespace Cryptofolio.ViewModels
             Fee = transactionDTO.Fee;
             ApplicationUserId = transactionDTO.ApplicationUserId;
             CoinSymbol = transactionDTO.CoinSymbol;
-            FinanceTransactions = transactionDTO.FinanceTransactions;
         }
 
         public TransactionDTO(Transaction transaction)
@@ -73,7 +70,6 @@ namespace Cryptofolio.ViewModels
             Fee = transaction.Fee;
             ApplicationUserId = transaction.ApplicationUserId;
             CoinSymbol = transaction.CoinSymbol;
-            FinanceTransactions = transaction.FinanceTransactions;
         }
 
         public void convertToTransaction<TransactionType>(ref TransactionType transaction) where TransactionType : Transaction

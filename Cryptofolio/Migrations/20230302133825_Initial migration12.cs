@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cryptofolio.Migrations
 {
     /// <inheritdoc />
-    public partial class Addedtransactions : Migration
+    public partial class Initialmigration12 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -388,8 +388,7 @@ namespace Cryptofolio.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<float>(type: "real", nullable: false),
-                    TransactionId = table.Column<int>(type: "int", nullable: false)
+                    Price = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -400,19 +399,13 @@ namespace Cryptofolio.Migrations
                         principalTable: "Transaction",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FinanceTransaction_Transaction_TransactionId",
-                        column: x => x.TransactionId,
-                        principalTable: "Transaction",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "TransferTransaction",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    TransactionId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -423,18 +416,14 @@ namespace Cryptofolio.Migrations
                         principalTable: "Transaction",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TransferTransaction_Transaction_TransactionId",
-                        column: x => x.TransactionId,
-                        principalTable: "Transaction",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "FinanceTransactionBuy",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    comment = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -503,9 +492,9 @@ namespace Cryptofolio.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "8febf4a8-d7d0-4055-b7b9-2246f87c2bd2", 0, "de2e5025-173d-4b8b-b22a-bc7a4b5762b3", "jhon@gmail.com", true, "Jhon", "Smith", false, null, "jhon@gmail.com", "jhon@gmail.com", "AQAAAAIAAYagAAAAEDYlvaO+F4B67TZmBR6EZTnh9kTtRP9C3cqK05QQkeNrCJbuc9XiJ2KG1VZ/vlVOtA==", null, false, "", false, "jhon@mail.com" },
-                    { "edd34dc4-96e2-42b2-b097-6ee337e118a2", 0, "f963d70c-8fcf-482d-9a8f-af7f9bc35e85", "admin@mail.com", true, "Admin", "Admin", false, null, "admin@mail.com", "admin@mail.com", "AQAAAAIAAYagAAAAELfaF+IfM3TdsWombZ5K0KTebbVGcBx0rd+iXVaK2esGKUdHR584DrLoInoUxoHgvw==", null, false, "", false, "admin@mail.com" },
-                    { "ef0492b1-3b80-466e-82de-5704796d9511", 0, "bbb2aebb-70bd-4c48-a2b3-1520c2c75cb6", "pbujukovski@gmail.com", true, "Petar", "Bujukovski", false, null, "pbujukovski@gmail.com", "pbujukovski@gmail.com", "AQAAAAIAAYagAAAAEGiw2W6IOPAaG9L4yzojnAUWu0k/Eju1ziFvwCSYrXwFLX37N+XIM3roy7cDUAufhA==", null, false, "", false, "pbujukovski@gmail.com" }
+                    { "124be06d-6953-4a9e-9aad-35cea504fd26", 0, "fcc79752-1bc0-48b7-a9c4-25671f4743e6", "admin@mail.com", true, "Admin", "Admin", false, null, "admin@mail.com", "admin@mail.com", "AQAAAAIAAYagAAAAEFBgpbDW3aAvdmgQ5gl/eJKd/EAC7WdnaPAbNHhDMl996Avy+bf6/2VrIFo+rF9cKw==", null, false, "", false, "admin@mail.com" },
+                    { "a8bb4987-2109-41a7-9a80-d69b6f4f334e", 0, "592e3029-54a1-4ff8-9d03-13ad6b9084c6", "jhon@gmail.com", true, "Jhon", "Smith", false, null, "jhon@gmail.com", "jhon@gmail.com", "AQAAAAIAAYagAAAAEJukZbIQ846Jd/NrabPZf7n6OOphLcSFivVUKBemxPUepZh7cPzpFIkLAZyNSOI7CA==", null, false, "", false, "jhon@mail.com" },
+                    { "da76837f-4270-4241-834e-ab2a2b8723de", 0, "0f54637e-c57f-47f6-921e-891783c4b412", "pbujukovski@gmail.com", true, "Petar", "Bujukovski", false, null, "pbujukovski@gmail.com", "pbujukovski@gmail.com", "AQAAAAIAAYagAAAAEP1wuG5KNT/6zllYwD5sSxMaRbMzig0G2FqL6MQMQ8dQ2OOWn5NPwYcoM4OQhg3F7Q==", null, false, "", false, "pbujukovski@gmail.com" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -574,11 +563,6 @@ namespace Cryptofolio.Migrations
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FinanceTransaction_TransactionId",
-                table: "FinanceTransaction",
-                column: "TransactionId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Keys_Use",
                 table: "Keys",
                 column: "Use");
@@ -622,11 +606,6 @@ namespace Cryptofolio.Migrations
                 name: "IX_Transaction_CoinSymbol",
                 table: "Transaction",
                 column: "CoinSymbol");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TransferTransaction_TransactionId",
-                table: "TransferTransaction",
-                column: "TransactionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_VotingHistory_ApplicationUserId",

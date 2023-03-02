@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.OData.ModelBuilder;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cryptofolio.Models
 {
     public class TransferTransaction : Transaction
     {
-        public int TransactionId { get; set; }
 
-        [ForeignKey("TransactionId")]
-        public Transaction Transaction { get; set; }
     }
 }

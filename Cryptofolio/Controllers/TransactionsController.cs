@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
+using System.Linq;
 
 namespace Cryptofolio.Controllers
 {
@@ -29,51 +31,49 @@ namespace Cryptofolio.Controllers
         // GET: api/Transactions
         [EnableQuery]
         [HttpGet("/odata/Transactions")]
-        public async Task<ActionResult<List<CoinTransactionSummaryDTO>>> GetTransactionsAsync()
-        {
+        /*    public IQueryable<TransactionDTO> Get()
+            {
+                    List<TransactionDTO> transactions = _context.Transactions
+                    .Include(t => t.)
+                        .ThenInclude(ft => ft.FinanceTransactionBuy)
+                    .Include(t => t.FinanceTransaction)
+                        .ThenInclude(ft => ft.FinanceTransactionSell)
+                    .Include(t => t.TransferTransaction)
+                        .ThenInclude(tt => tt.TransferTransactionIn)
+                    .Include(t => t.TransferTransaction)
+                        .ThenInclude(tt => tt.TransferTransactionOut);
 
+                return transactions.AsQueryable();
+            }*/
+
+
+        public  async Task<ActionResult<List<TransactionDTO>>> GetTransactionsAsync()
+        {
             if (_context.Transactions == null && _userAuthService.getCurrentUserId() == null)
             {
-               return NotFound();
+                return NotFound();
             }
             else if (_context.Transactions != null && _userAuthService.getCurrentUserId() != null)
             {
+                var transaction12 = _context.Set<Transaction>().ToList();
+                var transaction123 = _context.Set<Transaction>().Where(cs => cs.ApplicationUserId == _userAuthService.getCurrentUserId()).ToList();
 
+                List<TransactionDTO> transaction1 = _context.Set<Transaction>().Where(cs => cs.ApplicationUserId == _userAuthService.getCurrentUserId()).Select(transactions1 => new TransactionDTO(transactions1)).ToList();
+                List<Transaction> transactions = await _context.Transactions.ToListAsync();
 
-                List<TransactionDTO> transactions = _context.Transactions.OfType<Transaction>().Where(cs => cs.ApplicationUserId == _userAuthService.getCurrentUserId()).Include(c => c.ApplicationUser).Select(transactions => new TransactionDTO(transactions)).ToList();
-
-                var transactionIds = transactions.Select(x => x.Id).ToList();
-
-                Dictionary<int, FinanceTransactionBuy> coinBought = await _context.FinanceTransactionBuys.OfType<FinanceTransactionBuy>().Where(ft => transactionIds.Contains(ft.Id)).ToDictionaryAsync(g => g.Id);
-                Dictionary<int, FinanceTransactionSell> coinsSold = await _context.FinanceTransactionSells?.OfType<FinanceTransactionSell>().Where(ft => transactionIds.Contains(ft.Id)).ToDictionaryAsync(g => g.Id) ;
-
-                Dictionary<int, TransferTransactionIn> coinsTransferredIn = await _context.TransferTransactionIns?.OfType<TransferTransactionIn>().Where(ti => transactionIds.Contains(ti.Id)).ToDictionaryAsync(t => t.Id);
-                Dictionary<int, TransferTransactionOut> coinsTransferredOut = await _context.TransferTransactionOuts?.OfType<TransferTransactionOut>().Where(ti => transactionIds.Contains(ti.Id)).ToDictionaryAsync(t => t.Id);
-
-                Dictionary<string, List<TransactionDTO>> transactionsByCoin = transactions.GroupBy(t => t.CoinSymbol).ToDictionary(t => t.Key, t => t.ToList());
-
-                List<CoinTransactionSummaryDTO> result = new();
-                foreach(KeyValuePair<string, List<TransactionDTO>> coin in transactionsByCoin){
-                    float profitLoss = 0;
-                    foreach(var transaction in coin.Value)
+                List<TransactionDTO> transactionDTOs = new List<TransactionDTO>();
+                foreach(Transaction transaction in transactions)
+                {
+                    if(transaction is FinanceTransactionBuy)
                     {
-                        var coinBoughtTransaction = coinBought.GetValueOrDefault(transaction.Id);
-                        profitLoss += coinBoughtTransaction is not null ? coinBoughtTransaction.Price : 0;
-                        var coinSoldTransaction = coinsSold.GetValueOrDefault(transaction.Id);
-                        profitLoss -= coinSoldTransaction is not null ? coinSoldTransaction.Price : 0;
-
+                        FinanceTransactionBuyDTO  financeTransactionBuyDTO = new FinanceTransactionBuyDTO(transaction as FinanceTransactionBuy);
+                        transactionDTOs.Add(financeTransactionBuyDTO); 
                     }
-
-                    result.Add(new CoinTransactionSummaryDTO(
-                        coin.Key, profitLoss));
-
-
                 }
-
-                return Ok(result);
+                var test = 0;
+                return Ok(transactionDTOs);
             }
             else return BadRequest();
-
         }
 
         // GET: api/Transactions/5

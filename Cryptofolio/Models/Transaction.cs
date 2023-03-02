@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.OData.ModelBuilder;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cryptofolio.Models
@@ -29,12 +30,6 @@ namespace Cryptofolio.Models
 
         [ForeignKey("CoinSymbol")]
         public Coin? Coin { get; set; }
-
-        public ICollection<FinanceTransaction> FinanceTransactions { get; set; }
-
-        public ICollection<TransferTransaction> TransferTransactions { get; set; }
-
-
 
     }
 }

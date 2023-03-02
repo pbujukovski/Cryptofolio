@@ -1,12 +1,12 @@
 ﻿using Cryptofolio.Controllers;
 using Cryptofolio.Models;
 using Microsoft.AspNetCore.OData.Deltas;
+using Microsoft.OData.ModelBuilder;
 
 namespace Cryptofolio.ViewModels
 {
     public class TransferTransactionDTO : TransactionDTO
     {
-
         public TransferTransactionDTO() { }
 
         public TransferTransactionDTO(TransferTransactionDTO transferTransactionDTO) : base(transferTransactionDTO) { }

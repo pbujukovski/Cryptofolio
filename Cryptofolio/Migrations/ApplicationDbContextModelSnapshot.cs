@@ -112,9 +112,9 @@ namespace Cryptofolio.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "edd34dc4-96e2-42b2-b097-6ee337e118a2",
+                            Id = "124be06d-6953-4a9e-9aad-35cea504fd26",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f963d70c-8fcf-482d-9a8f-af7f9bc35e85",
+                            ConcurrencyStamp = "fcc79752-1bc0-48b7-a9c4-25671f4743e6",
                             Email = "admin@mail.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -122,7 +122,7 @@ namespace Cryptofolio.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@mail.com",
                             NormalizedUserName = "admin@mail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAELfaF+IfM3TdsWombZ5K0KTebbVGcBx0rd+iXVaK2esGKUdHR584DrLoInoUxoHgvw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFBgpbDW3aAvdmgQ5gl/eJKd/EAC7WdnaPAbNHhDMl996Avy+bf6/2VrIFo+rF9cKw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -130,9 +130,9 @@ namespace Cryptofolio.Migrations
                         },
                         new
                         {
-                            Id = "ef0492b1-3b80-466e-82de-5704796d9511",
+                            Id = "da76837f-4270-4241-834e-ab2a2b8723de",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bbb2aebb-70bd-4c48-a2b3-1520c2c75cb6",
+                            ConcurrencyStamp = "0f54637e-c57f-47f6-921e-891783c4b412",
                             Email = "pbujukovski@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Petar",
@@ -140,7 +140,7 @@ namespace Cryptofolio.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "pbujukovski@gmail.com",
                             NormalizedUserName = "pbujukovski@gmail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGiw2W6IOPAaG9L4yzojnAUWu0k/Eju1ziFvwCSYrXwFLX37N+XIM3roy7cDUAufhA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEP1wuG5KNT/6zllYwD5sSxMaRbMzig0G2FqL6MQMQ8dQ2OOWn5NPwYcoM4OQhg3F7Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -148,9 +148,9 @@ namespace Cryptofolio.Migrations
                         },
                         new
                         {
-                            Id = "8febf4a8-d7d0-4055-b7b9-2246f87c2bd2",
+                            Id = "a8bb4987-2109-41a7-9a80-d69b6f4f334e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "de2e5025-173d-4b8b-b22a-bc7a4b5762b3",
+                            ConcurrencyStamp = "592e3029-54a1-4ff8-9d03-13ad6b9084c6",
                             Email = "jhon@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Jhon",
@@ -158,7 +158,7 @@ namespace Cryptofolio.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "jhon@gmail.com",
                             NormalizedUserName = "jhon@gmail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDYlvaO+F4B67TZmBR6EZTnh9kTtRP9C3cqK05QQkeNrCJbuc9XiJ2KG1VZ/vlVOtA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJukZbIQ846Jd/NrabPZf7n6OOphLcSFivVUKBemxPUepZh7cPzpFIkLAZyNSOI7CA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -610,11 +610,6 @@ namespace Cryptofolio.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
-                    b.Property<int>("TransactionId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("TransactionId");
-
                     b.ToTable("FinanceTransaction", (string)null);
                 });
 
@@ -622,17 +617,16 @@ namespace Cryptofolio.Migrations
                 {
                     b.HasBaseType("Cryptofolio.Models.Transaction");
 
-                    b.Property<int>("TransactionId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("TransactionId");
-
                     b.ToTable("TransferTransaction", (string)null);
                 });
 
             modelBuilder.Entity("Cryptofolio.Models.FinanceTransactionBuy", b =>
                 {
                     b.HasBaseType("Cryptofolio.Models.FinanceTransaction");
+
+                    b.Property<string>("comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.ToTable("FinanceTransactionBuy", (string)null);
                 });
@@ -812,14 +806,6 @@ namespace Cryptofolio.Migrations
                         .HasForeignKey("Cryptofolio.Models.FinanceTransaction", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Cryptofolio.Models.Transaction", "Transaction")
-                        .WithMany("FinanceTransactions")
-                        .HasForeignKey("TransactionId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Transaction");
                 });
 
             modelBuilder.Entity("Cryptofolio.Models.TransferTransaction", b =>
@@ -829,14 +815,6 @@ namespace Cryptofolio.Migrations
                         .HasForeignKey("Cryptofolio.Models.TransferTransaction", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Cryptofolio.Models.Transaction", "Transaction")
-                        .WithMany("TransferTransactions")
-                        .HasForeignKey("TransactionId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Transaction");
                 });
 
             modelBuilder.Entity("Cryptofolio.Models.FinanceTransactionBuy", b =>
@@ -882,13 +860,6 @@ namespace Cryptofolio.Migrations
                     b.Navigation("Notifiers");
 
                     b.Navigation("VotingHistories");
-                });
-
-            modelBuilder.Entity("Cryptofolio.Models.Transaction", b =>
-                {
-                    b.Navigation("FinanceTransactions");
-
-                    b.Navigation("TransferTransactions");
                 });
 #pragma warning restore 612, 618
         }

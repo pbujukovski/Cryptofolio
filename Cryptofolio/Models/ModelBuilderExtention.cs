@@ -27,8 +27,8 @@ namespace Cryptofolio.Models
                 builder.Entity<Notifier>().ToTable("Notifier");
 
 
-          
-            builder.Entity<Transaction>()
+
+ /*           builder.Entity<Transaction>()
                 .HasMany(o => o.FinanceTransactions)
                 .WithOne(oi => oi.Transaction)
                 .HasForeignKey(oi => oi.TransactionId).OnDelete(DeleteBehavior.Cascade);
@@ -42,7 +42,7 @@ namespace Cryptofolio.Models
 .HasOne(o => o.Transaction)
 .WithMany(oi => oi.TransferTransactions)
 .OnDelete(DeleteBehavior.NoAction);
-
+*/
 
         }
         public static Task SeedAsync(this ModelBuilder modelBuilder, ApplicationDbContext applicationDbContext)

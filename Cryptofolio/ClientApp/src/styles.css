@@ -144,11 +144,17 @@ a.btn-arrow:hover {
 }
 .e-toolbar .e-toolbar-items.e-tbar-pos .e-toolbar-right {
   left: 11px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 14%);
+    backdrop-filter: blur(7.6px);
 }
 
 .e-toolbar .e-toolbar-items.e-tbar-pos {
   display: block;
   border-radius: 9px;
+  background-color: transparent !important;
 }
 .e-lib.e-grid .e-toolbar {
   border-bottom: 0;
@@ -206,4 +212,6 @@ a.btn-arrow:hover {
 .e-save-icon::before{
   content: '\e98e';
 }
+
+
 

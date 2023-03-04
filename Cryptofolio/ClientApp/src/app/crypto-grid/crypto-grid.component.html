@@ -1,9 +1,17 @@
 <div class="container-fluid mt-5 px-5" *ngIf="this.data.length == 0">
   <app-loading></app-loading>
 </div>
-<div class="container-fluid mt-5 px-5" *ngIf="this.data.length > 0">
-
-      <ejs-grid #grid [dataSource]="data" [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
+<div class="container-fluid mt-5 px-5" *ngIf="this.data.length > 0" >
+  <div tabindex="0" class="e-card" id="basic">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-title">
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+  <div class="grid-no-borders mb-3">
+      <ejs-grid #grid [dataSource]="data"  (created)='created($event)'  [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
         [editSettings]="editSettings" [toolbar]="toolbar" [enableImmutableMode]='true'  [rowHeight]='60' [allowSelection]="false"
         (queryCellInfo)='customiseCell($event)'>
 
@@ -13,15 +21,20 @@
                 <input  class="star" type="checkbox" title="bookmark page" [checked]="this.setCheckedValue(data.symbol)"  (click)="onAddToWatchlist($event)" >
             </ng-template>
           </e-column>
-          <e-column headerText='Coin' width=33 textAlign="Left">
+          <e-column headerText='' width=50 textAlign="Left">
             <ng-template #template let-data>
               <div class="image">
-                <img [src]="data.iconPath" (error)="data.iconPath='../../assets/default.png'" width="32px" [alt]="data.name" />
+                <img [src]="data.iconPath" (error)="data.iconPath='../../assets/default.png'" width="32px" [alt]="data.name" /> <span> {{data.name}}</span>
+
               </div>
             </ng-template>
           </e-column>
-          <e-column field='name' headerText='Name' textAlign='Left' width=40></e-column>
-          <e-column isPrimaryKey="true" field='symbol' headerText='Symbol' width=30></e-column>
+          <e-column field='name' [visible]="false" headerText='Name' textAlign='Left' width=40></e-column>
+          <e-column isPrimaryKey="true" field='symbol'  headerText='Symbol' width=30>
+            <ng-template #template let-data>
+              <span class="e-badge e-badge-primary e-badge-pill ">{{this.data.symbol}}</span>
+            </ng-template>
+          </e-column>
           <e-column field='bidPrice' headerText='Price' textAlign='Right' width=40></e-column>
           <e-column field='priceChangePercent' headerText='24h %' textAlign='Right' width=40>
           </e-column>
@@ -52,4 +65,7 @@
           </e-column>
         </e-columns>
       </ejs-grid>
+    </div>
+</div>
+</div>
 </div>

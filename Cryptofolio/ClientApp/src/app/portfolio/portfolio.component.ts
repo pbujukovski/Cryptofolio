@@ -88,9 +88,9 @@ export class PortfolioComponent implements OnInit {
     this.dataTransactions
     .executeQuery(this.queryTransactions)
     .then((e: ReturnOption) => {
-      var resultList = e.result as CoinTransactionSummary[];
+      var resultList = e.result as Transaction[];
       if (resultList != null ) {
-        this.coinTransactionSummary = resultList;
+        this.transactions = resultList;
         console.log("CoinTransactionSummary");
         console.log(this.coinTransactionSummary);
       } else console.log('Result list is empty');

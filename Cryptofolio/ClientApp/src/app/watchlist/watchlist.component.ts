@@ -38,6 +38,10 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
   public dataGridChanged : Subject<CoinBinance[]> = new Subject<CoinBinance[]>();
 
+  private lastSearchTimeOut: number | null = null;
+  private readonly searchTimeOutMs: number = 300;
+
+
   @ViewChild('grid') public grid!: GridComponent;
   constructor(public binanceApiService: BinanceApiService,public watchlistService: WatchlistService, public router: Router) {
     const binanceApiObsearvable$ = timer(500, 15000);
@@ -120,6 +124,49 @@ export class WatchlistComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
       this.binanceApiSubscription.unsubscribe();
       this.watchlistSubscription.unsubscribe();
+  }
+
+
+  public created(args: any) {
+    // Add Clear search button
+    var gridElement = this.grid.element;
+
+    // Set global search listener.
+    (document.getElementById(this.grid.element.id + "_searchbar") as HTMLInputElement).oninput = (e: Event) => {
+      // Clear any previues search refresh.
+      this.clearSearchTimeOut();
+      var searchText: string = (e.target as HTMLInputElement).value;
+      if (searchText != "") {
+        // Set timer for next serach refresh
+        this.lastSearchTimeOut = window.setTimeout((searchText: string) => {
+          this.grid.search(searchText);
+          this.lastSearchTimeOut = null;
+        }, this.searchTimeOutMs, searchText);
+      } else {
+        this.grid.searchSettings.key = "";
+      }
+    };
+    // Add Last update info
+    var spanLastUpdateInfo = document.createElement("span");
+    spanLastUpdateInfo.id = gridElement.id + "_spanToolbarLastUpdateTime";
+    spanLastUpdateInfo.className = "ms-2";
+    gridElement.querySelector(".e-toolbar-items .e-toolbar-left")!.appendChild(spanLastUpdateInfo);
+  }
+    // Action for Clear Search button
+    public onCancelBtnClick(args: any) {
+      // Cancel if any search
+      if (this.lastSearchTimeOut != null) {
+        clearTimeout(this.lastSearchTimeOut);
+      }
+      this.grid.searchSettings.key = "";
+      (this.grid.element.querySelector(".e-input-group.e-search .e-input") as any).value = "";
+    }
+
+  private clearSearchTimeOut(): void {
+    // Clear any previues search refresh.
+    if (this.lastSearchTimeOut != null) {
+      clearTimeout(this.lastSearchTimeOut);
+    }
   }
 
 

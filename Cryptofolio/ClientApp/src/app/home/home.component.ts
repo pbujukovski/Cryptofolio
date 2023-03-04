@@ -39,27 +39,36 @@ export class HomeComponent {
     this.binanceApiSubscription = this.binanceApiService.TopCoinsUpdated.subscribe(
       (data) => {
         //Set data to data from binance service
+
         this.topCoinsBinance = data;
       }
     );
 
+
+
     this.binanceApiSubscription = binanceApiObsearvable$
     .pipe(concatMap(() => this.binanceApiService.getTopCoins()))
     .subscribe();
+
+
+
    }
 
   ngOnInit(){
     this.getNews();
+
   }
 
   ngOnDestroy(){
     this.subscriptionisAuthenticated.unsubscribe();
     this.binanceApiSubscription.unsubscribe();
   }
+  // `https://newsapi.org/v2/top-headlines?q=crypto&category=business&language=en&apiKey=abf821aef3294839aa9cc34dcc08628f`;
   getNews() {
     const url = `https://newsapi.org/v2/top-headlines?q=crypto&category=business&language=en&apiKey=abf821aef3294839aa9cc34dcc08628f`;
      this.http.get(url).subscribe((data:  any) => {
-      this.articles = data.articles;
+       this.articles = data.articles;
+       console.log(this.articles);
     })
   }
 

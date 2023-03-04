@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CoinBinance, coinBinanceV2 } from '../models/coin-models/coin-binance';
 import { cryptoSymbol } from 'crypto-symbol';
@@ -15,6 +15,7 @@ export class BinanceApiService {
 
   private coins: CoinBinance[] = [];
 
+  private httpClient!: HttpClient;
   private topCoins: CoinBinance[] = [];
 
   public coinv2: coinBinanceV2 = new coinBinanceV2();
@@ -51,7 +52,9 @@ export class BinanceApiService {
     currency: 'USD',
   });
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.httpClient = http;
+  }
 
   //Request for binance api to get coins
   public getCoins(): Observable<any> {
@@ -149,6 +152,7 @@ export class BinanceApiService {
               //Step 2.2.1: Set splited name to current coin symbol etc.BTC from BTCUSDT
               this.coin.symbol = splitName;
 
+
               //Step 2.2: Find matching path for coin LOGO image
               this.coin.iconPath =
                 './assets/icon/' + `${splitName.toLowerCase()}` + '.png';
@@ -156,6 +160,8 @@ export class BinanceApiService {
                 // if (!fs.existsSync(this.coin.iconPath)){
                 //   this.coin.iconPath = '../../assets/default.png';
                 // }
+
+
 
               //Step 2.3: Find matching name for current symbol
               this.coin.name = nameLookup(splitName) ?? splitName;
@@ -259,4 +265,27 @@ export class BinanceApiService {
         })
       );
   }
+
+
+
+  // getFolder(subFolder: string): Observable<string> {
+  //   if (!subFolder) {
+  //     return of('./assets/default.png');
+  //   }
+
+  //   const folderPath = `assets/icon/${subFolder}`;
+  //   console.log(subFolder)
+
+  //   console.log(this.httpClient.get)
+  //   return this.httpClient
+  //     .get(`${subFolder}`!, { observe: 'response', responseType: 'blob' })
+  //     .pipe(
+  //       map(response => {
+  //         return subFolder;
+  //       }),
+  //       catchError(error => {
+  //         return of('./assets/default.png');
+  //       })
+  //     );
+  // }
 }

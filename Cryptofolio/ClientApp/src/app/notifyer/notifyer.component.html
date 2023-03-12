@@ -108,25 +108,46 @@
                 <div class="e-card-header-caption">
                   <div class="row">
                     <div class="col-md-6">
-                      <h5>Symbol: <span class="e-badge e-badge-primary e-badge-pill">
-                          {{notificationData.CoinSymbol}}</span></h5>
+                      <h5>
+                        Symbol: <span class="e-badge e-badge-primary e-badge-pill">
+                          {{notificationData.CoinSymbol}}
+                        </span>
+                      </h5>
                     </div>
                     <div class="col-md-auto ms-auto text-center">
                       <button type="submit" iconCss="e-icons e-trash-icon" ejs-button isPrimary="true"
-                        (click)="onDelete(notificationData, i)"></button>
+                              (click)="onDelete(notificationData, i)"></button>
                     </div>
                   </div>
 
                 </div>
               </div>
-              <div class="e-card-content">
+<!--              <div class="e-card-content">
                 <span>Desired Price: {{notificationData.DesiredPrice}} </span>
                 <hr>
                 <span>Due Date: {{notificationData.DueDate | date:'yyyy-MM-dd HH:mm:ss' }} </span>
                 <hr>
-                <span>Price Direction: <span *ngIf="notificationData.isHigher == true" style="color:green"> Bullish
-                  </span> <span *ngIf="notificationData.isHigher == false" style="color: red"> Bearish </span> </span>
+                <span>
+                  Price Direction: <span *ngIf="notificationData.isHigher == true" style="color:green">
+                    Bullish
+                  </span> <span *ngIf="notificationData.isHigher == false" style="color: red"> Bearish </span>
+                </span>
 
+              </div>-->
+              <div class="e-card-content">
+                <div class="content">
+                  <div class="label">Desired Price</div>
+                  <div class="data-details h6"> {{notificationData.DesiredPrice | abbreviateNumber}} </div>
+                </div>
+                <div class="content">
+                  <div class="label">Due Date</div>
+                  <div class="data-details h6"> {{notificationData.DueDate | date:'MMM d, y, h:mm a' }} </div>
+                </div>
+                <div class="content">
+                  <div class="label">Price Direction</div>
+                  <div class="data-details h6" *ngIf="notificationData.isHigher == true" style="color:green"> Bullish </div>
+                  <div class="data-details h6" *ngIf="notificationData.isHigher == false" style="color:red"> Bearish </div>
+                </div>
               </div>
             </div>
 

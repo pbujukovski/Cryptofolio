@@ -10,8 +10,11 @@ import { BinanceApiService } from '../common/services/binance-api.service';
 import { Transaction } from '../common/models/transaction-models/transaction';
 import { environment } from 'src/environments/environment';
 import { SyncfusionUtilsService } from '../common/syncfusion-utils';
-import { EditSettingsModel, ToolbarItems, PageSettingsModel } from '@syncfusion/ej2-angular-grids';
-import { CoinTransactionSummary } from '../common/models/transaction-models/coin-transaction-summary';
+import { EditSettingsModel, ToolbarItems, PageSettingsModel, GridComponent, RowDataBoundEventArgs } from '@syncfusion/ej2-angular-grids';
+import { CoinTransactionSummary, TransactionSummaryGrid } from '../common/models/transaction-models/coin-transaction-summary';
+import { PortfolioService } from '../common/services/portfolio.service';
+import { Router } from '@angular/router';
+import { TransactionType } from '../common/models/transaction-models/transaction-type.enum';
 
 @Component({
   selector: 'app-portfolio',
@@ -21,12 +24,14 @@ import { CoinTransactionSummary } from '../common/models/transaction-models/coin
 export class PortfolioComponent implements OnInit {
   @ViewChild('ddl') ddl!: DropDownList;
   @ViewChild('dialog') dialog!: DialogComponent;
+  @ViewChild('grid') public grid!: GridComponent;
   public targetElement!: HTMLElement;
   public binanceApiSubscription!: Subscription;
   public isNewTransactionBtnClicked: boolean = false;
   public selectedFormValue: string = 'Buy';
 
-
+  public transactionGridSummary: TransactionSummaryGrid = new TransactionSummaryGrid;
+  public transactionSummaryGrid : TransactionSummaryGrid[] = [];
   public dataTransactions!: DataManager;
   public queryTransactions!: Query;
   public transactions: Transaction[] = [];
@@ -44,13 +49,15 @@ export class PortfolioComponent implements OnInit {
     return this.selectedFormValue === selectedFormValue ? 'selected' : '';
   }
   public data: CoinBinance[] = [];
+  public coinsFilterd: CoinBinance[] = [];
+  public dataCoin: CoinBinance | undefined = new CoinBinance ;
   public coinSymbol: string = '';
 
   onChange(args: any) {
     console.log(args.value);
   }
 
-  constructor(private binanceApiService: BinanceApiService, private syncfusionUtilsService: SyncfusionUtilsService) {
+  constructor(private portfolioService: PortfolioService, private binanceApiService: BinanceApiService, private syncfusionUtilsService: SyncfusionUtilsService, private router: Router) {
 
     this.dataTransactions = new DataManager({
       url: environment.urlTransactions,
@@ -59,17 +66,19 @@ export class PortfolioComponent implements OnInit {
     });
 
     this.queryTransactions = new Query();
-    this.getTransactions();
 
-    const binanceApiObsearvable$ = timer(1000, 1000000);
-    //Subscribe to get coins updated from Binance Service
-    this.binanceApiSubscription = this.binanceApiService.CoinsUpdated.subscribe(
-      (data) => {
-        //Set data to data from binance service
+    const binanceApiObsearvable$ = timer(1000, 20000);
+
+    this.binanceApiSubscription = binanceApiObsearvable$
+    .pipe(concatMap(() => this.binanceApiService.getCoins()))
+    .subscribe(() => {
+      this.binanceApiService.CoinsUpdated.subscribe((data) => {
         this.data = data;
-      }
+        this.getTransactions();
+        });
+    }
     );
-    this.binanceApiSubscription = this.binanceApiService.getCoins().subscribe();
+
   }
 
   ngOnInit(): void {
@@ -85,6 +94,9 @@ export class PortfolioComponent implements OnInit {
   }
 
   getTransactions(){
+    console.log("HERE QUERY");
+    console.log(this.queryTransactions);
+
     this.dataTransactions
     .executeQuery(this.queryTransactions)
     .then((e: ReturnOption) => {
@@ -92,11 +104,114 @@ export class PortfolioComponent implements OnInit {
       if (resultList != null ) {
         this.transactions = resultList;
         console.log("CoinTransactionSummary");
-        console.log(this.coinTransactionSummary);
+        console.log(this.transactions);
+        this.transactionSummaryGrid = [];
+        const groupedTransactions = this.transactions.reduce((groups: any, transaction :Transaction) => {
+          if (!groups[transaction.CoinSymbol]) {
+            groups[transaction.CoinSymbol] = [];
+          }
+          groups[transaction.CoinSymbol].push(transaction);
+          return groups;
+        }, {});
+
+
+        console.log(groupedTransactions);
+        var priceSum = 0;
+        var amountSum = 0;
+
+        this.binanceApiSubscription = this.binanceApiService.CoinsUpdated.subscribe(coins => {
+          this.data = coins;
+            this.coinsFilterd = this.data.filter((data)=> this.transactions.some(coinSymbol => coinSymbol.CoinSymbol === data.symbol))
+
+          });
+
+
+   for (const transaction in groupedTransactions) {
+    var amountSummary = 0;
+    var avgBuyPrice = 0;
+    var countBuyTransactions = 0;
+       var transactionGridSummary: TransactionSummaryGrid = new TransactionSummaryGrid;
+
+            console.log("groupedTransactions");
+            console.log(groupedTransactions);
+            let test  = new CoinBinance;
+          console.log(transaction);
+          console.log(transaction.length);
+         console.log(test);
+         console.log(`People in ${transaction}:`);
+
+          groupedTransactions[transaction].forEach((transaction : any) => {
+            var dataCoin = this.coinsFilterd.find(value => value.symbol == transaction.CoinSymbol);
+            this.dataCoin = dataCoin;
+            console.log(this.coinsFilterd.find(value => value.symbol == transaction));
+            console.log("dataCoin");
+            console.log(dataCoin);
+
+
+            console.log(transactionGridSummary);
+            transactionGridSummary.CoinSymbol = transaction.CoinSymbol;
+            // if (transaction['@odata.type'] == TransactionType.Buy){
+            //   avgBuyPrice += transaction.Price * transaction.Amount;
+            //   countBuyTransactions += transaction.Amount;
+            // }
+            if (
+              transaction['@odata.type'] == TransactionType.Buy ||
+              transaction['@odata.type'] == TransactionType.In
+            ) {
+              amountSummary += transaction.Amount;
+              if (transaction['@odata.type'] == TransactionType.Buy) {
+                avgBuyPrice += transaction.Price * transaction.Amount;
+                countBuyTransactions += transaction.Amount;
+              }
+            } else if (
+              transaction['@odata.type'] == TransactionType.Sell ||
+              transaction['@odata.type'] == TransactionType.Out
+            ) {
+              amountSummary -= transaction.Amount;
+            }
+            }
+          );
+
+          transactionGridSummary.PercentageChange = this.dataCoin!.priceChangePercent;
+          transactionGridSummary.Quantity = amountSummary;
+          transactionGridSummary.HoldingsPrice = amountSummary * Number(this.dataCoin!.lastPrice);
+          transactionGridSummary.ImgPath = this.dataCoin!.iconPath;
+          transactionGridSummary.Price = this.dataCoin!.bidPrice;
+          transactionGridSummary.CoinName = this.dataCoin!.name;
+
+          if (avgBuyPrice != 0 || countBuyTransactions != 0){
+            transactionGridSummary.AvgBuyPrice =
+            avgBuyPrice / countBuyTransactions;
+            console.log("(this.coinTransactionSummary.AvgBuyPrice");
+            console.log(transactionGridSummary.AvgBuyPrice);
+          }
+          else if (avgBuyPrice == 0 || countBuyTransactions == 0){
+            transactionGridSummary.AvgBuyPrice = 0;
+            console.log("else");
+            console.log(transactionGridSummary.AvgBuyPrice);
+          }
+          this.transactionGridSummary = transactionGridSummary;
+          this.transactionSummaryGrid.push(this.transactionGridSummary);
+
+        }
       } else console.log('Result list is empty');
     })
     .catch((e) => true);
   }
+
+  // getTransactions(){
+  //   this.dataTransactions
+  //   .executeQuery(this.queryTransactions)
+  //   .then((e: ReturnOption) => {
+  //     var resultList = e.result as Transaction[];
+  //     if (resultList != null ) {
+  //       this.transactions = resultList;
+  //       console.log("CoinTransactionSummary");
+  //       console.log(this.coinTransactionSummary);
+  //     } else console.log('Result list is empty');
+  //   })
+  //   .catch((e) => true);
+  // }
 
   onAddNewTransaction() {
     this.isNewTransactionBtnClicked = true;
@@ -112,4 +227,19 @@ export class PortfolioComponent implements OnInit {
     this.isNewTransactionBtnClicked = false;
     this.dialog.hide();
   };
+
+  public onDetailsClicked(args: RowDataBoundEventArgs) {
+    // let test = this.grid.getRowInfo(args.target).rowData as CoinBinance;
+    console.log(args as CoinTransactionSummary);
+    let data = args as CoinTransactionSummary;
+    this.portfolioService.coinSymbol.next(data.CoinSymbol);
+    this.router.navigate(['transaction-details']);
+  }
+
+  public onSumbitButtonClicked(value: boolean){
+    if (value == true){
+      this.isNewTransactionBtnClicked = false;
+      this.dialog.hide();
+    }
+  }
 }

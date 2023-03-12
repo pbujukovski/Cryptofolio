@@ -47,31 +47,28 @@ namespace Cryptofolio.Controllers
             }*/
 
 
-        public  async Task<ActionResult<List<TransactionDTO>>> GetTransactionsAsync()
+        public  async Task<ActionResult<List<TransactionDTO>>> GetTransactionsAsync(string? CoinSymbol)
         {
             if (_context.Transactions == null && _userAuthService.getCurrentUserId() == null)
             {
                 return NotFound();
             }
-            else if (_context.Transactions != null && _userAuthService.getCurrentUserId() != null)
+            else if (_context.Transactions != null && _userAuthService.getCurrentUserId() != null && CoinSymbol == null)
             {
-                var transaction12 = _context.Set<Transaction>().ToList();
-                var transaction123 = _context.Set<Transaction>().Where(cs => cs.ApplicationUserId == _userAuthService.getCurrentUserId()).ToList();
+                List<TransactionDTO> transactions =  _context.Transactions.Where(cs => cs.ApplicationUserId == _userAuthService.getCurrentUserId())
+                                                                            .Select(transactions => transactions is FinanceTransactionBuy ? new FinanceTransactionBuyDTO(transactions as FinanceTransactionBuy)
+                                                                            : transactions is FinanceTransactionSell ? new FinanceTransactionSellDTO(transactions as FinanceTransactionSell) : transactions is TransferTransactionIn ? new TransferTransactionInDTO(transactions as TransferTransactionIn) :
+                                                                          transactions is TransferTransactionOut ? new TransferTransactionOutDTO(transactions as TransferTransactionOut) : new TransactionDTO(transactions)).ToList();
 
-                List<TransactionDTO> transaction1 = _context.Set<Transaction>().Where(cs => cs.ApplicationUserId == _userAuthService.getCurrentUserId()).Select(transactions1 => new TransactionDTO(transactions1)).ToList();
-                List<Transaction> transactions = await _context.Transactions.ToListAsync();
+                return Ok(transactions);
+            }
+            else if (_context.Transactions != null && _userAuthService.getCurrentUserId() != null && CoinSymbol != null) {
+                List<TransactionDTO> transactions = _context.Transactions.Where(cs => cs.ApplicationUserId == _userAuthService.getCurrentUserId() && cs.CoinSymbol == CoinSymbol)
+                                                            .Select(transactions => transactions is FinanceTransactionBuy ? new FinanceTransactionBuyDTO(transactions as FinanceTransactionBuy)
+                                                            : transactions is FinanceTransactionSell ? new FinanceTransactionSellDTO(transactions as FinanceTransactionSell) : transactions is TransferTransactionIn ? new TransferTransactionInDTO(transactions as TransferTransactionIn) :
+                                                          transactions is TransferTransactionOut ? new TransferTransactionOutDTO(transactions as TransferTransactionOut) : new TransactionDTO(transactions)).ToList();
 
-                List<TransactionDTO> transactionDTOs = new List<TransactionDTO>();
-                foreach(Transaction transaction in transactions)
-                {
-                    if(transaction is FinanceTransactionBuy)
-                    {
-                        FinanceTransactionBuyDTO  financeTransactionBuyDTO = new FinanceTransactionBuyDTO(transaction as FinanceTransactionBuy);
-                        transactionDTOs.Add(financeTransactionBuyDTO); 
-                    }
-                }
-                var test = 0;
-                return Ok(transactionDTOs);
+                return Ok(transactions);
             }
             else return BadRequest();
         }

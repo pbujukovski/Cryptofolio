@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cryptofolio.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230302133825_Initial migration12")]
-    partial class Initialmigration12
+    [Migration("20230310180512_Latest Transaction Models")]
+    partial class LatestTransactionModels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -115,9 +115,9 @@ namespace Cryptofolio.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "124be06d-6953-4a9e-9aad-35cea504fd26",
+                            Id = "85226b1b-2646-49ab-b2cb-bf794c1a4b1b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fcc79752-1bc0-48b7-a9c4-25671f4743e6",
+                            ConcurrencyStamp = "d3932c61-835a-4a4d-8e91-62771c0cf049",
                             Email = "admin@mail.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -125,7 +125,7 @@ namespace Cryptofolio.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@mail.com",
                             NormalizedUserName = "admin@mail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFBgpbDW3aAvdmgQ5gl/eJKd/EAC7WdnaPAbNHhDMl996Avy+bf6/2VrIFo+rF9cKw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHYoYlsfWJ1OrFm8bdPFO8Oozc+MxWXYrgaQ9yYuG0p1yVCi6iEresu59cGGfxwlVQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -133,9 +133,9 @@ namespace Cryptofolio.Migrations
                         },
                         new
                         {
-                            Id = "da76837f-4270-4241-834e-ab2a2b8723de",
+                            Id = "dfcebaf4-1b32-4116-bc3b-0c35f9c49869",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0f54637e-c57f-47f6-921e-891783c4b412",
+                            ConcurrencyStamp = "6e8d778b-f3e5-4d82-8b53-55a307d2ea19",
                             Email = "pbujukovski@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Petar",
@@ -143,7 +143,7 @@ namespace Cryptofolio.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "pbujukovski@gmail.com",
                             NormalizedUserName = "pbujukovski@gmail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEP1wuG5KNT/6zllYwD5sSxMaRbMzig0G2FqL6MQMQ8dQ2OOWn5NPwYcoM4OQhg3F7Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKSWh0n1mA3+GiMFnHRCuNxh+cocd+Y7LkmkedfQy25HA/apbeLxTib3cuOCT+1d6w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -151,9 +151,9 @@ namespace Cryptofolio.Migrations
                         },
                         new
                         {
-                            Id = "a8bb4987-2109-41a7-9a80-d69b6f4f334e",
+                            Id = "68641648-e443-4cee-b028-bfbbc536b280",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "592e3029-54a1-4ff8-9d03-13ad6b9084c6",
+                            ConcurrencyStamp = "a79630c4-5e38-4bd0-927c-24a7c3baa5f3",
                             Email = "jhon@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Jhon",
@@ -161,7 +161,7 @@ namespace Cryptofolio.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "jhon@gmail.com",
                             NormalizedUserName = "jhon@gmail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJukZbIQ846Jd/NrabPZf7n6OOphLcSFivVUKBemxPUepZh7cPzpFIkLAZyNSOI7CA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENG4g7D9ECuKVneT6LOL3sr29qgwPizvS5TBUTacLP93LqH+Ibc4MoWWcJFDzzDYuw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -626,10 +626,6 @@ namespace Cryptofolio.Migrations
             modelBuilder.Entity("Cryptofolio.Models.FinanceTransactionBuy", b =>
                 {
                     b.HasBaseType("Cryptofolio.Models.FinanceTransaction");
-
-                    b.Property<string>("comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.ToTable("FinanceTransactionBuy", (string)null);
                 });

@@ -21,9 +21,6 @@ namespace Cryptofolio.ViewModels
         public string Note { get; set; } = string.Empty;
 
 
-        [JsonPropertyName("Price")]
-        public float Price { get; set; }
-
         [JsonPropertyName("Amount")]
         public float Amount { get; set; }
 
@@ -53,7 +50,7 @@ namespace Cryptofolio.ViewModels
             Id = transactionDTO.Id;
             Date = transactionDTO.Date;
             Note = transactionDTO.Note;
-            Price = transactionDTO.Price;
+/*            Price = transactionDTO.Price;*/
             Amount = transactionDTO.Amount;
             Fee = transactionDTO.Fee;
             ApplicationUserId = transactionDTO.ApplicationUserId;
@@ -66,7 +63,7 @@ namespace Cryptofolio.ViewModels
             Date = transaction.Date;
             Note = transaction.Note;
             Amount = transaction.Amount;
-            Price = 0;
+     /*       Price = 0;*/
             Fee = transaction.Fee;
             ApplicationUserId = transaction.ApplicationUserId;
             CoinSymbol = transaction.CoinSymbol;

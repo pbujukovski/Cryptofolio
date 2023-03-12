@@ -9,6 +9,7 @@ import { CustomSecureODataV4Adaptor } from "./custom-secure-odatav4-adaptor";
 
   private customSecureODataV4Adaptor: CustomSecureODataV4Adaptor = new CustomSecureODataV4Adaptor({updateType: "PUT"});
 
+  private customSecureODataV4AdaptorPatch: CustomSecureODataV4Adaptor = new CustomSecureODataV4Adaptor();
   private userToken: string | null = null;
 
   constructor(authorizeService: AuthorizeService) {
@@ -32,5 +33,9 @@ import { CustomSecureODataV4Adaptor } from "./custom-secure-odatav4-adaptor";
   public getCustomSecureODataV4Adaptor(): CustomSecureODataV4Adaptor {
   return this.customSecureODataV4Adaptor;
   }
+
+  public getCustomSecureODataV4AdaptorPatch(): CustomSecureODataV4Adaptor {
+    return this.customSecureODataV4AdaptorPatch;
+    }
 
   }

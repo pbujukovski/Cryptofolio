@@ -8,13 +8,15 @@ export class Transaction{
 
   public Note : string = "";
 
-  public Amount : number = -1;
+  public Amount : number = 0;
 
-  public Fee : number = -1;
+  public Fee : number = 0;
 
   public ApplicationUserId : string = "";
 
   public CoinSymbol : string = "";
+
+  // public Price : number = 0;
 
   constructor(data?: Partial<Transaction>) {
     Object.assign(this, data);

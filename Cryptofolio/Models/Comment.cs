@@ -17,8 +17,6 @@ namespace Cryptofolio.Models
         [ForeignKey("ApplicationUserId")]
         public ApplicationUser? ApplicationUser { get; set; }
 
-/*        public string? Name { get; set; } = string.Empty;*/
-
         public string CoinSymbol { get; set; } = string.Empty;
 
         [ForeignKey("CoinSymbol")]

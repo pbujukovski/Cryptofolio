@@ -21,6 +21,8 @@ export class HomeComponent {
   private subscriptionisAuthenticated: Subscription;
   public topCoinsBinance: CoinBinance[] = [];
 
+  public dataArrivedEvent : boolean = false;
+
   constructor(private http: HttpClient, private router: Router, private binanceApiService: BinanceApiService, private authorizeService: AuthorizeService) {
 
     this.subscriptionisAuthenticated = this.authorizeService.isAuthenticated().pipe().subscribe(isAuthenticated => {
@@ -39,8 +41,8 @@ export class HomeComponent {
     this.binanceApiSubscription = this.binanceApiService.TopCoinsUpdated.subscribe(
       (data) => {
         //Set data to data from binance service
-
         this.topCoinsBinance = data;
+        this.getNews();
       }
     );
 
@@ -55,8 +57,6 @@ export class HomeComponent {
    }
 
   ngOnInit(){
-    this.getNews();
-
   }
 
   ngOnDestroy(){
@@ -69,6 +69,11 @@ export class HomeComponent {
      this.http.get(url).subscribe((data:  any) => {
        this.articles = data.articles;
        console.log(this.articles);
+
+       if(this.topCoinsBinance.length > 0){
+         this.dataArrivedEvent = true;
+
+       }
     })
   }
 

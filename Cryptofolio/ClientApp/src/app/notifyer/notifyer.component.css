@@ -208,4 +208,31 @@
   }
 
 
+.content {
+  display: flex;
+  flex-direction: row;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px;
+  border-bottom: 1px solid rgb(180, 196, 210);
+}
+
+.label {
+  font-size: 14px;
+  color: rgb(88, 102, 126);
+}
+
+.data-details {
+  text-transform: capitalize;
+  font-weight: 200;
+}
+
+.e-card .e-card-header-caption {
+  line-height: normal;
+  font-size: 14px;
+  padding: 6px 0px;
+}
 

@@ -30,6 +30,8 @@ namespace Cryptofolio.ViewModels
             // Convert base class
             base.convertToTransaction(ref financeTransaction);
 
+            financeTransaction.Price = Price;
+
         }
 
         public static Delta<FinanceTransaction> toDeltaFinanceTransaction(Delta<FinanceTransactionDTO> deltaFinanceTransactionDTO)

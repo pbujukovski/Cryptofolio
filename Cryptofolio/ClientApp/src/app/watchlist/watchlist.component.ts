@@ -61,7 +61,6 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     this.binanceApiSubscription = this.binanceApiService.CoinsUpdated.subscribe(coins => {
       this.dataCoins = coins;
 
-
         this.dataGrid = this.dataCoins.filter((data)=> this.dataWatchlist.Coins.some(coinSymbol => coinSymbol.Symbol === data.symbol))
 
         if (this.dataCoins.length > 0){

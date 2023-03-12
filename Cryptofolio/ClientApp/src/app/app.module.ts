@@ -38,6 +38,7 @@ import { TransactionSellComponent } from './portfolio/transaction-sell/transacti
 import { TransactionBuyComponent } from './portfolio/transaction-buy/transaction-buy.component';
 import { TransactionInComponent } from './portfolio/transaction-in/transaction-in.component';
 import { TransactionOutComponent } from './portfolio/transaction-out/transaction-out.component';
+import { TransactionDetailsComponent } from './portfolio/transaction-details/transaction-details.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { TransactionOutComponent } from './portfolio/transaction-out/transaction
     TransactionSellComponent,
     TransactionBuyComponent,
     TransactionInComponent,
-    TransactionOutComponent
+    TransactionOutComponent,
+    TransactionDetailsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -85,30 +87,30 @@ import { TransactionOutComponent } from './portfolio/transaction-out/transaction
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
-      SearchService,
-      ToolbarService,
-      PageService,
-      SortService,
-      FilterService,
-      GroupService,
-      ResizeService,
-      EditService,
-      AggregateService,
-      CategoryService,
-      LegendService,
-      TooltipService,
-      DataLabelService,
-      LineSeriesService,
-       StepLineSeriesService,
-        SplineSeriesService,
-         StackingLineSeriesService,
-         DateTimeService,
-        SplineAreaSeriesService,
-        MultiColoredLineSeriesService,
-        ParetoSeriesService,
-        ColumnSeriesService,
-       CandleSeriesService,
-       ZoomService
+    SearchService,
+    ToolbarService,
+    PageService,
+    SortService,
+    FilterService,
+    GroupService,
+    ResizeService,
+    EditService,
+    AggregateService,
+    CategoryService,
+    LegendService,
+    TooltipService,
+    DataLabelService,
+    LineSeriesService,
+    StepLineSeriesService,
+    SplineSeriesService,
+    StackingLineSeriesService,
+    DateTimeService,
+    SplineAreaSeriesService,
+    MultiColoredLineSeriesService,
+    ParetoSeriesService,
+    ColumnSeriesService,
+    CandleSeriesService,
+    ZoomService
   ],
   bootstrap: [AppComponent]
 })

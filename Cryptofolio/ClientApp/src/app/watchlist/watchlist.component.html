@@ -39,7 +39,6 @@
           <ng-template #template let-data>
             <div class="image">
               <img [src]="data.iconPath" (error)="data.iconPath='../../assets/default.png'" width="32px" [alt]="data.name" /> <span> {{data.name}}</span>
-
             </div>
           </ng-template>
         </e-column>

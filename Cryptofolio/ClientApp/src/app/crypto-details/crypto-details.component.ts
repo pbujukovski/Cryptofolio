@@ -171,7 +171,7 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
     this.queryComments = new Query().addParams(
       'CoinSymbol',
       this.coinSymbol
-    );
+    ).sortByDesc("Date");
     this.dataComment
     .executeQuery(this.queryComments)
     .then((e: ReturnOption) => {
@@ -313,7 +313,8 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
       ) as Promise<Comment>; //Waiting response from backend to be sure that new comment comes with ID.
       temp.then((value: Comment) => {
         if (this.coinSymbol != null) {
-          this.comments.push((value)); //Adding comment to list after the response from the promise
+          // this.comments.push((value)); //Adding comment to list after the response from the promise
+          this.comments.unshift(value);
         }
       });
       this.commentForm.reset();

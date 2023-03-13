@@ -31,7 +31,7 @@
   .e-dialog {
     max-height: fit-content !important;
     max-width: fit-content !important;
-    min-width: 240px;
+    min-width: 540px;
     position: absolute;
     margin-bottom: 29px;
     border-radius: 16px;
@@ -236,3 +236,54 @@
   padding: 6px 0px;
 }
 
+.content {
+  display: flex;
+  flex-direction: row;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px;
+  border-bottom: 1px solid rgb(239, 242, 245);
+}
+ .label {
+  font-size: 16px;
+  color: rgb(88, 102, 126);
+}
+
+.data-details {
+  text-transform: capitalize;
+}
+ .bottom-btns {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 20px;
+}
+.bottom-btns button {
+  margin: 4px 0px;
+  -webkit-box-align: center;
+  align-items: center;
+  background: rgb(239, 242, 245);
+  border: 0px;
+  border-radius: 8px;
+  display: inline-flex;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  -webkit-box-pack: center;
+  justify-content: center;
+  outline: 0px;
+  font-weight: 600;
+  width: 100%;
+  height: 48px;
+  font-size: 14px;
+  padding: 0px 24px;
+  line-height: 24px;
+}
+
+ button.danger{
+  background-color: rgb(234, 57, 67) !important;
+  color: rgb(255, 255, 255) !important;
+}

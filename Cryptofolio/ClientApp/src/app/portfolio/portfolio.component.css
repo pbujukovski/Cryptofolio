@@ -414,3 +414,64 @@ img {
   background-color: rgb(234, 57, 67) !important;
   color: rgb(255, 255, 255) !important;
 }
+
+
+
+.e-btn{
+  border-radius: 20px;
+  background-color: transparent;
+  color: #189ad3;
+  width: fit-content;
+}
+
+.e-btn-group{
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.selected {
+  background-color: #2095f2 !important;
+  color: white !important;
+}
+
+
+/* a {
+  color: #2095f2;
+  text-decoration: none;
+  font-size: 20px;
+} */
+
+.e-btn.e-round .e-btn-icon,
+.e-css.e-btn.e-round .e-btn-icon {
+  font-size: 14px;
+  line-height: 2.8572em;
+  margin-top: -9px;
+  width: auto;
+}
+
+.e-btn.e-round,
+.e-css.e-btn.e-round {
+  border-radius: 50%;
+  height: 2em;
+  line-height: 1;
+  width: 2em;
+}
+
+.e-btn{
+  border-radius: 20px;
+  background-color: transparent;
+  color: #189ad3;
+  width: fit-content;
+}
+
+.e-btn-group{
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.addButton{
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 16px;
+  margin-top: 20px;
+  box-shadow: 0 4px 30px rgb(0 0 0 / 16%) !important;
+}

@@ -1,8 +1,8 @@
-<!-- <div class="container-fluid mt-5 px-5" *ngIf="this.notifiers == undefined ||  this.notifiers == null">
+<div class="container-fluid mt-5 px-5" *ngIf="isDataReady == false">
   <app-loading></app-loading>
-</div> -->
+</div>
 
-<div class="container-fluid mt-5 px-5">
+<div class="container-fluid mt-5 px-5" *ngIf="isDataReady == true">
   <div *ngIf="isNewTransactionBtnClicked == true">
     <ejs-dialog id='dialog' #dialog isModal='true' showCloseIcon='true' (open)="onAddNewTransaction()"
       (overlayClick)="onOverlayClick()" [target]='targetElement' width='auto'>
@@ -39,22 +39,25 @@
       </div>
       <div class="e-card-content">
         <div class="row">
-          <button ejs-button (click)="onDetailsClicked(this)" class="btn"><i class="fa-solid fa-info"></i></button>
+          <div class="mt-20 col-md-6 ">
+            <span><i class="fa-solid fa-wallet"></i> Current Ballance</span>
+            <br/>
+            <h3>
+              {{this.sumBallance | abbreviateNumber}}
+          </h3>
+
+          </div>
+          <div class="col-md-auto ms-auto text-center">
+            <button  ejs-button class="addButton" (click)="onAddNewTransaction()"><i class="fa-solid fa-plus"></i>  Add new transaction </button>
+          <div class="bottom-btns">
           <div class="col-md-5 ms-5 text-left" style="padding-bottom: 50px;">
-            <button type="submit" iconCss="e-icons e-save-icon" ejs-button isPrimary="true"
-              (click)="onAddNewTransaction()"> Create new subscription</button>
+            <!-- <button type="submit" iconCss="e-icons e-save-icon" ejs-button isPrimary="true"
+              (click)="onAddNewTransaction()"> Create new subscription</button> -->
+              </div>
+          </div>
           </div>
         </div>
         <div class="row">
-          {{transactionSummaryGrid.length}}
-          <div *ngFor="let data of transactionSummaryGrid">
-            <!-- {{data.AvgBuyPrice}}
-            {{data.CoinName}} -->
-            {{data.HoldingsPrice | abbreviateNumber}}
-            {{data.PercentageChange }}
-            <!-- <img src="{{data.ImgPath}}" alt=""> -->
-          </div>
-
           <div class="grid-no-borders mb-3" *ngIf="this.transactions.length > 0 == true && this.transactionSummaryGrid.length > 0">
             <ejs-grid #grid [dataSource]="transactionSummaryGrid" [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
             [editSettings]="editSettings" [toolbar]="toolbar" [enableImmutableMode]='true'  [rowHeight]='60'
@@ -64,7 +67,7 @@
                 <ng-template #template let-data>
                   <div class="image">
                     <img [src]="data.ImgPath" (error)="data.CoinLogoPath='../../assets/default.png'" width="32px" [alt]="data.name" />
-                    <span> {{data.CoinName}}</span><span >{{this.data.CoinSymbol}}</span>
+                    <span> {{data.CoinName}}</span>
                   </div>
                 </ng-template>
               </e-column>
@@ -93,8 +96,6 @@
                   <span > {{data.Quantity}} {{data.CoinSymbol}}</span>
                 </ng-template>
               </e-column>
-
-              <e-column field='CoinSymbol' headerText='CoinSymbol' textAlign='Right' width=50 format='c2'></e-column>
               <e-column field="viewdetails" headerText="Details" textAlign="Right" width="30">
                 <ng-template #template let-data>
                   <div>

@@ -40,6 +40,9 @@ constructor(private syncfusionUtilsService: SyncfusionUtilsService) {
  }
 
 ngOnInit(): void {
+  if (this.transactionBuy.Date == null && this.transactionBuy.Date == undefined){
+    this.transactionBuy.Date = this.dateValue;
+  }
 }
 
   //Click on button Sumbit
@@ -67,12 +70,16 @@ ngOnInit(): void {
     this.data.insert(this.transactionBuy);
     }
     this.isSumbitButtonClicked.emit(true);
-
-
-
-
     this.transactionBuyForm.reset();
     // this.isEdit = false;
     // this.grid.refresh();
   }
+
+  calculateTotalSpend(): number {
+    const amount = this.transactionBuy.Amount ?? 0;
+    const fee = this.transactionBuy.Fee ?? 0;
+    const price = this.transactionBuy.Price ?? 0;
+    return (amount * price) + fee;
+  }
+
 }

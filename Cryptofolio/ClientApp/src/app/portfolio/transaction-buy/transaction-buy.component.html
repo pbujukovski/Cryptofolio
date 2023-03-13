@@ -5,25 +5,40 @@
       <div class="col-md-12 col">
         <div *ngIf="dialogType =='insert'">
           <ejs-dropdownlist cssClass="e-outline" [(ngModel)]="transactionBuy!.CoinSymbol!"
-          name="CoinSymbol"
-        [dataSource]='this.coinsBinance' [fields]="fieldsDropDownCoins"
-          [valueTemplate]="valueTemplate" [itemTemplate]="template" type="text" placeholder="Select Coin"
-          cssClass="e-outline" [allowFiltering]='true' floatLabelType="Auto" popupHeight='600px'>
-        </ejs-dropdownlist>
-        <ng-template #template let-data>
+                                                 name="CoinSymbol"
+                                                 [dataSource]='this.coinsBinance'
+                                                 [fields]="fieldsDropDownCoins"
+                                                 required
+                                                 #transactionBuyFormCoinSymbol="ngModel"
+                                                 [valueTemplate]="valueTemplate"
+                                                 [itemTemplate]="template"
+                                                 type="text"
+                                                 placeholder="Select Coin"
+                                                 filterBarPlaceholder="Serach Coin Symbol"
+                                                 cssClass="e-outline"
+                                                 [allowFiltering]='true'
+                                                 floatLabelType="Auto"
+                                                 popupHeight='600px'>
+          </ejs-dropdownlist>
+          <ng-template #template let-data>
           <h6>
-            <img [src]="data.iconPath" [alt]="data.symbol" width="20" height="20">
+            <img [src]="data.iconPath" [alt]="data.symbol" width="30" height="30">
             {{data.name}}
             {{data.symbol}}
           </h6>
         </ng-template>
         <ng-template #valueTemplate let-data>
           <h6>
-            <img [src]="data.iconPath"  [alt]="data.symbol" width="20" height="20">
+            <img [src]="data.iconPath"  [alt]="data.symbol" width="30" height="30">
             {{data.name}}
             {{data.symbol}}
           </h6>
         </ng-template>
+        <div *ngIf="transactionBuyFormCoinSymbol.invalid && (transactionBuyFormCoinSymbol.dirty || transactionBuyFormCoinSymbol.touched)">
+          <div class="e-error" *ngIf="transactionBuyFormCoinSymbol.errors?.required">
+            * Enter Coin Symbol
+          </div>
+          </div>
         </div>
         <div *ngIf="dialogType == 'update'">
         <ejs-textbox [(ngModel)]="transactionBuy.CoinSymbol" required id="CoinSymbol"
@@ -43,15 +58,25 @@
     <div class="row material2">
       <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col">
         <ejs-textbox [(ngModel)]="transactionBuy.Price" required id="Price"
-          placeholder='Price' name="Price" type="number" #transactionBuyForm="ngModel"
+          placeholder='Price' name="Price" type="number" #transactionBuyFormPrice="ngModel"
           cssClass="e-outline" floatLabelType="Auto">
         </ejs-textbox>
+        <div *ngIf="transactionBuyFormPrice.invalid && (transactionBuyFormPrice.dirty || transactionBuyFormPrice.touched)">
+          <div class="e-error" *ngIf="transactionBuyFormPrice.errors?.required">
+            * Enter Price
+          </div>
+          </div>
       </div>
       <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col">
         <ejs-textbox [(ngModel)]="transactionBuy.Amount" required id="Amount"
-          placeholder='Amount' name="Amount" type="number" #transactionBuyForm="ngModel"
+          placeholder='Amount' name="Amount" type="number" #transactionBuyAmount="ngModel"
           cssClass="e-outline" floatLabelType="Auto">
         </ejs-textbox>
+        <div *ngIf="transactionBuyAmount.invalid && (transactionBuyAmount.dirty || transactionBuyAmount.touched)">
+          <div class="e-error" *ngIf="transactionBuyAmount.errors?.required">
+            * Enter Amount
+          </div>
+          </div>
       </div>
     </div>
     <div class="row material2">
@@ -62,12 +87,25 @@
         </ejs-textbox>
       </div>
       <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col">
-        <ejs-datetimepicker [(ngModel)]="transactionBuy.Date" name="Date" start='Month'
-           placeholder='Date' [value]='dateValue' cssClass="e-outline" #transactionBuyForm="ngModel"
+        <ejs-datetimepicker [(ngModel)]="transactionBuy.Date" name="Date" start='Month' required
+           placeholder='Date' [value]='dateValue' cssClass="e-outline" #transactionBuyFormDate="ngModel"
           floatLabelType="Auto">
         </ejs-datetimepicker>
+        <div *ngIf="transactionBuyFormDate.invalid && (transactionBuyFormDate.dirty || transactionBuyFormDate.touched)">
+          <div class="e-error" *ngIf="transactionBuyFormDate.errors?.required">
+            * Enter Valid Date
+          </div>
+          </div>
       </div>
     </div>
+    <div class="row material2">
+      <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12 col">
+          <div class="border">
+            <p>Total Spend</p>
+            <h6>{{calculateTotalSpend() | abbreviateNumber}}</h6>
+          </div>
+      </div>
+      </div>
     <div class="row material2">
       <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12 col">
         <ejs-textbox [(ngModel)]="transactionBuy.Note" multiline="true" id="Note"

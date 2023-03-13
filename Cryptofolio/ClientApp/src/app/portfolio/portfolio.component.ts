@@ -30,6 +30,8 @@ export class PortfolioComponent implements OnInit {
   public isNewTransactionBtnClicked: boolean = false;
   public selectedFormValue: string = 'Buy';
 
+  public sumBallance : number = 0;
+  public isDataReady : boolean = false;
   public transactionGridSummary: TransactionSummaryGrid = new TransactionSummaryGrid;
   public transactionSummaryGrid : TransactionSummaryGrid[] = [];
   public dataTransactions!: DataManager;
@@ -125,7 +127,7 @@ export class PortfolioComponent implements OnInit {
 
           });
 
-
+          var sumBallance = 0;
    for (const transaction in groupedTransactions) {
     var amountSummary = 0;
     var avgBuyPrice = 0;
@@ -171,13 +173,13 @@ export class PortfolioComponent implements OnInit {
             }
             }
           );
-
           transactionGridSummary.PercentageChange = this.dataCoin!.priceChangePercent;
           transactionGridSummary.Quantity = amountSummary;
           transactionGridSummary.HoldingsPrice = amountSummary * Number(this.dataCoin!.lastPrice);
           transactionGridSummary.ImgPath = this.dataCoin!.iconPath;
           transactionGridSummary.Price = this.dataCoin!.bidPrice;
           transactionGridSummary.CoinName = this.dataCoin!.name;
+          sumBallance += transactionGridSummary.HoldingsPrice;
 
           if (avgBuyPrice != 0 || countBuyTransactions != 0){
             transactionGridSummary.AvgBuyPrice =
@@ -190,9 +192,11 @@ export class PortfolioComponent implements OnInit {
             console.log("else");
             console.log(transactionGridSummary.AvgBuyPrice);
           }
+          this.sumBallance = sumBallance;
           this.transactionGridSummary = transactionGridSummary;
           this.transactionSummaryGrid.push(this.transactionGridSummary);
 
+          this.isDataReady = true;
         }
       } else console.log('Result list is empty');
     })

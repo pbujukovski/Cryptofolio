@@ -1,4 +1,6 @@
-<app-loading *ngIf="coinBinance.iconPath.length ==  0 "> </app-loading>
+<div class="container-fluid mt-5 px-5" *ngIf="coinBinance.iconPath.length ==  0 ">
+  <app-loading></app-loading>
+</div>
 <div class="container-fluid mt-5 px-5" *ngIf="this.isContentLoaded == true && coinBinance.iconPath.length >  0">
   <div class="row">
     <div tabindex="0" class="e-card" id="basic">
@@ -19,8 +21,6 @@
           <div class="col-md-auto ms-auto text-right">  {{this.coinBinance.name}} <span> ( </span> {{this.coinBinance.symbol}} <span> ) Balance </span></div>
           <div class="col-md-6"></div>
           <div class="col-md-auto ms-auto text-center">
-
-
             <h3><img style="margin-left: 20px;" src="{{this.coinBinance.iconPath}}" width="32px"
                 alt="{{this.coinBinance.name}}" />
               {{ this.coinTransactionSummary.Price | abbreviateNumber}}

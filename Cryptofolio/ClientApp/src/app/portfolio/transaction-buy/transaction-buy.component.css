@@ -1,0 +1,23 @@
+.border {
+  border-radius: 5px;
+  background-color: #2979ffc7;
+  color: white;
+  padding: 7px 10px;
+}
+
+.content-wrapper {
+  width: 30%;
+  margin: 0 auto;
+  min-width: 185px;
+}
+
+.control-label {
+  padding: 24px 0px 10px 0px;
+  font-size: 12px;
+}
+
+.e-input-eye:before {
+content: '$';
+font-family: e-icons;
+font-size: 13px;
+}

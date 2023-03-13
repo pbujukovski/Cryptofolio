@@ -22,7 +22,10 @@ export class NotifyerComponent implements OnInit {
   public query!: Query;
   public notifier: Notifier = {} as Notifier;
   public notifiers: Notifier[] = [];
+  public isDeleteContentClicked: boolean = false;
 
+  public deleteNotifierFromList: Notifier = {} as Notifier;
+  public indexNotifier: number = -1;
   public isNewSubscriptionBtnClicked: boolean = false;
   public notifierUpdate: BehaviorSubject<Notifier> = new BehaviorSubject<Notifier>(new Notifier());
   @ViewChild('ddl') ddl!: DropDownList;
@@ -134,9 +137,13 @@ export class NotifyerComponent implements OnInit {
       console.log(interval);
     }
 
-    onDelete(eventDataNotifier : Notifier, i : number){
-       this.data.remove("Id", eventDataNotifier);
-       this.notifiers.splice(i,1);
+    onDelete(eventDataNotifier: Notifier, i: number){
+
+      this.isDeleteContentClicked = true;
+      this.deleteNotifierFromList = eventDataNotifier;
+      this.indexNotifier = i;
+      // this.data.remove("Id", eventDataNotifier);
+      //  this.notifiers.splice(i,1);
     }
 
     //Hide dialog component if on side is clicked
@@ -150,5 +157,17 @@ export class NotifyerComponent implements OnInit {
   //     DialogUtility.confirm('Are you sure you want to delete this subscription?');
   // }
 
+  public onClose(){
+    this.isDeleteContentClicked = false;
+    this.dialog!.hide();
+  }
+
+  public deleteSelectedContent(){
+
+    this.data.remove("Id", this.deleteNotifierFromList);
+    this.notifiers.splice(this.indexNotifier,1);
+    this.isDeleteContentClicked = false;
+
+  }
 
 }

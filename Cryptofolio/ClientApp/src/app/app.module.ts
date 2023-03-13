@@ -39,6 +39,7 @@ import { TransactionBuyComponent } from './portfolio/transaction-buy/transaction
 import { TransactionInComponent } from './portfolio/transaction-in/transaction-in.component';
 import { TransactionOutComponent } from './portfolio/transaction-out/transaction-out.component';
 import { TransactionDetailsComponent } from './portfolio/transaction-details/transaction-details.component';
+import { AbbreviateOrNumberPipe } from './common/pipes/abbreviate-or-number.pipe';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { TransactionDetailsComponent } from './portfolio/transaction-details/tra
     PortfolioComponent,
     PortfolioDetailsComponent,
     AbbreviateNumberPipe,
+    AbbreviateOrNumberPipe,
     RemoveChar,
     NotifyerComponent,
     TransactionSellComponent,

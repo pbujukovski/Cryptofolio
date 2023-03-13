@@ -68,6 +68,26 @@
       </ng-template>
     </ejs-dialog>
   </div>
+
+  <div *ngIf="isDeleteContentClicked == true">
+    <ejs-dialog #dialog id='dialog' isModal='true' showCloseIcon='true' showSubmitButton="true" (overlayClick)="onOverlayClick()" (close)="onClose()"
+      [target]='targetElement' width='auto'>
+      <ng-template #header>
+        Notifier Details
+      </ng-template>
+      <ng-template #content>
+
+      <div class="content border-0">
+        <div class="label"> Are you sure you want to remove this notifier? </div>
+        </div>
+        <div class="bottom-btns">
+        <button class="danger"  (click)="deleteSelectedContent()">  Remove  </button>
+        <button  (click)="onClose()">  Cancel </button>
+      </div>
+    </ng-template>
+      </ejs-dialog>
+  </div>
+
   <div class="row">
     <div tabindex="0" class="e-card" id="basic">
       <div class="e-card-header">

@@ -54,4 +54,18 @@ export class BinanceKlineService {
       `https://api.binance.com/api/v3/klines?symbol=${symbol}USDT&interval=${interval}`
     );
   }
+
+  public articles: any[] = [];
+  public CoinUpdatedPrice: BehaviorSubject<Object> =
+  new BehaviorSubject<Object>(new Object());
+
+  getPriceData(interval: string, symbol: string, startTime: number, endTime: number) {
+   const url =
+      `https://api.binance.com/api/v3/klines?symbol=${symbol}USDT&interval=${interval}&startTime=${startTime}&endTime=${endTime}`;
+
+      this.http.get(url).subscribe((data: any) => {
+      this.articles = data;
+      this.CoinUpdatedPrice.next(data);
+    });
+  }
 }

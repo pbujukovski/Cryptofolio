@@ -2,6 +2,8 @@ import { DateTime } from "@syncfusion/ej2-angular-charts";
 
 export class Transaction{
 
+  public ['@odata.type'] = '';
+
   public Id : number = -1;
 
   public Date: Date = new Date;

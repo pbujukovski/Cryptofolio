@@ -8,13 +8,13 @@ export class AbbreviateNumberPipe implements PipeTransform {
       return '';
     }
     if (numericValue < 1000000) {
-      const abbreviatedValue = numericValue.toFixed(2);
+      const abbreviatedValue = numericValue.toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
       return '$' + abbreviatedValue;
     } else if (numericValue >= 1000000 && numericValue < 1000000000) {
-      const abbreviatedValue = (numericValue / 1000000).toFixed(0);
+      const abbreviatedValue = (numericValue / 1000000).toLocaleString(undefined, { maximumFractionDigits: 0, minimumFractionDigits: 0 });
       return '$' + abbreviatedValue.replace(/\.0+$/, '') + ' M';
     } else {
-      const abbreviatedValue = (numericValue / 1000000000).toFixed(0);
+      const abbreviatedValue = (numericValue / 1000000000).toLocaleString(undefined, { maximumFractionDigits: 0, minimumFractionDigits: 0 });
       return '$' + abbreviatedValue.replace(/\.0+$/, '') + ' B';
     }
   }

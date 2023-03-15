@@ -51,15 +51,14 @@
           <e-column field="viewdetails" headerText="Details" textAlign="Right" width="30">
             <ng-template #template let-data>
               <div>
-                <button ejs-button (click)="onDetailsClicked($event)" class="btn"><i
-                    class="fa-solid fa-circle-info"></i></button>
+                <button ejs-button (click)="onDetailsClicked($event)" class="btn"><i class="fa-solid fa-info"></i></button>
               </div>
             </ng-template>
           </e-column>
           <e-column field="viewdetails" headerText="Buy" textAlign="Left" width="30">
             <ng-template #template let-data>
               <div><a href="https://www.binance.com/en/trade/{{data.symbol}}_USDT?theme=light&type=spot">
-                  <i class="fa-solid fa-store"></i> </a>
+                     <i class="fa-solid fa-shop"></i> </a>
               </div>
             </ng-template>
           </e-column>

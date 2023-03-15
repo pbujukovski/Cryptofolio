@@ -81,6 +81,21 @@ export class PortfolioComponent implements OnInit {
     }
     );
 
+/*    const binanceApiObsearvable$ = timer(1000, 20000);
+
+    this.binanceApiSubscription = binanceApiObsearvable$
+      .pipe(
+        concatMap(() => this.binanceApiService.getCoins())
+      )
+      .subscribe(data => {
+        this.data = data;
+        this.getTransactions();
+      });
+
+    this.binanceApiService.CoinsUpdated.subscribe(data => {
+      this.data = data;
+      this.getTransactions();
+    });*/
   }
 
   ngOnInit(): void {
@@ -219,7 +234,12 @@ export class PortfolioComponent implements OnInit {
 
   onAddNewTransaction() {
     this.isNewTransactionBtnClicked = true;
-    this.dialog.show();
+    // this.dialog.show();
+  }
+
+  onClose(){
+    this.isNewTransactionBtnClicked = false;
+    // this.dialog.hide();
   }
 
   onChangeFormModel(value: string) {
@@ -229,7 +249,7 @@ export class PortfolioComponent implements OnInit {
   //Hide dialog component if on side is clicked
   public onOverlayClick: EmitType<object> = () => {
     this.isNewTransactionBtnClicked = false;
-    this.dialog.hide();
+    // this.dialog.hide();
   };
 
   public onDetailsClicked(args: RowDataBoundEventArgs) {

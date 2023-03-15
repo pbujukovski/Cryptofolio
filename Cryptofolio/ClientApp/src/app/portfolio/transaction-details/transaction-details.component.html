@@ -134,7 +134,6 @@
       Transaction Details
     </ng-template>
     <ng-template #content>
-
     <div class="content border-0">
       <div class="label"> Are you sure you want to remove this transaction? </div>
       </div>
@@ -148,11 +147,23 @@
 <div *ngIf="onEditClickedEvent == true">
   <ejs-dialog #dialog id='dialog' isModal='true' showCloseIcon='true' (overlayClick)="onOverlayClick()" (close)="onClose()"
     [target]='targetElement' width='auto'>
-    <app-transaction-buy [transactionBuy] = transactionEdit
+    <ng-template #header>
+     Edit Transaction
+    </ng-template>
+    <app-transaction-buy *ngIf="TransactionType.Buy == this.transactionType"
+     [transactionBuy] = transactionEdit
                          [dialogType] = "'update'"
+                         [coinBinance]="coinBinance"
                          (isSumbitButtonClicked)="onSumbitButtonClicked($event)"
     >
     </app-transaction-buy>
+    <app-transaction-sell *ngIf="TransactionType.Sell == this.transactionType"
+    [transactionSell] = transactionEdit
+    [dialogType] = "'update'"
+    [coinBinance]="coinBinance"
+    (isSumbitButtonClicked)="onSumbitButtonClicked($event)"
+>
+</app-transaction-sell>
     </ejs-dialog>
 </div>
 

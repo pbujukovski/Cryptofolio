@@ -27,9 +27,7 @@ export class HomeComponent {
 
     this.subscriptionisAuthenticated = this.authorizeService.isAuthenticated().pipe().subscribe(isAuthenticated => {
 
-      if (isAuthenticated == true){
-
-      }
+      if (isAuthenticated == true){}
 
       this.manageUserAuthorization(isAuthenticated);
     }
@@ -46,24 +44,22 @@ export class HomeComponent {
       }
     );
 
-
-
     this.binanceApiSubscription = binanceApiObsearvable$
     .pipe(concatMap(() => this.binanceApiService.getTopCoins()))
     .subscribe();
-
-
-
    }
 
   ngOnInit(){
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
+    //Unsubscribe on destroy
     this.subscriptionisAuthenticated.unsubscribe();
     this.binanceApiSubscription.unsubscribe();
   }
   // `https://newsapi.org/v2/top-headlines?q=crypto&category=business&language=en&apiKey=abf821aef3294839aa9cc34dcc08628f`;
+
+  //Get news data with params = /top-headlines?q=crypto&category=business&language=en
   getNews() {
     const url = `https://newsapi.org/v2/top-headlines?q=crypto&category=business&language=en&apiKey=abf821aef3294839aa9cc34dcc08628f`;
      this.http.get(url).subscribe((data:  any) => {
@@ -72,9 +68,8 @@ export class HomeComponent {
 
        if(this.topCoinsBinance.length > 0){
          this.dataArrivedEvent = true;
-
        }
-    })
+    });
   }
 
 

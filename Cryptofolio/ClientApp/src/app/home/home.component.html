@@ -1,10 +1,8 @@
 <div class="container-fluid mt-5 px-5">
   <div class="row">
-      <!-- <div *ngIf="this.articles.length == 0 && this.topCoinsBinance.length == 0 "> -->
         <div *ngIf="this.dataArrivedEvent == false">
         <app-loading></app-loading>
       </div>
-      <!-- <div tabindex="0" class="e-card" id="basic" *ngIf="this.articles.length > 0 && this.topCoinsBinance.length > 0"> -->
         <div tabindex="0" class="e-card" id="basic" *ngIf="this.dataArrivedEvent == true">
         <div class="e-card-header">
           <div class="e-card-header-caption">
@@ -25,15 +23,6 @@
                       <div class="e-card-title"><img src="{{coin.iconPath}}" alt="" (error)="coin.iconPath='../../assets/default.png'" width="32px"> {{coin.name}} <span class="e-badge e-badge-primary e-badge-pill">{{this.coin.symbol}}</span></div>
                   </div>
               </div>
-   <!--           <div class="e-card-content">
-                <span>Price: {{coin.bidPrice}} </span>
-                <hr>
-                <span>Price Change: {{coin.priceChangePercent}} </span>
-                <hr>
-                <span>High Price: {{coin.highPrice}} </span>
-                <hr>
-                <span>Low Price: {{coin.lowPrice}} </span>
-              </div>-->
             <div class="e-card-content">
               <div class="content">
                 <div class="label">Fees</div>
@@ -70,7 +59,6 @@
                     <h6 *ngIf="article.content != null"> {{article.content | removeChar}} | <a href="{{ article.url }}" target="_blank">Read more</a> </h6>
                     <h6 *ngIf="article.content == null"> <a href="{{ article.url }}" target="_blank"><i class="fa-brands fa-youtube"></i> Proceed to watch the video </a> </h6>
                   </div>
-                  <!-- <hr style="padding-top: 20px;"> -->
               </div>
             </div>
           </div>

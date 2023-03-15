@@ -5,26 +5,29 @@
 <div class="container-fluid mt-5 px-5" *ngIf="isDataReady == true">
   <div *ngIf="isNewTransactionBtnClicked == true">
     <ejs-dialog id='dialog' #dialog isModal='true' showCloseIcon='true' (open)="onAddNewTransaction()"
-      (overlayClick)="onOverlayClick()" [target]='targetElement' width='auto'>
+      (close)="onClose()" (overlayClick)="onOverlayClick()" [target]='targetElement' width='auto'>
       <ng-template #content>
         <div class="col-md-12 col">
           <div class='e-btn-group e-round-corner'>
-            <button (click)="onChangeFormModel('Buy')" class="{{ getButtonClass('Buy') }}" ejs-button> Transaction Buy </button>
-            <button (click)="onChangeFormModel('Sell')" class="{{ getButtonClass('Sell') }}" ejs-button> Transaction Sell </button>
-            <button (click)="onChangeFormModel('In')" class="{{ getButtonClass('In') }}" ejs-button> Transaction In </button>
-            <button (click)="onChangeFormModel('Out')" class="{{ getButtonClass('Out') }}" ejs-button> Transaction Out </button>
+            <button (click)="onChangeFormModel('Buy')" class="{{ getButtonClass('Buy') }}" ejs-button> Transaction Buy
+            </button>
+            <button (click)="onChangeFormModel('Sell')" class="{{ getButtonClass('Sell') }}" ejs-button> Transaction
+              Sell </button>
+            <button (click)="onChangeFormModel('In')" class="{{ getButtonClass('In') }}" ejs-button> Transaction In
+            </button>
+            <button (click)="onChangeFormModel('Out')" class="{{ getButtonClass('Out') }}" ejs-button> Transaction Out
+            </button>
           </div>
         </div>
-        <app-transaction-sell *ngIf="this.selectedFormValue == 'Sell'" [coinsBinance]="data"></app-transaction-sell>
+        <app-transaction-sell *ngIf="this.selectedFormValue == 'Sell'" [coinsBinance]="data"
+          (isSumbitButtonClicked)="onSumbitButtonClicked($event)" [dialogType]="'insert'"></app-transaction-sell>
         <app-transaction-buy *ngIf="this.selectedFormValue == 'Buy'" [coinsBinance]="data"
-                                                                    (isSumbitButtonClicked)="onSumbitButtonClicked($event)"
-                                                                    [dialogType]="'insert'"
-                                                                    ></app-transaction-buy>
+          (isSumbitButtonClicked)="onSumbitButtonClicked($event)" [dialogType]="'insert'"></app-transaction-buy>
         <app-transaction-in *ngIf="this.selectedFormValue == 'In'" [coinsBinance]="data"></app-transaction-in>
         <app-transaction-out *ngIf="this.selectedFormValue == 'Out'" [coinsBinance]="data"></app-transaction-out>
       </ng-template>
       <ng-template #header>
-        <h4>Create new notifier</h4>
+        <h2>Add Transaction</h2>
       </ng-template>
     </ejs-dialog>
   </div>
@@ -41,74 +44,77 @@
         <div class="row">
           <div class="mt-20 col-md-6 ">
             <span><i class="fa-solid fa-wallet"></i> Current Ballance</span>
-            <br/>
+            <br />
             <h3>
               {{this.sumBallance | abbreviateNumber}}
-          </h3>
+            </h3>
 
           </div>
           <div class="col-md-auto ms-auto text-center">
-            <button  ejs-button class="addButton" (click)="onAddNewTransaction()"><i class="fa-solid fa-plus"></i>  Add new transaction </button>
-          <div class="bottom-btns">
-          <div class="col-md-5 ms-5 text-left" style="padding-bottom: 50px;">
-            <!-- <button type="submit" iconCss="e-icons e-save-icon" ejs-button isPrimary="true"
+            <button ejs-button class="addButton" (click)="onAddNewTransaction()"><i class="fa-solid fa-plus"></i> Add
+              new transaction </button>
+            <div class="bottom-btns">
+              <div class="col-md-5 ms-5 text-left" style="padding-bottom: 50px;">
+                <!-- <button type="submit" iconCss="e-icons e-save-icon" ejs-button isPrimary="true"
               (click)="onAddNewTransaction()"> Create new subscription</button> -->
               </div>
-          </div>
+            </div>
           </div>
         </div>
         <div class="row">
-          <div class="grid-no-borders mb-3" *ngIf="this.transactions.length > 0 == true && this.transactionSummaryGrid.length > 0">
-            <ejs-grid #grid [dataSource]="transactionSummaryGrid" [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
-            [editSettings]="editSettings" [toolbar]="toolbar" [enableImmutableMode]='true'  [rowHeight]='60'
-            >
-            <e-columns>
-              <e-column headerText='Name' field='CoinName' width=33 textAlign="Left">
-                <ng-template #template let-data>
-                  <div class="image">
-                    <img [src]="data.ImgPath" (error)="data.CoinLogoPath='../../assets/default.png'" width="32px" [alt]="data.name" />
-                    <span> {{data.CoinName}}</span>
-                  </div>
-                </ng-template>
-              </e-column>
-              <e-column isPrimaryKey="true" field='CoinSymbol' headerText='' width=30>
-              </e-column>
-              <e-column field='Price' headerText='Price' textAlign='Left' width=40>
-                <ng-template #template let-data>
-                  <div>
-                    {{data.Price}}
-                  </div>
-                </ng-template>
-              </e-column>
-              <e-column field='PercentageChange' headerText='24%' textAlign='Right' width=40>
-              </e-column>
-              <e-column field='AvgBuyPrice' headerText='AvgBuyPrice' textAlign='Center' width=40>
-                <ng-template #template let-data>
+          <div class="grid-no-borders mb-3"
+            *ngIf="this.transactions.length > 0 == true && this.transactionSummaryGrid.length > 0">
+            <ejs-grid #grid [dataSource]="transactionSummaryGrid" [allowPaging]="true" [allowSorting]="true"
+              [pageSettings]="pageSettings" [editSettings]="editSettings" [toolbar]="toolbar"
+              [enableImmutableMode]='true' [rowHeight]='60'>
+              <e-columns>
+                <e-column headerText='Name' field='CoinName' width=33 textAlign="Left">
+                  <ng-template #template let-data>
+                    <div class="image">
+                      <img [src]="data.ImgPath" (error)="data.CoinLogoPath='../../assets/default.png'" width="32px"
+                        [alt]="data.name" />
+                      <span> {{data.CoinName}}</span>
+                    </div>
+                  </ng-template>
+                </e-column>
+                <e-column isPrimaryKey="true" field='CoinSymbol' headerText='' width=30>
+                </e-column>
+                <e-column field='Price' headerText='Price' textAlign='Left' width=40>
+                  <ng-template #template let-data>
+                    <div>
+                      {{data.Price}}
+                    </div>
+                  </ng-template>
+                </e-column>
+                <e-column field='PercentageChange' headerText='24%' textAlign='Right' width=40>
+                </e-column>
+                <e-column field='AvgBuyPrice' headerText='AvgBuyPrice' textAlign='Center' width=40>
+                  <ng-template #template let-data>
                     {{data.AvgBuyPrice | abbreviateNumber}}
-                </ng-template>
-              </e-column>
+                  </ng-template>
+                </e-column>
 
-              <e-column field='Quantity' headerText='Quantity' textAlign='Right' width=100>
-                <ng-template #template let-data>
-                  <span>
-                    {{data.HoldingsPrice | abbreviateNumber}} </span>
-                  <br />
-                  <span > {{data.Quantity}} {{data.CoinSymbol}}</span>
-                </ng-template>
-              </e-column>
-              <e-column field="viewdetails" headerText="Details" textAlign="Right" width="30">
-                <ng-template #template let-data>
-                  <div>
-                    <button ejs-button (click)="onDetailsClicked(data)" class="btn"><i class="fa-solid fa-info"></i></button>
-                  </div>
-                </ng-template>
-              </e-column>
-            </e-columns>
-          </ejs-grid>
+                <e-column field='Quantity' headerText='Quantity' textAlign='Right' width=100>
+                  <ng-template #template let-data>
+                    <span>
+                      {{data.HoldingsPrice | abbreviateNumber}} </span>
+                    <br />
+                    <span> {{data.Quantity}} {{data.CoinSymbol}}</span>
+                  </ng-template>
+                </e-column>
+                <e-column field="viewdetails" headerText="Details" textAlign="Right" width="30">
+                  <ng-template #template let-data>
+                    <div>
+                      <button ejs-button (click)="onDetailsClicked(data)" class="btn"><i
+                          class="fa-solid fa-arrow-right-arrow-left"></i></button>
+                    </div>
+                  </ng-template>
+                </e-column>
+              </e-columns>
+            </ejs-grid>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-

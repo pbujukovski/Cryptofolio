@@ -475,3 +475,8 @@ img {
   margin-top: 20px;
   box-shadow: 0 4px 30px rgb(0 0 0 / 16%) !important;
 }
+
+a {
+  color: black;
+  text-decoration: none;
+}

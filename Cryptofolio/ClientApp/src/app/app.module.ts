@@ -24,7 +24,7 @@ import { CandleSeriesService, CategoryService, ChartModule, ColumnSeriesService,
 import { CryptoDetailsChartComponent } from './crypto-details/crypto-details-chart/crypto-details-chart.component';
 import { RichTextEditorAllModule, RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 import { CommentSectionComponent } from './crypto-details/comment-section/comment-section.component';
-import { DropDownListAllModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { ComboBoxModule, DropDownListAllModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 import { PortfolioDetailsComponent } from './portfolio/portfolio-details/portfolio-details.component';
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
@@ -84,6 +84,7 @@ import { AbbreviateOrNumberPipe } from './common/pipes/abbreviate-or-number.pipe
     DropDownListAllModule,
     DialogModule,
     TextBoxModule,
+    ComboBoxModule,
     DateTimePickerModule
 
   ],

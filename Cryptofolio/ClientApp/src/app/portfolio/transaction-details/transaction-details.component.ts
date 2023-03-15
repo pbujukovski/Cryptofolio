@@ -200,13 +200,27 @@ export class TransactionDetailsComponent implements OnInit {
     this.grid.refresh();
   }
 
+  public transactionType :string = '';
+  public dataTransaction!: Transaction;
   public transactionEdit !: FinanceTransaction;
   public onEditClickedEvent : boolean = false;
   public onEditClicked(data: RowDataBoundEventArgs) {
-    console.log("Here");
+    console.log("Here ON EDIT CLICKED");
     console.log(data);
-    this.transactionEdit = data as FinanceTransaction;
+    this.dataTransaction = data as Transaction;
+    this.transactionType = this.dataTransaction['@odata.type'];
+
+    if (this.dataTransaction['@odata.type'] == TransactionType.Buy)
+    {
+      this.transactionEdit = data as FinanceTransaction;
+    }
+    if (this.dataTransaction['@odata.type'] == TransactionType.Sell)
+    {
+      this.transactionEdit = data as FinanceTransaction;
+    }
+
     this.onEditClickedEvent= true;
+    this.dialog.show;
   }
 
   public onSumbitButtonClicked(value: boolean){

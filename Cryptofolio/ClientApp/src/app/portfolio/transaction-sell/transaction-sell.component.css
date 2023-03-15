@@ -1,6 +1,51 @@
-.e-btn{
-  border-radius: 20px;
-  background-color: transparent;
-  color: #189ad3;
-  width: fit-content;
+.border {
+  border-radius: 5px;
+  background-color: #2979ffc7;
+  color: white;
+  padding: 7px 10px;
 }
+
+.content-wrapper {
+  width: 30%;
+  margin: 0 auto;
+  min-width: 185px;
+}
+
+.control-label {
+  padding: 24px 0px 10px 0px;
+  font-size: 12px;
+}
+
+.e-input-eye:before {
+content: '$';
+font-family: e-icons;
+font-size: 13px;
+}
+
+.bottom-btns {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 10px;
+}
+.bottom-btns button {
+  margin: 4px 0px;
+  align-items: center;
+  background: rgb(239, 242, 245);
+  border: 0px;
+  border-radius: 23px;
+  display: inline-flex;
+  color: white;
+  cursor: pointer;
+  justify-content: center;
+  outline: 0px;
+  font-weight: 500;
+  width: 100%;
+  height: 43px;
+  font-size: 13px;
+  padding: 0px 24px;
+  line-height: -12px;
+  background-color: #5896ff;
+}
+

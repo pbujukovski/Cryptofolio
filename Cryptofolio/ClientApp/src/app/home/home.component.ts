@@ -27,13 +27,13 @@ export class HomeComponent {
 
     this.subscriptionisAuthenticated = this.authorizeService.isAuthenticated().pipe().subscribe(isAuthenticated => {
 
-      if (isAuthenticated == true){}
-
+      // if (isAuthenticated == true){}
       this.manageUserAuthorization(isAuthenticated);
+
     }
     );
 
-    const binanceApiObsearvable$ = timer(1000, 20000);
+    const binanceApiObsearvable$ = timer(0, 20000);
 
     //Subscribe to get coins updated from Binance Service
     this.binanceApiSubscription = this.binanceApiService.TopCoinsUpdated.subscribe(

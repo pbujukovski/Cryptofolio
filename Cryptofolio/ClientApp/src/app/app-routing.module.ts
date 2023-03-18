@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
+import { ApplicationSettingsComponent } from './application-settings/application-settings.component';
 import { CryptoDetailsComponent } from './crypto-details/crypto-details.component';
 import { CryptoGridComponent } from './crypto-grid/crypto-grid.component';
 import { HomeComponent } from './home/home.component';

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DropDownList } from '@syncfusion/ej2-angular-dropdowns';
 import {
@@ -19,6 +19,9 @@ import { FinanceTransaction } from 'src/app/common/models/transaction-models/fin
 import { Transaction } from 'src/app/common/models/transaction-models/transaction';
 import { TransactionGrid } from 'src/app/common/models/transaction-models/transaction-grid.model';
 import { TransactionType } from 'src/app/common/models/transaction-models/transaction-type.enum';
+import { TransferTransaction } from 'src/app/common/models/transaction-models/transfer-transaction';
+import { TransferTransactionIn } from 'src/app/common/models/transaction-models/transfer-transaction-in';
+import { TransferTransactionOut } from 'src/app/common/models/transaction-models/transfer-transaction-out';
 import { BinanceApiService } from 'src/app/common/services/binance-api.service';
 import { PortfolioService } from 'src/app/common/services/portfolio.service';
 import { SyncfusionUtilsService } from 'src/app/common/syncfusion-utils';
@@ -29,13 +32,14 @@ import { environment } from 'src/environments/environment';
   templateUrl: './transaction-details.component.html',
   styleUrls: ['./transaction-details.component.css'],
 })
-export class TransactionDetailsComponent implements OnInit {
+export class TransactionDetailsComponent implements OnInit, OnDestroy {
   public coinSymbol: string = '';
   TransactionType = TransactionType;
   public dataManager: DataManager;
   public queryManager: Query;
 
   public transactionCurrent!: Transaction;
+  public sliceIndex: number = -1;
 
   public isDetailsClicked: boolean = false;
   public targetElement!: HTMLElement;
@@ -43,11 +47,16 @@ export class TransactionDetailsComponent implements OnInit {
   public isDeleteContentClicked: boolean = false;
   public transactions: TransactionGrid[] = [];
   public transaction!: TransactionGrid;
-
+  public transactionType :string = '';
+  public dataTransaction!: Transaction;
+  public transactionEdit !: FinanceTransaction;
+  public transactionEditInOut !: TransferTransaction;
+  public onEditClickedEvent : boolean = false;
   // @ViewChild('ddl') ddl!: DropDownList;
 
   @ViewChild('dialog') dialog!: DialogComponent;
-  @ViewChild('gird') grid! : GridComponent;
+  @ViewChild('myGrid') grid?: GridComponent;
+  // @ViewChild('grid', { static: true }) grid!: GridComponent;
 
   public coinTransactionSummary: CoinTransactionSummary =
     new CoinTransactionSummary();
@@ -58,6 +67,7 @@ export class TransactionDetailsComponent implements OnInit {
 
   public coinBinance: CoinBinance = new CoinBinance();
 
+  public isFirstTimeSynchronization: boolean = true;
   public subscriptionBinance: Subscription;
   constructor(
     private binanceApiService: BinanceApiService,
@@ -75,7 +85,7 @@ export class TransactionDetailsComponent implements OnInit {
 
     });
     //Add timer to refresh data every 20sec
-    const binanceApiObsearvable$ = timer(0, 20000);
+    const binanceApiObsearvable$ = timer(0, 10000);
 
     //Set setings for Data Manager
     this.dataManager = new DataManager({
@@ -87,16 +97,14 @@ export class TransactionDetailsComponent implements OnInit {
     //Set query with parametar 'CoinSymbol'
     this.queryManager = new Query().addParams('CoinSymbol', this.coinSymbol);
 
-    //Subscribe to get the coins from binance api service
+
+    this.binanceApiService.CoinUpdated.subscribe((data) => {
+      this.coinBinance = data;
+      this.getTransactions();
+    });
     this.subscriptionBinance = binanceApiObsearvable$
       .pipe(concatMap(() => this.binanceApiService.getCoin(this.coinSymbol)))
-      .subscribe(() => {
-        this.binanceApiService.CoinUpdated.subscribe((data) => {
-          this.coinBinance = data;
-          //Get the data for transactions
-          this.getTransactions();
-        });
-      });
+      .subscribe();
 
   }
 
@@ -111,6 +119,15 @@ export class TransactionDetailsComponent implements OnInit {
     //Add search to toolbar
     this.toolbar = ['Search'];
   }
+
+  ngOnDestroy(): void {
+      if(this.subscriptionBinance){
+        this.subscriptionBinance.unsubscribe();
+      }
+  }
+
+
+
 
   public getTransactions() {
     this.dataManager
@@ -152,7 +169,7 @@ export class TransactionDetailsComponent implements OnInit {
       }
     });
     this.coinTransactionSummary.CoinSymbol = this.coinSymbol;
-    this.coinTransactionSummary.Quantity = amountSummary;
+    this.coinTransactionSummary.Quantity = Number(amountSummary.toFixed(2));
     this.coinTransactionSummary.Price =
       amountSummary * Number(this.coinBinance.lastPrice);
       if (avgBuyPrice != 0 || countBuyTransactions != 0){
@@ -189,34 +206,47 @@ export class TransactionDetailsComponent implements OnInit {
     this.router.navigate(['portfolio']);
   }
   public onDeleteClicked(data: Transaction) {
+    console.log('data');
+    console.log(data);
+    let i = data as any;
+    this.sliceIndex = i.index;
     this.isDeleteContentClicked = true;
     this.transactionCurrent = data;
   }
 
   public deleteSelectedContent(){
+    console.log("HERE");
+    console.log(this.sliceIndex);
+    console.log(this.transactions.length);
+    this.transactions.splice(this.sliceIndex,1);
 
     this.dataManager.remove('Id', this.transactionCurrent);
     this.isDeleteContentClicked = false;
-    this.grid.refresh();
+
+    if (this.transactions.length == 0){
+      this.onBack();
+    }
+    else if (this.transactions.length > 0){
+      console.log(this.grid);
+      this.grid!.refresh();
+    }
+
   }
 
-  public transactionType :string = '';
-  public dataTransaction!: Transaction;
-  public transactionEdit !: FinanceTransaction;
-  public onEditClickedEvent : boolean = false;
+
   public onEditClicked(data: RowDataBoundEventArgs) {
     console.log("Here ON EDIT CLICKED");
     console.log(data);
     this.dataTransaction = data as Transaction;
     this.transactionType = this.dataTransaction['@odata.type'];
 
-    if (this.dataTransaction['@odata.type'] == TransactionType.Buy)
+    if (this.dataTransaction['@odata.type'] == TransactionType.Buy || this.dataTransaction['@odata.type'] == TransactionType.Sell)
     {
       this.transactionEdit = data as FinanceTransaction;
     }
-    if (this.dataTransaction['@odata.type'] == TransactionType.Sell)
+    else if (this.dataTransaction['@odata.type'] == TransactionType.Out || this.dataTransaction['@odata.type'] == TransactionType.In)
     {
-      this.transactionEdit = data as FinanceTransaction;
+      this.transactionEditInOut = data as TransferTransaction;
     }
 
     this.onEditClickedEvent= true;
@@ -228,8 +258,9 @@ export class TransactionDetailsComponent implements OnInit {
     this.onEditClickedEvent = false;
     if (value == true){
       this.dialog!.hide();
-      this.getTransactions();
-      this.grid.refresh();
+      // this.getTransactions();
+    this.grid!.hideColumns('Id');
+     this.grid!.showSpinner();
     }
   }
 

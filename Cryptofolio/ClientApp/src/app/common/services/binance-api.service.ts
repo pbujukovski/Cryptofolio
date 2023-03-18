@@ -261,6 +261,7 @@ export class BinanceApiService {
 
             //Step 3: Send only this coin becouse we are expecting only one element with matching symbol in Details Component
             this.CoinUpdated.next(this.coin);
+
           }
         })
       );

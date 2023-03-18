@@ -40,6 +40,9 @@ import { TransactionInComponent } from './portfolio/transaction-in/transaction-i
 import { TransactionOutComponent } from './portfolio/transaction-out/transaction-out.component';
 import { TransactionDetailsComponent } from './portfolio/transaction-details/transaction-details.component';
 import { AbbreviateOrNumberPipe } from './common/pipes/abbreviate-or-number.pipe';
+import { ApplicationSettingsComponent } from './application-settings/application-settings.component';
+import { ProfileSettingsComponent } from './application-settings/profile-settings/profile-settings.component';
+import { ApplicationSettingsModule } from './application-settings/application-settings.module';
 
 @NgModule({
   declarations: [
@@ -63,7 +66,7 @@ import { AbbreviateOrNumberPipe } from './common/pipes/abbreviate-or-number.pipe
     TransactionBuyComponent,
     TransactionInComponent,
     TransactionOutComponent,
-    TransactionDetailsComponent
+    TransactionDetailsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -85,8 +88,8 @@ import { AbbreviateOrNumberPipe } from './common/pipes/abbreviate-or-number.pipe
     DialogModule,
     TextBoxModule,
     ComboBoxModule,
-    DateTimePickerModule
-
+    DateTimePickerModule,
+    ApplicationSettingsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },

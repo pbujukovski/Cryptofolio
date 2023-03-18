@@ -11,21 +11,24 @@
         <div ngForm #notifierForm="ngForm">
           <div class="row">
             <div class="col-md-12 col">
-              <ejs-dropdownlist cssClass="e-outline" [(ngModel)]="notifier!.CoinSymbol!" name="CoinSymbol"
-                [dataSource]='this.coinBinance' [fields]="fieldsDropDownCoins" [valueTemplate]="valueTemplate"
-                [itemTemplate]="template" type="text" placeholder="Select Coin" cssClass="e-outline"
+              <ejs-combobox cssClass="e-outline" [(ngModel)]="notifier!.CoinSymbol!"  name="CoinSymbol"
+                [dataSource]='this.coinBinance' [fields]="fieldsDropDownCoins" required
+                #transactionInFormCoinSymbol="ngModel" [valueTemplate]="valueTemplate" [itemTemplate]="template"
+                type="text" placeholder="Select Coin" filterBarPlaceholder="Serach Coin Symbol" cssClass="e-outline"
                 [allowFiltering]='true' floatLabelType="Auto" popupHeight='600px'>
-              </ejs-dropdownlist>
+              </ejs-combobox>
               <ng-template #template let-data>
-                <h6>
-                  <img [src]="data.iconPath" [alt]="data.symbol" width="20" height="20">
+                <h6 style="margin: 10px">
+                  <img [src]="data.iconPath" (error)="data.iconPath='../../assets/default.png'" [alt]="data.symbol"
+                    width="30" height="30">
                   {{data.name}}
                   {{data.symbol}}
                 </h6>
               </ng-template>
               <ng-template #valueTemplate let-data>
-                <h6>
-                  <img [src]="data.iconPath" [alt]="data.symbol" width="20" height="20">
+                <h6 style="margin: 10px">
+                  <img [src]="data.iconPath" (error)="data.iconPath='../../assets/default.png'" [alt]="data.symbol"
+                    width="30" height="30">
                   {{data.name}}
                   {{data.symbol}}
                 </h6>
@@ -56,36 +59,45 @@
           <div class="row">
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col"></div>
             <div class="col-md-auto ms-auto text-center col">
+            <div class="bottom-btn-submit">
+                    <button type="submit" iconCss="e-icons e-save-icon" ejs-button isPrimary="true" (click)="onSubmit()"
+            [disabled]="!notifierForm.valid" [content]="'Add Notifier'"></button>
+            </div>
+          </div>
+          </div>
+          <!-- <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col"></div>
+            <div class="col-md-auto ms-auto text-center col">
               <button type="submit" iconCss="e-icons e-save-icon" ejs-button isPrimary="true" (click)="onSubmit()"
                 [disabled]="!notifierForm.valid">Submit</button>
             </div>
-          </div>
+          </div> -->
         </div>
 
       </ng-template>
       <ng-template #header>
-        <h4>Create new notifier</h4>
+        <h4>Add new notifier</h4>
       </ng-template>
     </ejs-dialog>
   </div>
 
   <div *ngIf="isDeleteContentClicked == true">
-    <ejs-dialog #dialog id='dialog' isModal='true' showCloseIcon='true' showSubmitButton="true" (overlayClick)="onOverlayClick()" (close)="onClose()"
-      [target]='targetElement' width='auto'>
+    <ejs-dialog #dialog id='dialog' isModal='true' showCloseIcon='true' showSubmitButton="true"
+      (overlayClick)="onOverlayClick()" (close)="onClose()" [target]='targetElement' width='auto'>
       <ng-template #header>
         Notifier Details
       </ng-template>
       <ng-template #content>
 
-      <div class="content border-0">
-        <div class="label"> Are you sure you want to remove this notifier? </div>
+        <div class="content border-0">
+          <div class="label"> Are you sure you want to remove this notifier? </div>
         </div>
         <div class="bottom-btns">
-        <button class="danger"  (click)="deleteSelectedContent()">  Remove  </button>
-        <button  (click)="onClose()">  Cancel </button>
-      </div>
-    </ng-template>
-      </ejs-dialog>
+          <button class="danger" (click)="deleteSelectedContent()"> Remove </button>
+          <button (click)="onClose()"> Cancel </button>
+        </div>
+      </ng-template>
+    </ejs-dialog>
   </div>
 
   <div class="row">
@@ -100,13 +112,13 @@
       <div class="e-card-content">
         <div class="row">
           <div class="col-md-5 ms-5 text-left" style="padding-bottom: 50px;">
-            <button type="submit" iconCss="e-icons e-save-icon" ejs-button isPrimary="true"
-              (click)="onAddNewNotifierSubscripiton()"> Create new subscription</button>
+            <button type="submit" ejs-button isPrimary="true"
+              (click)="onAddNewNotifierSubscripiton()"><i class="fa-solid fa-plus"></i> Add new notifier</button>
           </div>
         </div>
         <div class="row">
           <div class="col-md-5 ms-5 text-left">
-            <h4 *ngIf="this.notifiers.length > 0" style="padding-bottom: 10px;">Active notifier subscriptions</h4>
+            <h4 *ngIf="this.notifiers.length > 0" style="padding-bottom: 10px;">Active notifiers</h4>
           </div>
         </div>
         <div class="row" *ngIf="this.notifiers.length == 0">
@@ -136,13 +148,13 @@
                     </div>
                     <div class="col-md-auto ms-auto text-center">
                       <button type="submit" iconCss="e-icons e-trash-icon" ejs-button isPrimary="true"
-                              (click)="onDelete(notificationData, i)"></button>
+                        (click)="onDelete(notificationData, i)"></button>
                     </div>
                   </div>
 
                 </div>
               </div>
-<!--              <div class="e-card-content">
+              <!--              <div class="e-card-content">
                 <span>Desired Price: {{notificationData.DesiredPrice}} </span>
                 <hr>
                 <span>Due Date: {{notificationData.DueDate | date:'yyyy-MM-dd HH:mm:ss' }} </span>
@@ -165,8 +177,10 @@
                 </div>
                 <div class="content">
                   <div class="label">Price Direction</div>
-                  <div class="data-details h6" *ngIf="notificationData.isHigher == true" style="color:green"> Bullish </div>
-                  <div class="data-details h6" *ngIf="notificationData.isHigher == false" style="color:red"> Bearish </div>
+                  <div class="data-details h6" *ngIf="notificationData.isHigher == true" style="color:green"> Bullish
+                  </div>
+                  <div class="data-details h6" *ngIf="notificationData.isHigher == false" style="color:red"> Bearish
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { SidebarComponent } from '@syncfusion/ej2-angular-navigations';
 import { map, Observable } from 'rxjs';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';

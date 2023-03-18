@@ -45,7 +45,6 @@ html{
   border-radius: 9px;
 }
 
-
 .e-dialog .e-dlg-header-content+.e-dlg-content {
   padding-top: 10px;
 }
@@ -54,25 +53,24 @@ html{
   margin-left: 7px !important;
 }
 
-
 .e-textbox{
   background-color: inherit !important;
   border: none !important;
 }
 
 :root {
-  --celero-color-logo-blue: #00A5EA;
-  --celero-color-logo-green: #189ad3;
-  --celero-color-light-green: #D4E279;
-  --celero-color-hover: #79e2e2;
-  --celero-bg-color-green: #ECF8E5;
-  --celero-bg-color-green-l: #F7FDF3;
-  --celero-bg-color-green-d: #DCF4CE;
-  --celero-bg-color-green-btn: #AEC327;
-  --celero-txt-color-green: #189ad3;
-  --celero-txt-color-blue: #06A3E8;
-  --celero-link-color-green: #189ad3;
-  --celero-link-color-green-hover: #11516d;
+  --cryptofolio-color-logo-blue: #00A5EA;
+  --cryptofolio-color-logo-green: #189ad3;
+  --cryptofolio-color-light-green: #D4E279;
+  --cryptofolio-color-hover: #79e2e2;
+  --cryptofolio-bg-color-green: #ECF8E5;
+  --cryptofolio-bg-color-green-l: #F7FDF3;
+  --cryptofolio-bg-color-green-d: #DCF4CE;
+  --cryptofolio-bg-color-green-btn: #AEC327;
+  --cryptofolio-txt-color-green: #189ad3;
+  --cryptofolio-txt-color-blue: #06A3E8;
+  --cryptofolio-link-color-green: #189ad3;
+  --cryptofolio-link-color-green-hover: #11516d;
 }
 
 /* app-component - main container */
@@ -81,7 +79,6 @@ html{
   /* background-image:linear-gradient(to bottom, rgb(255 255 255 / 0%), rgb(32 149 242 / 31%)),url("../src/assets/3d-illustration-ethereum-blockchain-png.webp"); */
   background:linear-gradient(to bottom, rgb(255 255 255),rgba(41, 169, 223, 0)), url(../src/assets/abstract-blue-flip.png);
   background-size: cover;
-  /* 0 */
   background-attachment: fixed;
   background-position: right;
 }
@@ -103,14 +100,14 @@ a.btn-arrow:hover {
   color: var(--celero-txt-color-green);
   border: 2px solid var(--celero-txt-color-green);
 }
-.btn-green {
+/* .btn-green {
   color: white;
   background-color: var(--celero-bg-color-green-btn);
   transition: all 0.5s ease-in-out;
-}
-.btn-green:hover {
+} */
+/* .btn-green:hover {
   box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
-}
+} */
 @media screen and (max-width: 576px) {
   .home-section .img-fluid {
     max-height: 210px;
@@ -213,5 +210,8 @@ a.btn-arrow:hover {
   content: '\e98e';
 }
 
-
+.grid-no-borders .e-pager .e-spacing.e-numericitem:not(.e-active):not(.e-np):not(.e-pp):hover {
+  background-color: lightblue !important;
+  border-radius: 30px !important;
+}
 

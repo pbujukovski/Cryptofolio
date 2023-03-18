@@ -18,19 +18,28 @@
 
 #sidebarMenu li,
 #sidebarMenu li a {
-  color: var(--celero-link-color-green) !important;
+  /* color: var(--celero-link-color-green); */
+  color: #2095f2;
 }
 #sidebarMenu li {
   list-style-type: none;
   cursor: pointer;
 }
 
+a{
+  color: #2095f2 !important;
+}
+#sidebarMenu.e-sidebar ul li{
+  color: #2095f2;
+}
 #sidebarMenu.e-sidebar ul li:hover span {
-  color: var(--celero-link-color-green-hover);
+  color: black;
+  /* color: var(--celero-link-color-green-hover) ; */
 }
 
 #sidebarMenu.e-sidebar ul li.link-active span {
-  color: var(--celero-txt-color-green);
+  /* color: var(--celero-txt-color-green) !important; */
+color: black;
 }
 
 #sidebarMenu.e-sidebar {
@@ -81,6 +90,6 @@
   content: '\e99a'; /* menu */
 }
 
-.mt-5 {
+/* .mt-5 {
   margin-top: 2rem!important;
-}
+} */

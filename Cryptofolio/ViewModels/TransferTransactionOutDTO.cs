@@ -8,7 +8,7 @@ namespace Cryptofolio.ViewModels
 {
     public class TransferTransactionOutDTO : TransferTransactionDTO
     {
-        public TransferTransactionOutDTO() { }
+        public TransferTransactionOutDTO() : base() { }
 
         public TransferTransactionOutDTO(TransferTransactionOutDTO transferTransactionOutDTO) : base(transferTransactionOutDTO) { }
 

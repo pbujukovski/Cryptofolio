@@ -23,8 +23,10 @@
           (isSumbitButtonClicked)="onSumbitButtonClicked($event)" [dialogType]="'insert'"></app-transaction-sell>
         <app-transaction-buy *ngIf="this.selectedFormValue == 'Buy'" [coinsBinance]="data"
           (isSumbitButtonClicked)="onSumbitButtonClicked($event)" [dialogType]="'insert'"></app-transaction-buy>
-        <app-transaction-in *ngIf="this.selectedFormValue == 'In'" [coinsBinance]="data"></app-transaction-in>
-        <app-transaction-out *ngIf="this.selectedFormValue == 'Out'" [coinsBinance]="data"></app-transaction-out>
+        <app-transaction-in *ngIf="this.selectedFormValue == 'In'" [coinsBinance]="data"
+          (isSumbitButtonClicked)="onSumbitButtonClicked($event)" [dialogType]="'insert'"></app-transaction-in>
+        <app-transaction-out *ngIf="this.selectedFormValue == 'Out'" [coinsBinance]="data"
+          (isSumbitButtonClicked)="onSumbitButtonClicked($event)" [dialogType]="'insert'"></app-transaction-out>
       </ng-template>
       <ng-template #header>
         <h2>Add Transaction</h2>
@@ -64,7 +66,7 @@
         <div class="row">
           <div class="grid-no-borders mb-3"
             *ngIf="this.transactions.length > 0 == true && this.transactionSummaryGrid.length > 0">
-            <ejs-grid #grid [dataSource]="transactionSummaryGrid" [allowPaging]="true" [allowSorting]="true"
+            <ejs-grid #myGrid [dataSource]="transactionSummaryGrid" [allowPaging]="true" [allowSorting]="true"
               [pageSettings]="pageSettings" [editSettings]="editSettings" [toolbar]="toolbar"
               [enableImmutableMode]='true' [rowHeight]='60'>
               <e-columns>

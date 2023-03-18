@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { DataManager , Query } from '@syncfusion/ej2-data';
 import { CoinBinance } from 'src/app/common/models/coin-models/coin-binance';
@@ -14,10 +14,13 @@ import { environment } from 'src/environments/environment';
 export class TransactionInComponent implements OnInit {
   public data!: DataManager;
   public query!: Query;
+  @Output() isSumbitButtonClicked = new EventEmitter<boolean>();
 
+  @Input('dialogType') public dialogType: string = '';
   @Input("coinsBinance")  public coinsBinance: CoinBinance[] = [];
+  @Input("coinBinance")  public coinBinance!: CoinBinance;
   @ViewChild('transactionInForm') public transactionInForm!: FormGroup;
-  public transactionIn: TransferTransactionIn = {} as TransferTransactionIn;
+  @Input("transactionIn") public transactionIn: TransferTransactionIn = {} as TransferTransactionIn;
 
   public dateValue: Date =  new Date();
   //Dropdown menu for Ticket Statuses
@@ -28,7 +31,7 @@ export class TransactionInComponent implements OnInit {
 constructor(private syncfusionUtilsService: SyncfusionUtilsService) {
   this.data = new DataManager({
     url: environment.urlTransferTransactionIns,
-    adaptor:  syncfusionUtilsService.getCustomSecureODataV4Adaptor(),
+    adaptor:  syncfusionUtilsService.getCustomSecureODataV4AdaptorPatch(),
     crossDomain: true,
   });
 
@@ -36,18 +39,37 @@ constructor(private syncfusionUtilsService: SyncfusionUtilsService) {
  }
 
 ngOnInit(): void {
+  if (
+    this.transactionIn.Date == null &&
+    this.transactionIn.Date == undefined
+  ) {
+    this.transactionIn.Date = this.dateValue;
+  }
 }
 
   //Click on button Sumbit
+  //Click on button Sumbit
   onSubmit() {
     //Send updated request from edited residential association form
-    console.log("this.notifier");
-    console.log(this.transactionIn);
+    var dataUpdate = this.transactionInForm.value as TransferTransactionIn;
 
-    this.transactionIn.ApplicationUserId = 'x';
-    this.transactionIn.Id = -1;
-    this.data.insert(this.transactionIn);
+    dataUpdate.Id = this.transactionIn.Id;
+    dataUpdate.ApplicationUserId = this.transactionIn.ApplicationUserId;
+
+    if (this.dialogType == 'update') {
+      console.log('In Update');
+      console.log(dataUpdate);
+      this.data.update('Id', dataUpdate);
+    }
+
+    if (this.dialogType == 'insert') {
+      this.transactionIn.ApplicationUserId = 'x';
+      this.transactionIn.Id = -1;
+      this.data.insert(this.transactionIn);
+    }
+    this.isSumbitButtonClicked.emit(true);
     this.transactionInForm.reset();
+
     // this.isEdit = false;
     // this.grid.refresh();
   }

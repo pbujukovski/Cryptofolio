@@ -287,3 +287,23 @@
   background-color: rgb(234, 57, 67) !important;
   color: rgb(255, 255, 255) !important;
 }
+
+.bottom-btn-submit button {
+  margin: 4px 0px;
+  align-items: center;
+  background: rgb(239, 242, 245);
+  border: 0px;
+  border-radius: 23px;
+  display: inline-flex;
+  color: white;
+  cursor: pointer;
+  justify-content: center;
+  outline: 0px;
+  font-weight: 500;
+  width: 100%;
+  height: 43px;
+  font-size: 13px;
+  padding: 0px 24px;
+  line-height: -12px;
+  background-color: #5896ff;
+}

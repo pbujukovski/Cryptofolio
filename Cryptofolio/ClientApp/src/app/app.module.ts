@@ -40,9 +40,10 @@ import { TransactionInComponent } from './portfolio/transaction-in/transaction-i
 import { TransactionOutComponent } from './portfolio/transaction-out/transaction-out.component';
 import { TransactionDetailsComponent } from './portfolio/transaction-details/transaction-details.component';
 import { AbbreviateOrNumberPipe } from './common/pipes/abbreviate-or-number.pipe';
-import { ApplicationSettingsComponent } from './application-settings/application-settings.component';
 import { ProfileSettingsComponent } from './application-settings/profile-settings/profile-settings.component';
-import { ApplicationSettingsModule } from './application-settings/application-settings.module';
+import { SecurtySettingsComponent } from './application-settings/securty-settings/securty-settings.component';
+import { ApplicationSettingsComponent } from './application-settings/application-settings.component';
+
 
 @NgModule({
   declarations: [
@@ -67,6 +68,9 @@ import { ApplicationSettingsModule } from './application-settings/application-se
     TransactionInComponent,
     TransactionOutComponent,
     TransactionDetailsComponent,
+    SecurtySettingsComponent,
+    ApplicationSettingsComponent,
+    ProfileSettingsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -89,7 +93,6 @@ import { ApplicationSettingsModule } from './application-settings/application-se
     TextBoxModule,
     ComboBoxModule,
     DateTimePickerModule,
-    ApplicationSettingsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },

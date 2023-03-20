@@ -1,10 +1,47 @@
 <div class="row" *ngIf="(isAuthenticated | async) === true">
 <ejs-sidebar  id="sidebarMenu" #sidebarMenu [type]='type' [target]='target'
   [width]="width" [enableDock]="enableDock" [dockSize]="dockSize" (created)="onSidebarCreated($event)">
-  <div class="mt-5 pt-1">
+  <div class="mt-1 pt-1">
     <ul class="nav flex-column mt-3">
+      <div *ngIf="this.isSettingsClicked == true">
+        <li class="nav-item ms-3" (click)="onSidebarToggle()" title="Menu">
+          <span class="e-icons ps-1">
+          <i class="fa-solid fa-gear"></i>
+          </span>
+          <span class="e-text">Settings</span>
+        </li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
+          <a class="nav-link text-dark" [routerLink]="['home']" title="Dashboard">
+            <span class="e-icons ps-1">
+              <i class="fa-solid fa-chevron-left"></i>
+            </span>
+            <span class="e-text">Back to home</span>
+          </a>
+        </li>
+        <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
+          <a class="nav-link text-dark" [routerLink]="['/application-settings/profile-settings']" title="Account Settings">
+            <span class="e-icons ps-1">
+              <i class="fa-regular fa-address-card"></i>
+            </span>
+            <span class="e-text">Profile</span>
+          </a>
+        </li>
+        <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
+          <a class="nav-link text-dark" [routerLink]="['/application-settings/securty-settings']" title="Securty Settings">
+            <span class="e-icons ps-1">
+              <i class="fa-solid fa-lock"></i>
+            </span>
+            <span class="e-text">Securty</span>
+          </a>
+        </li>
+        </div>
+      <div *ngIf="this.isSettingsClicked == false">
       <li class="nav-item ms-3" (click)="onSidebarToggle()" title="Menu">
-        <span class="e-icons expand align-middle">
+        <span class="e-icons ps-1">
+          <i class="fa-solid fa-bars"></i>
         </span>
         <span class="e-text">Menu</span>
       </li>
@@ -19,6 +56,7 @@
           <span class="e-text">Dashboard</span>
         </a>
       </li>
+
       <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
         <a class="nav-link text-dark" [routerLink]="['cryptos']" title="Cryptocurrencies">
           <span class="e-icons ps-1">
@@ -51,6 +89,7 @@
           <span class="e-text">Notifier</span>
         </a>
       </li>
+    </div>
     </ul>
   </div>
 </ejs-sidebar>

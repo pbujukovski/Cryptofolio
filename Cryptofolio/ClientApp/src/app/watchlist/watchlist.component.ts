@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChipListComponent } from '@syncfusion/ej2-angular-buttons';
-import { EditSettingsModel, GridComponent, PageSettingsModel, ToolbarItems } from '@syncfusion/ej2-angular-grids';
+import { EditSettingsModel, GridComponent, PageSettingsModel, QueryCellInfoEventArgs, ToolbarItems } from '@syncfusion/ej2-angular-grids';
 import { DataManager, ODataV4Adaptor, Query, ReturnOption } from '@syncfusion/ej2-data';
 import { BehaviorSubject, concatMap, Subject, Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -40,7 +40,8 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
   private lastSearchTimeOut: number | null = null;
   private readonly searchTimeOutMs: number = 300;
-
+  public previousValuesMap: Record<string, CoinBinance> = {};
+  public coinBinanceBackup: CoinBinance = new CoinBinance();
 
   @ViewChild('grid') public grid!: GridComponent;
   constructor(public binanceApiService: BinanceApiService,public watchlistService: WatchlistService, public router: Router) {
@@ -124,6 +125,36 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       this.binanceApiSubscription.unsubscribe();
       this.watchlistSubscription.unsubscribe();
   }
+
+    //Change color for price when data is updated
+    customiseCell(args: QueryCellInfoEventArgs) {
+      let dataFromGrid = args.data as CoinBinance;
+
+      if (args.column?.field === 'bidPrice') {
+        const previousValue = this.previousValuesMap[dataFromGrid.symbol];
+        if (previousValue) {
+          const lastPrice = isNaN(
+            Number(previousValue.bidPrice.replace(/[^0-9.-]+/g, ''))
+          )
+            ? 0
+            : Number(previousValue.bidPrice.replace(/[^0-9.-]+/g, ''));
+          const currentPrice = isNaN(
+            Number(dataFromGrid.bidPrice.replace(/[^0-9.-]+/g, ''))
+          )
+            ? 0
+            : Number(dataFromGrid.bidPrice.replace(/[^0-9.-]+/g, ''));
+
+          (args.cell as any).style.color =
+            !lastPrice || lastPrice === currentPrice
+              ? 'black'
+              : currentPrice > lastPrice
+              ? 'green'
+              : 'red';
+        }
+        this.coinBinanceBackup = dataFromGrid;
+        this.previousValuesMap[dataFromGrid.symbol] = dataFromGrid;
+      }
+    }
 
 
   public created(args: any) {

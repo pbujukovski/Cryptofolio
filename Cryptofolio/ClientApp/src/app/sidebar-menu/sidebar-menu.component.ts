@@ -20,13 +20,15 @@ export class SidebarMenuComponent implements OnInit {
   public width: string = '200px';
   public dockSize: string = '60px';
   public enableDock: boolean = true;
-
+  public isSettingsClicked : boolean =  false;
 
   constructor(private authorizeService: AuthorizeService) { }
 
   ngOnInit() {
     this.isAuthenticated = this.authorizeService.isAuthenticated();
     this.userName = this.authorizeService.getUser().pipe(map(u => u && u.name));
+
+    this.authorizeService.isSettingsClicked.subscribe(x => this.isSettingsClicked =  x );
   }
 
   collapse() {

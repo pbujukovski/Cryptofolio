@@ -33,7 +33,7 @@ export class HomeComponent {
     }
     );
 
-    const binanceApiObsearvable$ = timer(0, 20000);
+    const binanceApiObsearvable$ = timer(1000, 20000);
 
     //Subscribe to get coins updated from Binance Service
     this.binanceApiSubscription = this.binanceApiService.TopCoinsUpdated.subscribe(

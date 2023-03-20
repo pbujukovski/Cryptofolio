@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User, UserManager } from 'oidc-client';
-import { BehaviorSubject, concat, from, Observable } from 'rxjs';
+import { BehaviorSubject, concat, from, Observable, Subject } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { ApplicationPaths, ApplicationName } from './api-authorization.constants';
 
@@ -43,6 +43,8 @@ export class AuthorizeService {
   private popUpDisabled = true;
   private userManager?: UserManager;
   private userSubject: BehaviorSubject<IUser | null> = new BehaviorSubject<IUser | null>(null);
+
+  public isSettingsClicked : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   public isAuthenticated(): Observable<boolean> {
     return this.getUser().pipe(map(u => !!u));

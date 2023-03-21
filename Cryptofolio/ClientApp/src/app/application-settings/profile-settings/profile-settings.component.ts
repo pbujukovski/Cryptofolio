@@ -12,13 +12,19 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./profile-settings.component.css']
 })
 export class ProfileSettingsComponent implements OnInit {
+
+  //Odata manager and query
   public data!: DataManager;
   public query!: Query;
 
+  //Booleans
   public isEditEnabled : boolean = false;
-
   public dataArrived: boolean = false;
+
+  //Form decorator
   @ViewChild('applicationUserForm') public applicationUserForm!: FormGroup;
+
+  //Data
   public applicationUser!: ApplicationUser;
   constructor(private syncfusionUtilsService : SyncfusionUtilsService, private router: Router) {
     this.data = new DataManager({
@@ -34,28 +40,23 @@ export class ProfileSettingsComponent implements OnInit {
     this.getAppUserDetails();
   }
 
+  //Send request to get data for current user
   public getAppUserDetails() {
     this.data
       .executeQuery(this.query)
       .then((e: ReturnOption) => {
         var resultList = e.result as ApplicationUser[];
-
-        console.log(resultList);
         this.dataArrived = true;
         if (resultList != null) {
-          console.log("ApplicationUserApplicationUserApplicationUserApplicationUserApplicationUser");
-          console.log(resultList);
           this.applicationUser = resultList[0];
           console.log(this.applicationUser);
-
-          // this.notifierUpdate.next(this.notifier);
         } else console.log('Result list is empty');
       })
       .catch((e) => true);
   }
 
+  //Send updated data for current user
   public onSubmit(){
-    console.log("HERE ON UPDATE");
     this.data.update("Id",this.applicationUser);
     this.isEditEnabled = false;
   }

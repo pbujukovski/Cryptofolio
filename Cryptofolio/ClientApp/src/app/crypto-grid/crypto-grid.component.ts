@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import {
   EditSettingsModel,
+  FilterSettingsModel,
   GridComponent,
   PageSettingsModel,
   QueryCellInfoEventArgs,
@@ -55,6 +56,7 @@ export class CryptoGridComponent implements OnInit, OnDestroy {
   public watchlistSubscription!: Subscription;
   public dataWatchlist!: Watchlist;
 
+  public filterOption: FilterSettingsModel = { type: 'Menu' };
   private lastSearchTimeOut: number | null = null;
   private readonly searchTimeOutMs: number = 300;
   public previousValuesMap: Record<string, CoinBinance> = {};

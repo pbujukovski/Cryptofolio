@@ -13,13 +13,19 @@ import { environment } from 'src/environments/environment';
 })
 export class SecurtySettingsComponent implements OnInit {
 
+  //Odata manager and query
   public data!: DataManager;
   public query!: Query;
 
+  //Booleans
   public dataArrived: boolean = false;
-  public passwordConfirm : string = '';
   public isEditEnabled : boolean = false;
+
+  //Decorators
   @ViewChild('applicationUserSecurityForm') public applicationUserSecurityForm!: FormGroup;
+
+  //Data
+  public passwordConfirm : string = '';
   public applicationUser!: ApplicationUser;
 
   constructor(private syncfusionUtilsService : SyncfusionUtilsService, private router: Router) {
@@ -36,30 +42,26 @@ export class SecurtySettingsComponent implements OnInit {
     this.getAppUserDetails();
   }
 
+  //Send request to get data for current user
   public getAppUserDetails() {
     this.data
       .executeQuery(this.query)
       .then((e: ReturnOption) => {
         var resultList = e.result as ApplicationUser[];
-
-        console.log(resultList);
         this.dataArrived = true;
         if (resultList != null) {
-          console.log("ApplicationUserApplicationUserApplicationUserApplicationUserApplicationUser");
-          console.log(resultList);
           this.applicationUser = resultList[0];
-          console.log(this.applicationUser);
-
-          // this.notifierUpdate.next(this.notifier);
         } else console.log('Result list is empty');
       })
       .catch((e) => true);
   }
 
+   //Send updated data for current user
   public onSubmit(){
     console.log("HERE ON UPDATE");
     var waitPromise = this.data.update("Id",this.applicationUser) as Promise<any>;
 
+    //Wait updated data for current user
     waitPromise.then((value: any) => {
       this.applicationUserSecurityForm.reset();
      this.isEditEnabled == false;
@@ -75,6 +77,7 @@ export class SecurtySettingsComponent implements OnInit {
   }
 
   public onCancelClicked(){
+    this.applicationUserSecurityForm.reset();
     this.isEditEnabled = false;
   }
 }

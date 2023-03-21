@@ -225,6 +225,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
             transactionGridSummary.Quantity = Number(amountSummary.toFixed(2));
             transactionGridSummary.HoldingsPrice =
               amountSummary * Number(this.dataCoin!.lastPrice);
+              transactionGridSummary.ProfitLoss = avgBuyPrice - (transactionGridSummary.Quantity * Number(this.dataCoin!.lastPrice))
             transactionGridSummary.ImgPath = this.dataCoin!.iconPath;
             transactionGridSummary.Price = this.dataCoin!.bidPrice;
             transactionGridSummary.CoinName = this.dataCoin!.name;

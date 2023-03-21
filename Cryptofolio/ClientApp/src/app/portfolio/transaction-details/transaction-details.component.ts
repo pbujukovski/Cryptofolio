@@ -148,6 +148,7 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
     var amountSummary = 0;
     var avgBuyPrice = 0;
     var countBuyTransactions = 0;
+    var calSumProfitLoss = 0;
     this.transactions.forEach((transaction) => {
       if (
         transaction['@odata.type'] == TransactionType.Buy ||
@@ -165,6 +166,14 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
         amountSummary -= transaction.Amount;
       }
     });
+    console.log("HEREEEEEEEEE");
+    let num = Number(this.coinBinance.lastPrice);
+    console.log(num);
+    console.log(amountSummary);
+    console.log(num * amountSummary);
+    console.log(avgBuyPrice);
+    console.log(avgBuyPrice - (num * amountSummary));
+    this.coinTransactionSummary.ProfitLoss = avgBuyPrice - (Number(this.coinBinance.lastPrice) * amountSummary)
     this.coinTransactionSummary.CoinSymbol = this.coinSymbol;
     this.coinTransactionSummary.Quantity = Number(amountSummary.toFixed(2));
     this.coinTransactionSummary.Price =

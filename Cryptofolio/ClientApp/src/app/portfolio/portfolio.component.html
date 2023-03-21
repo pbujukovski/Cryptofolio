@@ -90,9 +90,15 @@
                 </e-column>
                 <e-column field='PercentageChange' headerText='24%' textAlign='Right' width=40>
                 </e-column>
-                <e-column field='AvgBuyPrice' headerText='AvgBuyPrice' textAlign='Center' width=40>
+                <e-column field='AvgBuyPrice' headerText='AvgBuyPrice' textAlign='Right' width=40>
                   <ng-template #template let-data>
                     {{data.AvgBuyPrice | abbreviateNumber}}
+                  </ng-template>
+                </e-column>
+
+                <e-column field='ProfitLoss' headerText='Profit/Loss' textAlign='Right' width=40>
+                  <ng-template #template let-data>
+                    {{data.ProfitLoss | abbreviateNumber}}
                   </ng-template>
                 </e-column>
 

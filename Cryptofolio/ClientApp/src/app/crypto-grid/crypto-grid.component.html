@@ -11,7 +11,7 @@
     </div>
     <div class="e-card-content">
   <div class="grid-no-borders mb-3">
-      <ejs-grid #grid [dataSource]="data"  (created)='created($event)'  [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
+      <ejs-grid #grid [dataSource]="data" [allowFiltering]='true' [filterSettings]='filterOption' (created)='created($event)'  [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
         [editSettings]="editSettings" [toolbar]="toolbar" [enableImmutableMode]='true'  [rowHeight]='60' [allowSelection]="false"
         (queryCellInfo)='customiseCell($event)'>
 

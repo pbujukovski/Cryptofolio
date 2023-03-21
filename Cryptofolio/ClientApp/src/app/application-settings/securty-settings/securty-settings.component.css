@@ -1,43 +1,5 @@
-.e-btn, .e-css.e-btn {
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent !important;
-  border-color: transparent !important;
-   box-shadow: none !important;
-  color: rgba(0, 0, 0, 0.87);
-  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
-  font-size: 15px;
-}
 
-
-.e-lib.e-grid .e-rowcell:not(.e-editedbatchcell):not(.e-updatedtd) {
-  color: rgba(0, 0, 0, 0.87);
-  font-size: 15px !important;
-  font-weight: 500 !important;
-
-}
-a{
-  color: black;
-  text-decoration: none;
-}
-
-.star {
-  visibility:hidden;
-  font-size:30px;
-  cursor:pointer;
-}
-.star:before {
-  content: "\2606";
-  position: absolute;
-  visibility:visible;
- }
- .star:checked:before {
-  content: "\2605";
-  position: absolute;
-  color: yellow;
-  text-shadow: 0 0 3px #000;
- }
-
- .col-md-10 {
+.col-md-10 {
   margin-bottom: 20px;
 }
 
@@ -50,114 +12,6 @@ a{
   margin-bottom: 15px;
   color: var(--celero-txt-color-blue);
 }
-
-/* Override SF styles */
-.e-grid {
-  border-radius: 30px;
-  background-color: transparent;
-  box-shadow: none;
-}
-.e-headertext {
-  font-weight: bold;
-}
-.e-pager {
-  border-radius: 30px;
-}
-
-/* SF Grid - no borders */
-.grid-no-borders .e-grid,
-.grid-no-borders .e-grid .e-toolbar,
-.grid-no-borders .e-grid .e-gridheader,
-.grid-no-borders .e-grid .e-headercontent
-.grid-no-borders .e-pager,
-.grid-no-borders .e-gridpager.e-control.e-pager,
-.grid-no-borders .e-grid.e-resize-lines .e-headercell .e-rhandler,
-.grid-no-borders .e-grid.e-resize-lines .e-headercell .e-rsuppress,
-.grid-no-borders .e-rhandler.e-rcursor {
-  border-color: rgba(255,255,255,0) !important;
-}
-.grid-no-borders .e-row.e-altrow {
-/*  background-color: rgba(0,165,234,0.05);*/
-  /* background-color: #2093f22a; */
-  border-radius: 30px;
-}
-.grid-no-borders .e-grid .e-toolbar,
-.grid-no-borders .e-grid .e-toolbar-items,
-.grid-no-borders .e-grid .e-toolbar-item.e-overlay,
-.grid-no-borders .e-grid .e-toolbar .e-btn {
-  background-color: #fafafa00;
-}
-.grid-no-borders .e-grid .e-gridheader,
-.grid-no-borders .e-grid .e-headercell {
-/*  background-color: rgba(0,165,234,0.3);*/
-  /*  background-color: rgba(175,196,29,1);*/
-  /*  background-color: rgba(212,226,121,1);*/
-    background-color: #fafafa00;
-}
-.grid-no-borders .e-grid .e-gridpager,
-.grid-no-borders .e-grid .e-pagercontainer,
-.grid-no-borders .e-grid .e-gridpager .e-prevpagedisabled,
-.grid-no-borders .e-grid .e-gridpager .e-prevpage,
-.grid-no-borders .e-grid .e-gridpager .e-nextpage,
-.grid-no-borders .e-grid .e-gridpager .e-nextpagedisabled,
-.grid-no-borders .e-grid .e-gridpager .e-lastpagedisabled,
-.grid-no-borders .e-grid .e-gridpager .e-lastpage,
-.grid-no-borders .e-grid .e-gridpager .e-firstpage,
-.grid-no-borders .e-grid .e-gridpager .e-firstpagedisabled {
-  background-color: #fafafa00;
-  background-color: white;
-  margin-top: 50px;
-  border-radius: 2  0px;
-  box-shadow: 0 4px 20px rgb(0 0 0 / 14%);
-    backdrop-filter: blur(7.6px);
-}
-.grid-no-borders .e-pager .e-numericitem {
-  background-color: #fafafa00;
-  background-color: white;
-  margin-top: 50px;
-  border-radius: 30px;
-}
-.grid-no-borders .e-pager .e-spacing.e-numericitem:not(.e-active):not(.e-np):not(.e-pp):hover {
-  background-color: #fafafa00;
-  background-color: white;
-  margin-top: 50px;
-  border-radius: 30px;
-}
-.grid-no-borders .e-pager .e-numericitem.e-active {
-  background-color: #fafafa00;
-  background-color: white;
-  margin-top: 50px;
-  border-radius: 30px;
-}
-
-.e-lib.e-grid .e-gridcontent {
-  background-color: #fff0;
-}
-
-.e-lib.e-grid .e-content {
-  background-color: #fff0;
-}
-
-.e-pager{
-  background-color: white;
-  margin-top: 50px;
-  border-radius: 30px;
-}
-.e-lib.e-grid .e-toolbar {
-  border-bottom: 0;
-  border-left: 0;
-  border-right: 0;
-  border-top: none;
-  border-radius: 9px;
-  background-color: transparent;
-}
-
-.e-toolbar .e-toolbar-items {
-  background: #fafafa00 !important;
-}
-
-
-
 
 
 .e-card.e-card-horizontal {
@@ -173,38 +27,25 @@ a{
   background: rgb(255 255 255 / 31%);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgb(0 0 0 / 43%);;
-backdrop-filter: blur(7.6px);
--webkit-backdrop-filter: blur(7.6px);
-border: 1px solid rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(7.6px);
+  -webkit-backdrop-filter: blur(7.6px);
+  border: 1px solid rgba(255, 255, 255, 0.62);
 
-}
-
-h6{
-  padding-top:12px;
-  margin-top: 25px;
 }
 
 .e-card .e-card-content {
   color: rgb(8 8 8);
 }
 
-
 .col{
   padding: 12px;
 }
-
 
 
 div#content {
   padding: 0px 25px 0px 25px !important;
 }
 
-.e-richtexteditor .e-rte-toolbar {
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-bottom-left-radius: 0px !important;
-  border-bottom-right-radius: 0px !important;
-  border-bottom: 0;
-}
 
 .e-card {
   border: 1px none #000;
@@ -219,11 +60,6 @@ div#content {
 }
 
 
-.e-badge.e-badge-pill {
-  border-radius: 5em;
-  font-size: 15px;
-}
-
 a{
   color: black;
   text-decoration: none;
@@ -233,44 +69,29 @@ img {
   border-radius: 20px;
 }
 
-.ms-5 {
-  margin-left: 2rem!important;
+
+button.addButton.e-control.e-btn.e-lib.e-primary:hover {
+  background-color: #2095f2 !important;
 }
 
-.e-toolbar .e-toolbar-items:first-child > .e-toolbar-right .e-toolbar-item:last-child {
-  margin-right: 3px;
-  background: #fdfeff;
-  color: white;
-  border-radius: 30px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.e-toolbar .e-toolbar-items.e-tbar-pos {
-  display: block;
-  border-radius: 9px;
-  background-color: transparent !important;
-}
-
-.e-float-input .e-clear-icon::before {
-  font-size: 12px;
-  padding: 0;
-  text-align: center;
-  vertical-align: middle;
-  visibility: hidden !important;
-}
-
-.addButton{
+button.addButton.e-control.e-btn.e-lib.e-primary {
   background: rgba(255, 255, 255, 0.22);
   border-radius: 16px;
   margin-top: 20px;
   box-shadow: 0 4px 30px rgb(0 0 0 / 16%) !important;
 }
 
-button.addButton.e-control.e-btn.e-lib.e-primary:hover {
-  background-color: #2095f2 !important;
-}
-
 button.e-control.e-btn.e-lib.e-round {
   font-size: 20px;
+  margin-top: -20px;
+}
+
+.e-btn, .e-css.e-btn {
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent !important;
+  border-color: transparent !important;
+   box-shadow: none !important;
+  color: rgba(0, 0, 0, 0.87);
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 15px;
 }

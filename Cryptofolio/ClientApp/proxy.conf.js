@@ -26,7 +26,8 @@ const PROXY_CONFIG = [
       "/odata/FinanceTransactionBuys",
       "/odata/TransferTransactions",
       "/odata/TransferTransactionIns",
-      "/odata/TransferTransactionOuts"
+      "/odata/TransferTransactionOuts",
+      "/odata/ApplicationUsers"
 
    ],
     target: target,

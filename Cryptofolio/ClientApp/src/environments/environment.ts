@@ -20,7 +20,7 @@ export const environment = {
    urlTransferTransactions: "odata/TransferTransactions",
    urlTransferTransactionIns: "odata/TransferTransactionIns",
    urlTransferTransactionOuts: "odata/TransferTransactionOuts",
-
+   urlApplicationUser: "odata/ApplicationUsers",
    urlNotifiers: "odata/Notifiers"
 };
 

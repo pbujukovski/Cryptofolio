@@ -89,7 +89,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
     this.queryTransactions = new Query();
 
-    const binanceApiObsearvable$ = timer(0, 10000);
+    const binanceApiObsearvable$ = timer(1000, 20000);
 
     // this.binanceApiSubscription = binanceApiObsearvable$
     // .pipe(concatMap(() => this.binanceApiService.getCoins()))
@@ -101,7 +101,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     // }
     // );
 
-    this.binanceApiService.CoinsUpdated.subscribe((data) => {
+    this.binanceApiSubscription = this.binanceApiService.CoinsUpdated.subscribe((data) => {
       this.data = data;
     this.getTransactions();
     });
@@ -130,9 +130,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.binanceApiSubscription) {
       this.binanceApiSubscription.unsubscribe();
-    }
   }
 
   getTransactions() {

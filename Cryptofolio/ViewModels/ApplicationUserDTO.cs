@@ -23,6 +23,11 @@ namespace Cryptofolio.ViewModels
         [JsonPropertyName("PhoneNumber")]
         public string PhoneNumber { get; set; } = string.Empty;
 
+        [JsonPropertyName("Password")]
+        public string Password { get; set; } = string.Empty;
+
+        [JsonPropertyName("OldPassword")]
+        public string OldPassword { get; set; } = string.Empty;
 
         public ApplicationUserDTO() { }
 

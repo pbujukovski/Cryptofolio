@@ -1,1 +1,93 @@
-<p>profile-settings works!</p>
+<div class="container-fluid mt-5 px-5" *ngIf="this.dataArrived == false">
+  <app-loading></app-loading>
+</div>
+<div class="container-fluid mt-5 px-5" *ngIf="this.dataArrived == true">
+  <div tabindex="0" class="e-card" id="basic">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-title">
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <div class="row">
+      <div class="col-md-6">
+      <div ngForm #applicationUserForm="ngForm">
+        <div class="row material2">
+          <div class="col-md-1 ms-1 text-left">
+          <button cssClass="e-round" type="back" (click)="onBack()" ejs-button><i
+            class="fa-solid fa-angle-left"></i></button>
+            </div>
+            </div>
+        <div class="row material2 mt-5">
+          <div class="col-md-5 ms-5 text-left">
+          <h4 >Profile Settings</h4>
+        </div>
+        <div  class="col-md-auto ms-auto text-top mt-0" >
+            <button *ngIf="this.isEditEnabled == false" cssClass="e-round" ejs-button class="btn" (click)="onEditClicked()"><i
+              class="fa-regular fa-pen-to-square"></i></button>
+              <button *ngIf="this.isEditEnabled == true" cssClass="e-round" ejs-button class="btn" (click)="onCancelClicked()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+      </div>
+
+        <div class="row material2">
+          <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col">
+            <ejs-textbox [(ngModel)]="applicationUser.FirstName" required id="FirstName" [readonly]="this.isEditEnabled == false"
+              placeholder='First Name' name="FirstName" type="string" #applicationUserFormFirstName="ngModel"
+              cssClass="e-outline" floatLabelType="Auto">
+          </ejs-textbox>
+            <div *ngIf="applicationUserFormFirstName.invalid && (applicationUserFormFirstName.dirty || applicationUserFormFirstName.touched)">
+              <div class="e-error" *ngIf="applicationUserFormFirstName.errors?.required">
+                * Enter Valid First Name
+              </div>
+              </div>
+          </div>
+          <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col">
+            <ejs-textbox [(ngModel)]="applicationUser.LastName" required id="LastName" [readonly]="this.isEditEnabled == false"
+              placeholder='Last Name' name="LastName" type="string" #applicationUserFormLastName="ngModel"
+              cssClass="e-outline" floatLabelType="Auto">
+            </ejs-textbox>
+            <div *ngIf="applicationUserFormLastName.invalid && (applicationUserFormLastName.dirty || applicationUserFormLastName.touched)">
+              <div class="e-error" *ngIf="applicationUserFormLastName.errors?.required">
+                * Enter Valid Last Name
+              </div>
+              </div>
+          </div>
+        </div>
+        <div class="row material2">
+          <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col">
+            <ejs-textbox [(ngModel)]="applicationUser.PhoneNumber" id="PhoneNumber" [readonly]="this.isEditEnabled == false"
+              placeholder='PhoneNumber' name="Phone Number" type="string" #applicationUserForm="ngModel"
+              cssClass="e-outline" floatLabelType="Auto">
+            </ejs-textbox>
+          </div>
+          <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col">
+            <ejs-textbox [(ngModel)]="applicationUser.Email" required  id="Email" [readonly]="this.isEditEnabled == false"
+              placeholder='Email' name="Email" type="email" #applicationUserFormEmail="ngModel"  email maxlength="50"
+              appValidationControl
+              cssClass="e-outline" floatLabelType="Auto">
+            </ejs-textbox>
+            <div *ngIf="applicationUserFormEmail.invalid && (applicationUserFormEmail.dirty || applicationUserFormEmail.touched)">
+              <div class="e-error" *ngIf="applicationUserFormEmail.errors?.required || applicationUserFormEmail.errors?.invalid">
+                * Enter Valid Last Email
+              </div>
+              </div>
+          </div>
+          </div>
+        <div class="row">
+          <div class="col-md-auto ms-auto mb-5 text-center col">
+          <div class="bottom-btns" *ngIf="this.isEditEnabled == true">
+                  <button class="addButton"  type="submit" iconCss="e-icons e-save-icon" ejs-button isPrimary="true" (click)="onSubmit()"
+          [disabled]="!applicationUserForm.valid" [content]="'Update Transaction'"></button>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div  class="col-md-auto mt-5 ms-auto text-center">
+      <img src="https://assets.materialup.com/uploads/e2fe3bb9-2d2f-4c9d-9bb4-90f1ee328540/preview.png" width="360px" alt="">
+    </div>
+  </div>
+    </div>
+  </div>
+</div>

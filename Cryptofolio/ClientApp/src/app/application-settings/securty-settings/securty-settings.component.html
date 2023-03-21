@@ -1,1 +1,86 @@
-<p>securty-settings works!</p>
+<div class="container-fluid mt-5 px-5" *ngIf="this.dataArrived == false">
+  <app-loading></app-loading>
+</div>
+<div class="container-fluid mt-5 px-5" *ngIf="this.dataArrived == true">
+  <div tabindex="0" class="e-card" id="basic">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-title">
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <div class="row">
+      <div class="col-md-6">
+      <div ngForm #applicationUserSecurityForm="ngForm">
+        <div class="row material2">
+          <div class="col-md-1 ms-1 text-left">
+          <button cssClass="e-round" type="back" (click)="onBack()" ejs-button><i
+            class="fa-solid fa-angle-left"></i></button>
+            </div>
+            </div>
+        <div class="row material2 mt-5">
+          <div class="col-md-4 ms-5 text-left">
+          <h4 style="padding-bottom: 10px;">Security Settings</h4>
+        </div>
+        <div  class="col-md-1 ms-1 text-left" >
+          <button *ngIf="this.isEditEnabled == false" cssClass="e-round" ejs-button class="btn" (click)="onEditClicked()"><i
+            class="fa-regular fa-pen-to-square"></i></button>
+            <button *ngIf="this.isEditEnabled == true" cssClass="e-round" ejs-button class="btn" (click)="onCancelClicked()"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div  class="col-md-auto ms-auto text-top mt-0" ></div>
+        </div>
+        <div class="row material2">
+          <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col">
+            <ejs-textbox [(ngModel)]="applicationUser.OldPassword" required id="OldPassword" [readonly]="this.isEditEnabled == false"
+              placeholder='Old Password' name="OldPassword" type="password" #applicationUserSecurityFormOldPassword="ngModel"
+              cssClass="e-outline" floatLabelType="Auto">
+            </ejs-textbox>
+            <div *ngIf="applicationUserSecurityFormOldPassword.invalid && (applicationUserSecurityFormOldPassword.dirty || applicationUserSecurityFormOldPassword.touched)">
+              <div class="e-error" *ngIf="applicationUserSecurityFormOldPassword.errors?.required || applicationUserSecurityFormOldPassword.errors?.invalid">
+                * Your password is incorrect!
+              </div>
+              </div>
+          </div>
+          <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col">
+          </div>
+        </div>
+        <div class="row material2">
+          <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col">
+            <ejs-textbox [(ngModel)]="applicationUser.Password" id="Password" required [minlength]="6" [readonly]="this.isEditEnabled == false"
+              placeholder='New Password' name="Password" type="password" #applicationUserSecurityFormPassword="ngModel"
+              cssClass="e-outline" floatLabelType="Auto">
+            </ejs-textbox>
+          </div>
+          </div>
+          <div class="row material2">
+          <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col col">
+            <ejs-textbox [(ngModel)]="this.passwordConfirm" id="passwordConfirm" required [minlength]="6" [readonly]="this.isEditEnabled == false"
+            placeholder='Confirm Password' name="passwordConfirm" type="password" #applicationUserSecurityFormConfirmPassword="ngModel"
+            cssClass="e-outline" floatLabelType="Auto">
+          </ejs-textbox>
+          <div *ngIf="this.passwordConfirm != applicationUser.Password">
+            <div class="e-error" *ngIf="this.passwordConfirm != applicationUser.Password ">
+              * Passwords not match!
+            </div>
+            </div>
+          </div>
+          </div>
+        <div class="row">
+          <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col"></div>
+          <div class="col-md-auto ms-auto text-center col">
+          <div class="bottom-btns">
+                  <button *ngIf="this.isEditEnabled == true" class="addButton"  type="submit" iconCss="e-icons e-save-icon" ejs-button isPrimary="true" (click)="onSubmit()"
+          [disabled]="!applicationUserSecurityForm.valid && applicationUser.Password.length == 0 && applicationUser.OldPassword.length == 0 && this.passwordConfirm != applicationUser.Password" [content]="'Update Transaction'"></button>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div  class="col-md-auto mt-5 ms-auto text-center">
+      <img src="https://cdn3d.iconscout.com/3d/premium/thumb/verify-security-2870306-2386774.png" width="360px" alt="">
+    </div>
+  </div>
+    </div>
+  </div>
+</div>

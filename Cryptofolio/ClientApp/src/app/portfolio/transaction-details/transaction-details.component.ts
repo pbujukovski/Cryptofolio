@@ -85,7 +85,7 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
 
     });
     //Add timer to refresh data every 20sec
-    const binanceApiObsearvable$ = timer(0, 10000);
+    const binanceApiObsearvable$ = timer(1000, 20000);
 
     //Set setings for Data Manager
     this.dataManager = new DataManager({
@@ -98,7 +98,7 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
     this.queryManager = new Query().addParams('CoinSymbol', this.coinSymbol);
 
 
-    this.binanceApiService.CoinUpdated.subscribe((data) => {
+    this.subscriptionBinance = this.binanceApiService.CoinUpdated.subscribe((data) => {
       this.coinBinance = data;
       this.getTransactions();
     });
@@ -125,9 +125,6 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
         this.subscriptionBinance.unsubscribe();
       }
   }
-
-
-
 
   public getTransactions() {
     this.dataManager

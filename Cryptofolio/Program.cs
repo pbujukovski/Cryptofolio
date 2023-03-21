@@ -24,6 +24,7 @@ static IEdmModel GetEdmModel()
     var commentDTO = builder.EntitySet<CommentDTO>("Comments");
     var watchlistDTO = builder.EntitySet<WatchlistDTO>("Watchlists");
     var votingHistoryDTO = builder.EntitySet<VotingHistoryDTO>("VotingHistories");
+    var applicationUserDTO = builder.EntitySet<ApplicationUserDTO>("ApplicationUsers");
     var transactionDTO = builder.EntitySet<TransactionDTO>("Transactions").EntityType.DerivesFromNothing;
     var financeTrancationDTO = builder.EntitySet<FinanceTransactionDTO>("FinanceTransactions").EntityType.DerivesFrom<TransactionDTO>;
     var financeTrancationBuyDTO = builder.EntitySet<FinanceTransactionBuyDTO>("FinanceTransactionBuys").EntityType.DerivesFrom<FinanceTransactionDTO>;

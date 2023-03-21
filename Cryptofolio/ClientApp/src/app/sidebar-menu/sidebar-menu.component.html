@@ -14,14 +14,6 @@
           <hr class="dropdown-divider">
         </li>
         <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
-          <a class="nav-link text-dark" [routerLink]="['home']" title="Dashboard">
-            <span class="e-icons ps-1">
-              <i class="fa-solid fa-chevron-left"></i>
-            </span>
-            <span class="e-text">Back to home</span>
-          </a>
-        </li>
-        <li *ngIf="(isAuthenticated | async) === true" class="nav-item" [routerLinkActive]="['link-active']">
           <a class="nav-link text-dark" [routerLink]="['/application-settings/profile-settings']" title="Account Settings">
             <span class="e-icons ps-1">
               <i class="fa-regular fa-address-card"></i>

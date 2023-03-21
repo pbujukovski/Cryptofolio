@@ -55,15 +55,19 @@ namespace Cryptofolio.Services
             {
                 var currentCoinPrice = coinDictionary[$@"{notifier.CoinSymbol}USDT"];
 
-                /*              var test = coinResult.Data.Where(x => x.Symbol is currentCoinPrice).FirstOrDefault().ToList();*/
+                var lastCoinPrice = Decimal.ToDouble(currentCoinPrice.LastPrice);
+                var shouldSendEmail = currentCoinPrice is not null && ((
+                    notifier.isHigher && notifier.DesiredPrice < lastCoinPrice) || (!notifier.isHigher && notifier.DesiredPrice > lastCoinPrice));
 
-                /*	var currentCoinPrice1 = coinDictionary.LastPrice;*/
-
-                coinBinances.Add(currentCoinPrice as CoinBinance);
-                if(notifier.CoinSymbol == currentCoinPrice.Symbol) 
-				if (currentCoinPrice is not null)
+				if (shouldSendEmail)
                 {
-                    emails.Add(_emailService.SendEmailAsync(new CryptoNotificationEmail(notifier.ApplicationUser?.Email ?? "", "Trkalo", notifier.CoinSymbol)));
+                    emails.Add(_emailService.SendEmailAsync(
+                            new CryptoNotificationEmail(notifier.ApplicationUser?.Email ?? "", "Cryptofolio Notifier",
+                            notifier.CoinSymbol,
+							decimal.Round(currentCoinPrice.LastPrice, 2, MidpointRounding.AwayFromZero),
+							decimal.Round(currentCoinPrice.WeightedAveragePrice, 2, MidpointRounding.AwayFromZero),
+                            currentCoinPrice.PriceChangePercent,
+                            notifier.isHigher)));
                 }
             }
             

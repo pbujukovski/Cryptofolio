@@ -2,16 +2,24 @@
 {
     public class CryptoNotificationEmail : BaseEmailDTO
     {
-        public CryptoNotificationEmail(string recipient, string subject, string symbol) : base(recipient, subject)
+        public CryptoNotificationEmail(string recipient, string subject, string symbol, decimal price, decimal weightedAveragePrice, decimal priceChangePercent, bool isHigher) : base(recipient, subject)
         {
             Symbol = symbol;
+            Price = price;
+            WeightedAveragePrice = weightedAveragePrice;
+            PriceChangePercent = priceChangePercent;
+            IsHigher = isHigher;
         }
 
         public string Symbol { get; set; }
 
-        public string Price { get; set; }
+        public decimal Price { get; set; }
 
-        public string AvgPrice { get; set; }
+        public decimal WeightedAveragePrice { get; set; }
+
+        public decimal PriceChangePercent { get; set; }
+
+        public bool IsHigher { get; set;  }
 
 
     }

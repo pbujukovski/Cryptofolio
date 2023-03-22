@@ -14,160 +14,162 @@ import { SyncfusionUtilsService } from '../common/syncfusion-utils';
 @Component({
   selector: 'app-notifyer',
   templateUrl: './notifyer.component.html',
-  styleUrls: ['./notifyer.component.css']
+  styleUrls: ['./notifyer.component.css'],
 })
 export class NotifyerComponent implements OnInit {
+  //Html target element
   public targetElement!: HTMLElement;
+
+  //Odata manager and query
   public data!: DataManager;
   public query!: Query;
-  public notifier: Notifier = {} as Notifier;
-  public notifiers: Notifier[] = [];
+
+  //booleans
+  public isNewSubscriptionBtnClicked: boolean = false;
   public isDeleteContentClicked: boolean = false;
 
+  //Notifier Data
+  public notifier: Notifier = {} as Notifier;
+  public notifiers: Notifier[] = [];
+  public inactiveNotifiers: Notifier[] = [];
   public deleteNotifierFromList: Notifier = {} as Notifier;
   public indexNotifier: number = -1;
-  public isNewSubscriptionBtnClicked: boolean = false;
-  public notifierUpdate: BehaviorSubject<Notifier> = new BehaviorSubject<Notifier>(new Notifier());
+
+  //Get current date
+  public dateValue: Date = new Date();
+
+  //Set default interval
+  public interval: string = 'Bearish';
+
+  //Behavior Subject
+  public notifierUpdate: BehaviorSubject<Notifier> =
+    new BehaviorSubject<Notifier>(new Notifier());
+
+  //Decorators
   @ViewChild('ddl') ddl!: DropDownList;
   @ViewChild('notifierForm') public notifierForm!: FormGroup;
-  public dateValue: Date =  new Date();
+  @ViewChild('dialog') dialog!: DialogComponent;
 
-  @ViewChild("dialog") dialog!: DialogComponent;
-
-  public interval : string = 'Bearish';
+  //Subscriptions
   public binanceApiSubscription!: Subscription;
+
   //Dropdown menu for Ticket Statuses
   public fieldsDropDownCoins: Object = {
     text: 'name',
     value: 'symbol',
   };
   public coinBinance: CoinBinance[] = [];
-  public coinSymbol : string = "";
+  public coinSymbol: string = '';
 
-
-  getButtonClass(interval  : string) {
+  getButtonClass(interval: string) {
     console.log(interval);
     return this.interval === interval ? 'selected' : '';
   }
-  constructor(private binanceApiService: BinanceApiService, private syncfusionUtilsService: SyncfusionUtilsService) {
+  constructor(
+    private binanceApiService: BinanceApiService,
+    private syncfusionUtilsService: SyncfusionUtilsService
+  ) {
     this.data = new DataManager({
       url: environment.urlNotifiers,
-      adaptor:  syncfusionUtilsService.getCustomSecureODataV4Adaptor(),
+      adaptor: syncfusionUtilsService.getCustomSecureODataV4Adaptor(),
       crossDomain: true,
     });
 
-     this.query = new Query();
+    this.query = new Query();
 
-     const binanceApiObsearvable$ = timer(1000, 30000);
+    const binanceApiObsearvable$ = timer(1000, 30000);
 
-     //Subscribe to get coins updated from Binance Service
-     this.binanceApiSubscription = this.binanceApiService.CoinsUpdated.subscribe(
-       (coinBinance) => {
-         //Set data to data from binance service
-         this.coinBinance = coinBinance;
-       }
-     );
-
+    //Subscribe to get coins updated from Binance Service
+    this.binanceApiSubscription = this.binanceApiService.CoinsUpdated.subscribe(
+      (coinBinance) => {
+        //Set data to data from binance service
+        this.coinBinance = coinBinance;
+      }
+    );
 
     this.getNotifiers();
-     this.binanceApiSubscription = this.binanceApiService.getCoins().subscribe();
-   }
+    this.binanceApiSubscription = this.binanceApiService.getCoins().subscribe();
+  }
 
-   public getNotifiers(){
+  public getNotifiers() {
     this.data
-    .executeQuery(this.query)
-    .then((e: ReturnOption) => {
-      var resultList = e.result as Notifier[];
-      if (resultList != null ) {
-        this.notifiers = resultList;
-        // this.notifierUpdate.next(this.notifier);
-      } else console.log('Result list is empty');
-    })
-    .catch((e) => true);
+      .executeQuery(this.query)
+      .then((e: ReturnOption) => {
+        var resultList = e.result as Notifier[];
+        if (resultList != null) {
+          resultList.forEach((result) => {
+            if (result.DueDate! > this.dateValue) {
+              this.notifiers.push(result);
+            } else if (result.DueDate! < this.dateValue) {
+              this.inactiveNotifiers.push(result);
+            }
+          });
+        } else console.log('Result list is empty');
+      })
+      .catch((e) => true);
 
     console.log(this.notifiers);
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  onAddNewNotifierSubscripiton() {
+    this.isNewSubscriptionBtnClicked = true;
+    this.dialog.show();
+  }
+  //Click on button Sumbit
+  onSubmit() {
+    //Send updated request from edited residential association form
+    console.log('this.notifier');
+    console.log(this.notifier);
+    console.log(this.notifier.DesiredPrice);
+    this.notifier.ApplicationUserId = 'x';
+    this.notifier.Id = -1;
+    var temp = this.data.insert(this.notifier) as Promise<Notifier>; //Waiting response from backend to be sure that new notifaer comes with ID.
+    temp.then((value: Notifier) => {
+      if (this.coinSymbol != null) {
+        this.notifiers.unshift(value); //Adding notifier to list after the response from the promise
+      }
+    });
+
+    this.isNewSubscriptionBtnClicked = false;
+    this.notifierForm.reset();
   }
 
-
-    //Click on button Cancel
-    onCancel() {
-      // this.isEdit = false;
+  onUpdatePriceVariation(interval: boolean) {
+    this.notifier.isHigher = interval;
+    if (interval == true) {
+      this.interval = 'Bullish';
+    } else {
+      this.interval = 'Bearish';
     }
+  }
 
-    onAddNewNotifierSubscripiton(){
-      this.isNewSubscriptionBtnClicked = true;
-      this.dialog.show();
-    }
-    //Click on button Sumbit
-    onSubmit() {
-      //Send updated request from edited residential association form
-      console.log("this.notifier");
-      console.log(this.notifier);
-      console.log(this.notifier.DesiredPrice);
-      this.notifier.ApplicationUserId = 'x';
-      this.notifier.Id = -1;
-      var temp =  this.data.insert(this.notifier) as Promise<Notifier>; //Waiting response from backend to be sure that new notifaer comes with ID.
-      temp.then((value: Notifier) => {
-        if (this.coinSymbol != null) {
-          this.notifiers.push((value)); //Adding notifier to list after the response from the promise
-        }
-      });
+  onDelete(eventDataNotifier: Notifier, i: number) {
+    this.isDeleteContentClicked = true;
+    this.deleteNotifierFromList = eventDataNotifier;
+    this.indexNotifier = i;
+  }
 
-      this.isNewSubscriptionBtnClicked = false;
-      this.notifierForm.reset();
-      // this.isEdit = false;
-      // this.grid.refresh();
-    }
+  //Hide dialog component if on side is clicked
+  public onOverlayClick: EmitType<object> = () => {
+    this.isNewSubscriptionBtnClicked = false;
+    this.dialog.hide();
+    this.notifierForm.reset();
+  };
 
-    onUpdatePriceVariation(interval : boolean){
-
-      console.log("interval");
-      console.log(interval);
-      this.notifier.isHigher = interval;
-      if(interval == true){
-        this.interval = "Bullish";
-      }
-      else{
-        this.interval = "Bearish"
-      }
-      console.log("after");
-      console.log(interval);
-    }
-
-    onDelete(eventDataNotifier: Notifier, i: number){
-
-      this.isDeleteContentClicked = true;
-      this.deleteNotifierFromList = eventDataNotifier;
-      this.indexNotifier = i;
-      // this.data.remove("Id", eventDataNotifier);
-      //  this.notifiers.splice(i,1);
-    }
-
-    //Hide dialog component if on side is clicked
-    public onOverlayClick: EmitType<object> = () => {
-      this.isNewSubscriptionBtnClicked = false;
-      this.dialog.hide();
-      this.notifierForm.reset();
-    }
-
-  //   public onOpenDialog = function(): void {
-  //     DialogUtility.confirm('Are you sure you want to delete this subscription?');
-  // }
-
-  public onClose(){
+  public onClose() {
     this.isDeleteContentClicked = false;
     this.dialog!.hide();
   }
 
-  public deleteSelectedContent(){
-
-    this.data.remove("Id", this.deleteNotifierFromList);
-    this.notifiers.splice(this.indexNotifier,1);
+  public deleteSelectedContent() {
+    this.data.remove('Id', this.deleteNotifierFromList);
+    if (this.deleteNotifierFromList.DueDate! < this.dateValue) {
+      this.inactiveNotifiers.splice(this.indexNotifier, 1);
+    } else {
+      this.notifiers.splice(this.indexNotifier, 1);
+    }
     this.isDeleteContentClicked = false;
-
   }
-
 }

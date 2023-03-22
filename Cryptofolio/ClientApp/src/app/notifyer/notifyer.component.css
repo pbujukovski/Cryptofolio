@@ -1,33 +1,4 @@
 
-
-  /* For Round Button*/
-  .e-edit-icon::before {
-    content: '\e891';
-  }
-
-
-  .e-close-icon::before{
-    content: '\e7fc';
-  }
-
-  .e-save-icon::before{
-    content: '\e98e';
-  }
-
-  /* For Round Button*/
-  .e-edit-icon::before {
-    content: '\e891';
-  }
-
-
-  .e-close-icon::before{
-    content: '\e7fc';
-  }
-
-  .e-back-icon::before{
-    content: '\e610';
-  }
-
   .e-dialog {
     max-height: fit-content !important;
     max-width: fit-content !important;
@@ -245,7 +216,7 @@
   justify-content: space-between;
   width: 100%;
   padding: 16px;
-  border-bottom: 1px solid rgb(239, 242, 245);
+  border-bottom: 1px solid rgba(30, 30, 31, 0.278);
 }
  .label {
   font-size: 16px;
@@ -306,4 +277,15 @@
   padding: 0px 24px;
   line-height: -12px;
   background-color: #5896ff;
+}
+
+
+button.e-control.e-btn.e-lib.e-round {
+  font-size: 20px;
+  margin-top: -20px;
+}
+
+.e-btn, .e-css.e-btn {
+  color: rgba(0, 0, 0, 0.87);
+
 }

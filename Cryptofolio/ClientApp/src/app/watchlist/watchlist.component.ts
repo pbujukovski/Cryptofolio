@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChipListComponent } from '@syncfusion/ej2-angular-buttons';
-import { EditSettingsModel, GridComponent, PageSettingsModel, QueryCellInfoEventArgs, ToolbarItems } from '@syncfusion/ej2-angular-grids';
+import { EditSettingsModel, FilterSettingsModel, GridComponent, PageSettingsModel, QueryCellInfoEventArgs, ToolbarItems } from '@syncfusion/ej2-angular-grids';
 import { DataManager, ODataV4Adaptor, Query, ReturnOption } from '@syncfusion/ej2-data';
 import { BehaviorSubject, concatMap, Subject, Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -17,8 +17,7 @@ import { WatchlistService } from '../common/services/watchlist.service';
   styleUrls: ['./watchlist.component.css']
 })
 export class WatchlistComponent implements OnInit, OnDestroy {
-  // public data: DataManager;
-  // public queryWatchlist : Query;
+
   public dataWatchlist!: Watchlist;
   public dataCoins: CoinBinance[] = [];
 
@@ -33,6 +32,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
   public isDataArrived : boolean = false;
 
+  public filterOption: FilterSettingsModel = { type: 'Menu' };
   public addCoinToWatchlistRequest: AddCoinToWatchlistRequest =
   new AddCoinToWatchlistRequest();
 
@@ -64,9 +64,9 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
         this.dataGrid = this.dataCoins.filter((data)=> this.dataWatchlist.Coins.some(coinSymbol => coinSymbol.Symbol === data.symbol))
 
-        if (this.dataCoins.length > 0){
-      this.isDataArrived = true;
-    }
+        if (this.dataGrid.length > 0){
+        this.isDataArrived = true;
+         }
 
 
       // this.dataGrid = [];

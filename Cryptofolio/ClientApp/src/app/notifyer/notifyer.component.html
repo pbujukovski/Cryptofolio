@@ -11,10 +11,10 @@
         <div ngForm #notifierForm="ngForm">
           <div class="row">
             <div class="col-md-12 col">
-              <ejs-combobox cssClass="e-outline" [(ngModel)]="notifier!.CoinSymbol!"  name="CoinSymbol"
+              <ejs-combobox cssClass="e-outline" [(ngModel)]="notifier!.CoinSymbol!" name="CoinSymbol"
                 [dataSource]='this.coinBinance' [fields]="fieldsDropDownCoins" required
-                #transactionInFormCoinSymbol="ngModel" [valueTemplate]="valueTemplate" [itemTemplate]="template"
-                type="text" placeholder="Select Coin" filterBarPlaceholder="Serach Coin Symbol" cssClass="e-outline"
+                #notifierFormCoinSymbol="ngModel" [valueTemplate]="valueTemplate" [itemTemplate]="template" type="text"
+                placeholder="Select Coin" filterBarPlaceholder="Serach Coin Symbol" cssClass="e-outline"
                 [allowFiltering]='true' floatLabelType="Auto" popupHeight='600px'>
               </ejs-combobox>
               <ng-template #template let-data>
@@ -33,6 +33,12 @@
                   {{data.symbol}}
                 </h6>
               </ng-template>
+              <div
+                *ngIf="notifierFormCoinSymbol.invalid && (notifierFormCoinSymbol.dirty || notifierFormCoinSymbol.touched)">
+                <div class="e-error" *ngIf="notifierFormCoinSymbol.errors?.required">
+                  * Enter Coin Symbol
+                </div>
+              </div>
             </div>
             <div class="col-md-12 col">
               <div class='e-btn-group e-round-corner'>
@@ -46,32 +52,37 @@
           </div>
           <div class="row material2">
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col">
-              <ejs-datetimepicker [(ngModel)]="notifier!.DueDate!" name="DueDate" start='Year' placeholder='Due Date'
-                [value]='dateValue' cssClass="e-outline" floatLabelType="Auto">
+              <ejs-datetimepicker [(ngModel)]="notifier!.DueDate!" name="DueDate" start='Month' required
+                placeholder='Due Date' [value]='dateValue' [min]="dateValue" cssClass="e-outline" floatLabelType="Auto"
+                #notifierFormDate="ngModel">
               </ejs-datetimepicker>
+              <div *ngIf="notifierFormDate.invalid && (notifierFormDate.dirty || notifierFormDate.touched)">
+                <div class="e-error" *ngIf="notifierFormDate.errors?.required">
+                  * Enter Valid Date
+                </div>
+              </div>
             </div>
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col">
               <ejs-textbox [(ngModel)]="notifier.DesiredPrice" required id="DesiredPrice" placeholder='Desired Price'
-                name="DesiredPrice" type="number" #notifierForm="ngModel" cssClass="e-outline" floatLabelType="Auto">
+                name="DesiredPrice" type="number" #notifierForm="ngModel" cssClass="e-outline" floatLabelType="Auto"
+                #notifierFormPrice="ngModel">
               </ejs-textbox>
+              <div *ngIf="notifierFormPrice.invalid && (notifierFormPrice.dirty || notifierFormPrice.touched)">
+                <div class="e-error" *ngIf="notifierFormPrice.errors?.required">
+                  * Enter Desired Price
+                </div>
+              </div>
             </div>
           </div>
           <div class="row">
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col"></div>
             <div class="col-md-auto ms-auto text-center col">
-            <div class="bottom-btn-submit">
-                    <button type="submit" iconCss="e-icons e-save-icon" ejs-button isPrimary="true" (click)="onSubmit()"
-            [disabled]="!notifierForm.valid" [content]="'Add Notifier'"></button>
+              <div class="bottom-btn-submit">
+                <button type="submit" iconCss="e-icons e-save-icon" ejs-button isPrimary="true" (click)="onSubmit()"
+                  [disabled]="!notifierForm.valid" [content]="'Add Notifier'"></button>
+              </div>
             </div>
           </div>
-          </div>
-          <!-- <div class="row">
-            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 col"></div>
-            <div class="col-md-auto ms-auto text-center col">
-              <button type="submit" iconCss="e-icons e-save-icon" ejs-button isPrimary="true" (click)="onSubmit()"
-                [disabled]="!notifierForm.valid">Submit</button>
-            </div>
-          </div> -->
         </div>
 
       </ng-template>
@@ -111,17 +122,20 @@
       </div>
       <div class="e-card-content">
         <div class="row">
-          <div class="col-md-5 ms-5 text-left" style="padding-bottom: 50px;">
-            <button type="submit" ejs-button isPrimary="true"
+          <div class="col-md-5 ms-5 text-left">
+
+          </div>
+          <div class="col-md-auto mt-2 ms-auto me-5 text-center">
+            <button type="submit" ejs-button isPrimary="true" class="addButton" title="Subscribe to new notifier"
               (click)="onAddNewNotifierSubscripiton()"><i class="fa-solid fa-plus"></i> Add new notifier</button>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-5 ms-5 text-left">
+          <div class="col-md-5 ms-5 text-left mt-5">
             <h4 *ngIf="this.notifiers.length > 0" style="padding-bottom: 10px;">Active notifiers</h4>
           </div>
         </div>
-        <div class="row" *ngIf="this.notifiers.length == 0">
+        <div class="row" *ngIf="this.notifiers.length == 0 && this.inactiveNotifiers.length == 0">
           <div class="d-flex justify-content-center"> <span>
               <img class="imgNoPost" src="../../assets/bellwebp.webp" style="width: 200px;"
                 alt="No comments for Symbol">
@@ -133,53 +147,105 @@
             </span>
           </div>
         </div>
-        <div class="row" *ngIf="this.notifiers.length> 0">
+        <div class="row" *ngIf="this.notifiers.length > 0">
           <div class="col-md-3 ms-5 text-left" *ngFor="let notificationData of this.notifiers; let i = index">
             <div tabindex="0" class="e-card" id="basic">
               <div class="e-card-header">
                 <div class="e-card-header-caption">
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 ms-3">
                       <h5>
                         Symbol: <span class="e-badge e-badge-primary e-badge-pill">
                           {{notificationData.CoinSymbol}}
                         </span>
                       </h5>
                     </div>
-                    <div class="col-md-auto ms-auto text-center">
-                      <button type="submit" iconCss="e-icons e-trash-icon" ejs-button isPrimary="true"
-                        (click)="onDelete(notificationData, i)"></button>
+                    <div class="col-md-auto ms-auto me-2 text-center">
+                      <button type="submit" title="Delete Notifier" iconCss="e-icons e-trash-icon" ejs-button
+                        isPrimary="true" (click)="onDelete(notificationData, i)"></button>
                     </div>
                   </div>
 
                 </div>
               </div>
-              <!--              <div class="e-card-content">
-                <span>Desired Price: {{notificationData.DesiredPrice}} </span>
-                <hr>
-                <span>Due Date: {{notificationData.DueDate | date:'yyyy-MM-dd HH:mm:ss' }} </span>
-                <hr>
-                <span>
-                  Price Direction: <span *ngIf="notificationData.isHigher == true" style="color:green">
-                    Bullish
-                  </span> <span *ngIf="notificationData.isHigher == false" style="color: red"> Bearish </span>
-                </span>
-
-              </div>-->
               <div class="e-card-content">
                 <div class="content">
                   <div class="label">Desired Price</div>
-                  <div class="data-details h6"> {{notificationData.DesiredPrice | abbreviateNumber}} </div>
+                  <div class="data-details h6 mt-2"> {{notificationData.DesiredPrice | abbreviateNumber}} </div>
                 </div>
                 <div class="content">
                   <div class="label">Due Date</div>
-                  <div class="data-details h6"> {{notificationData.DueDate | date:'MMM d, y, h:mm a' }} </div>
+                  <div class="data-details h6 mt-2"> {{notificationData.DueDate | date:'MMM d, y, h:mm a' }} </div>
                 </div>
                 <div class="content">
                   <div class="label">Price Direction</div>
-                  <div class="data-details h6" *ngIf="notificationData.isHigher == true" style="color:green"> Bullish
+                  <div class="data-details h6 mt-2" *ngIf="notificationData.isHigher == true" style="color:green">
+                    Bullish
                   </div>
-                  <div class="data-details h6" *ngIf="notificationData.isHigher == false" style="color:red"> Bearish
+                  <div class="data-details h6 mt-2" *ngIf="notificationData.isHigher == false" style="color:red">
+                    Bearish
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-5 ms-5 text-left">
+            <h4 *ngIf="this.inactiveNotifiers.length > 0" style="padding-bottom: 10px;">Inactive notifiers</h4>
+          </div>
+        </div>
+        <!-- <div class="row" *ngIf="this.notifiers.length == 0">
+          <div class="d-flex justify-content-center"> <span>
+              <img class="imgNoPost" src="../../assets/bellwebp.webp" style="width: 200px;"
+                alt="No comments for Symbol">
+            </span>
+          </div>
+          <div class="d-flex justify-content-center"> <span>
+              <h3>NOTHING!!</h3>
+              <h5>You aren't subscribed to any notificator.</h5>
+            </span>
+          </div>
+        </div> -->
+        <div class="row" *ngIf="this.inactiveNotifiers.length > 0">
+          <div class="col-md-3 ms-5 text-left" *ngFor="let notificationData of this.inactiveNotifiers; let i = index">
+            <div tabindex="0" class="e-card" id="basic">
+              <div class="e-card-header">
+                <div class="e-card-header-caption">
+                  <div class="row">
+                    <div class="col-md-6 ms-3">
+                      <h5>
+                        Symbol: <span class="e-badge e-badge-primary e-badge-pill">
+                          {{notificationData.CoinSymbol}}
+                        </span>
+                      </h5>
+                    </div>
+                    <div class="col-md-auto ms-auto me-2 text-center">
+                      <button type="submit" title="Delete Notifier" iconCss="e-icons e-trash-icon" ejs-button
+                        isPrimary="true" (click)="onDelete(notificationData, i)"></button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="e-card-content">
+                <div class="content">
+                  <div class="label">Desired Price</div>
+                  <div class="data-details h6 mt-2"> {{notificationData.DesiredPrice | abbreviateNumber}} </div>
+                </div>
+                <div class="content">
+                  <div class="label">Due Date</div>
+                  <div class="data-details h6 mt-2"> {{notificationData.DueDate | date:'MMM d, y, h:mm a' }} </div>
+                </div>
+                <div class="content">
+                  <div class="label">Price Direction</div>
+                  <div class="data-details h6 mt-2" *ngIf="notificationData.isHigher == true" style="color:green">
+                    Bullish
+                  </div>
+                  <div class="data-details h6 mt-2" *ngIf="notificationData.isHigher == false" style="color:red">
+                    Bearish
                   </div>
                 </div>
               </div>

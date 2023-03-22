@@ -16,20 +16,18 @@
         (queryCellInfo)='customiseCell($event)'>
 
         <e-columns>
-          <e-column field="viewdetails" headerText="Watchlist" textAlign="Left" width="33">
+          <e-column field="viewdetails"  [allowFiltering]='false' [allowSorting]="false" headerText="" textAlign="Left" width="33">
             <ng-template #template let-data>
-                <input  class="star" type="checkbox" title="bookmark page" [checked]="this.setCheckedValue(data.symbol)"  (click)="onAddToWatchlist($event)" >
+                <input  class="star" type="checkbox" title="Watchlist" [checked]="this.setCheckedValue(data.symbol)"  (click)="onAddToWatchlist($event)" >
             </ng-template>
           </e-column>
-          <e-column headerText='' width=50 textAlign="Left">
+          <e-column headerText='Name' field='name' headerText='Name'  textAlign='Left' width=40>
             <ng-template #template let-data>
               <div class="image">
                 <img [src]="data.iconPath" (error)="data.iconPath='../../assets/default.png'" width="32px" [alt]="data.name" /> <span> {{data.name}}</span>
-
               </div>
             </ng-template>
           </e-column>
-          <e-column field='name' [visible]="false" headerText='Name' textAlign='Left' width=40></e-column>
           <e-column isPrimaryKey="true" field='symbol'  headerText='Symbol' width=30>
             <ng-template #template let-data>
               <span class="e-badge e-badge-primary e-badge-pill ">{{this.data.symbol}}</span>
@@ -48,17 +46,13 @@
               {{data.quoteVolume | abbreviateNumber}}
             </ng-template>
           </e-column>
-          <e-column field="viewdetails" headerText="Details" textAlign="Right" width="30">
+          <e-column field="viewdetails" headerText="" [allowFiltering]='false' [allowSorting]="false" textAlign="Right" width="50">
             <ng-template #template let-data>
               <div>
-                <button ejs-button (click)="onDetailsClicked($event)" class="btn"><i class="fa-solid fa-info"></i></button>
-              </div>
-            </ng-template>
-          </e-column>
-          <e-column field="viewdetails" headerText="Buy" textAlign="Left" width="30">
-            <ng-template #template let-data>
-              <div><a href="https://www.binance.com/en/trade/{{data.symbol}}_USDT?theme=light&type=spot">
-                     <i class="fa-solid fa-shop"></i> </a>
+                <button ejs-button (click)="onDetailsClicked($event)" title="Details" class="btn"><i class="fa-solid fa-info"></i></button>
+
+                <button ejs-button title="Trade" class="btn">  <a href="https://www.binance.com/en/trade/{{data.symbol}}_USDT?theme=light&type=spot">
+                <i class="fa-solid fa-shop"></i> </a></button>
               </div>
             </ng-template>
           </e-column>

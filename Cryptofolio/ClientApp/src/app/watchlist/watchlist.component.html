@@ -23,15 +23,15 @@
         </div>
         </div>
     <div class="grid-no-borders mb-3" *ngIf="this.isDataArrived == true && this.dataGrid.length > 0">
-    <ejs-grid #grid [dataSource]="dataGrid" (created)='created($event)' [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
+    <ejs-grid #grid [dataSource]="dataGrid"  [allowFiltering]='true' [filterSettings]='filterOption' (created)='created($event)' [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
       [editSettings]="editSettings" [toolbar]="toolbar" [enableImmutableMode]='true'  [rowHeight]='60'
       (queryCellInfo)='customiseCell($event)' >
       <e-columns>
-        <e-column field="removeCoin" headerText="" textAlign="Left" width="30">
+        <e-column field="removeCoin"  [allowFiltering]='false' [allowSorting]="false" headerText="" textAlign="Left" width="33">
+
           <ng-template #template let-data>
             <div>
-              <!-- <button ejs-button  class="btn" (click)="onRemoveCoinClicked(data)"><i class="fa-regular fa-star"></i></button> -->
-              <input class="star" type="checkbox" title="bookmark page"  (click)="onRemoveCoinClicked(data)" checked="true">
+              <input class="star" type="checkbox" title="Remove from Watchlist"  (click)="onRemoveCoinClicked(data)" checked="true">
             </div>
           </ng-template>
         </e-column>
@@ -42,7 +42,7 @@
             </div>
           </ng-template>
         </e-column>
-        <e-column isPrimaryKey="true" field='symbol' headerText='' width=30>
+        <e-column isPrimaryKey="true" field='symbol'  headerText='Symbol' width=30>
           <ng-template #template let-data>
             <span class="e-badge e-badge-primary e-badge-pill ">{{this.data.symbol}}</span>
           </ng-template>
@@ -50,7 +50,7 @@
         <e-column field='bidPrice' headerText='Price' textAlign='Right' width=40></e-column>
         <e-column field='priceChangePercent' headerText='24h %' textAlign='Right' width=40>
         </e-column>
-        <e-column field='marketCap' headerText='Maket Cap' textAlign='Right' width=40 format='c2'>
+        <e-column field='marketCap' headerText='Maket Cap' textAlign='Right' width=50 format='c2'>
           <ng-template #template let-data>
             {{data.marketCap | abbreviateNumber}}
           </ng-template>
@@ -60,17 +60,12 @@
             {{data.quoteVolume | abbreviateNumber}}
           </ng-template>
         </e-column>
-        <!-- <e-column field="viewdetails" headerText="Details" textAlign="Right" width="30">
-          <ng-template #template let-data>
-
-          </ng-template>
-        </e-column> -->
-        <e-column field="viewdetails" headerText="" textAlign="Right" width="70">
+        <e-column field="viewdetails"  headerText="" [allowFiltering]='false' [allowSorting]="false" textAlign="Right" width="50">
           <ng-template #template let-data>
             <div>
-              <button ejs-button (click)="onDetailsClicked($event)" class="btn"><i class="fa-solid fa-info"></i></button>
+              <button ejs-button title="Details"  (click)="onDetailsClicked($event)" class="btn"><i class="fa-solid fa-info"></i></button>
 
-              <button ejs-button  class="btn">  <a href="https://www.binance.com/en/trade/{{data.symbol}}_USDT?theme=light&type=spot">
+              <button ejs-button title="Trade"   class="btn">  <a href="https://www.binance.com/en/trade/{{data.symbol}}_USDT?theme=light&type=spot">
               <i class="fa-solid fa-shop"></i> </a></button>
             </div>
           </ng-template>

@@ -5,6 +5,7 @@ import { EditSettingsModel, FilterSettingsModel, GridComponent, PageSettingsMode
 import { DataManager, ODataV4Adaptor, Query, ReturnOption } from '@syncfusion/ej2-data';
 import { BehaviorSubject, concatMap, Subject, Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AuthorizeService } from '../../api-authorization/authorize.service';
 import { Coin } from '../common/models/coin-models/coin';
 import { CoinBinance } from '../common/models/coin-models/coin-binance';
 import { AddCoinToWatchlistRequest, Watchlist } from '../common/models/watchlist';
@@ -45,7 +46,8 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
   @ViewChild('grid') public grid!: GridComponent;
   constructor(public binanceApiService: BinanceApiService,public watchlistService: WatchlistService, public router: Router) {
-    const binanceApiObsearvable$ = timer(500, 15000);
+
+    const binanceApiObsearvable$ = timer(1000, 20000);
     this.watchlistService.getWatchList();
 
    this.watchlistSubscription = this.watchlistService.WatchlistUpdate.subscribe(watchlist => {
@@ -64,9 +66,9 @@ export class WatchlistComponent implements OnInit, OnDestroy {
 
         this.dataGrid = this.dataCoins.filter((data)=> this.dataWatchlist.Coins.some(coinSymbol => coinSymbol.Symbol === data.symbol))
 
-        if (this.dataGrid.length > 0){
-        this.isDataArrived = true;
-         }
+        if (this.dataCoins.length > 0){
+          this.isDataArrived = true;
+        }
 
 
       // this.dataGrid = [];

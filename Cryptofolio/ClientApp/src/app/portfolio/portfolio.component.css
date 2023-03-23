@@ -67,7 +67,7 @@ a{
 
 .e-btn, .e-css.e-btn {
   -webkit-tap-highlight-color: transparent;
-  background-color: transparent !important;
+  background-color: transparent;
   border-color: transparent !important;
    box-shadow: none !important;
   color: rgba(0, 0, 0, 0.87);
@@ -416,14 +416,6 @@ img {
 }
 
 
-
-.e-btn{
-  border-radius: 20px;
-  background-color: transparent;
-  color: #189ad3;
-  width: fit-content;
-}
-
 .e-btn-group{
   border-radius: 20px;
   width: fit-content;
@@ -435,11 +427,6 @@ img {
 }
 
 
-/* a {
-  color: #2095f2;
-  text-decoration: none;
-  font-size: 20px;
-} */
 
 .e-btn.e-round .e-btn-icon,
 .e-css.e-btn.e-round .e-btn-icon {
@@ -457,12 +444,13 @@ img {
   width: 2em;
 }
 
-.e-btn{
+.e-btn {
   border-radius: 20px;
   background-color: transparent;
-  color: #189ad3;
+  color: rgba(0, 0, 0, 0.87);
   width: fit-content;
 }
+
 
 .e-btn-group{
   border-radius: 20px;
@@ -470,7 +458,6 @@ img {
 }
 
 .addButton{
-  background: rgba(255, 255, 255, 0.22);
   border-radius: 16px;
   margin-top: 20px;
   box-shadow: 0 4px 30px rgb(0 0 0 / 16%) !important;

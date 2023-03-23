@@ -205,9 +205,9 @@ div#content {
 .e-card {
   border: 1px none #000;
   border-radius: 20px;
-  background-image: url("../../assets/3d-illustration-ethereum-blockchain-png.webp");
+  /* background-image: url("../../assets/3d-illustration-ethereum-blockchain-png.webp"); */
   margin-bottom: 29px;
-  background: rgba(255, 255, 255, 0.22);
+  background: rgb(255 255 255 / 35%);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(7.6px);
@@ -256,3 +256,4 @@ img {
   vertical-align: middle;
   visibility: hidden !important;
 }
+

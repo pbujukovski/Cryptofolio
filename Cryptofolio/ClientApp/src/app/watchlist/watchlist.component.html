@@ -12,68 +12,78 @@
       </div>
       <div class="e-card-content">
         <div *ngIf="this.isDataArrived == true && this.dataGrid.length == 0">
-          <div class="d-flex justify-content-center"> <span>
-            <img class="imgNoPost" src="https://cdn3d.iconscout.com/3d/premium/thumb/no-data-found-4810740-4009512.png" style="width: 300px;" alt="No comments for Symbol">
-          </span>
+          <div class="d-flex justify-content-center">
+            <span>
+              <img class="imgNoPost" src="https://cdn3d.iconscout.com/3d/premium/thumb/no-data-found-4810740-4009512.png" style="width: 300px;" alt="No comments for Symbol">
+            </span>
+          </div>
+          <div class="d-flex justify-content-center">
+            <span>
+              <h3>NOTHING!!</h3>
+              <h5>Your watchlist is empty at the moment.</h5>
+            </span>
+          </div>
         </div>
-        <div class="d-flex justify-content-center"> <span>
-            <h3>NOTHING!!</h3>
-            <h5>Your watchlist is empty at the moment.</h5>
-          </span>
-        </div>
-        </div>
-    <div class="grid-no-borders mb-3" *ngIf="this.isDataArrived == true && this.dataGrid.length > 0">
-    <ejs-grid #grid [dataSource]="dataGrid"  [allowFiltering]='true' [filterSettings]='filterOption' (created)='created($event)' [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
-      [editSettings]="editSettings" [toolbar]="toolbar" [enableImmutableMode]='true'  [rowHeight]='60'
-      (queryCellInfo)='customiseCell($event)' >
-      <e-columns>
-        <e-column field="removeCoin"  [allowFiltering]='false' [allowSorting]="false" headerText="" textAlign="Left" width="33">
+        <div class="grid-no-borders mb-3 mt-3" *ngIf="this.isDataArrived == true && this.dataGrid.length > 0">
+          <div class="row">
+            <div class="col-md-5 ms-3 text-left">
+              <h4 style="padding-bottom: 10px;">My Watchlist</h4>
+            </div>
+          </div>
+          <ejs-grid #grid [dataSource]="dataGrid" [allowFiltering]='true' [filterSettings]='filterOption' (created)='created($event)' [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
+                    [editSettings]="editSettings" [toolbar]="toolbar" [enableImmutableMode]='true' [rowHeight]='60'
+                    (queryCellInfo)='customiseCell($event)'>
+            <e-columns>
+              <e-column field="removeCoin" [allowFiltering]='false' [allowSorting]="false" headerText="" textAlign="Left" width="33">
 
-          <ng-template #template let-data>
-            <div>
-              <input class="star" type="checkbox" title="Remove from Watchlist"  (click)="onRemoveCoinClicked(data)" checked="true">
-            </div>
-          </ng-template>
-        </e-column>
-        <e-column headerText='Name' field='name' headerText='Name'  textAlign='Left' width=40>
-          <ng-template #template let-data>
-            <div class="image">
-              <img [src]="data.iconPath" (error)="data.iconPath='../../assets/default.png'" width="32px" [alt]="data.name" /> <span> {{data.name}}</span>
-            </div>
-          </ng-template>
-        </e-column>
-        <e-column isPrimaryKey="true" field='symbol'  headerText='Symbol' width=30>
-          <ng-template #template let-data>
-            <span class="e-badge e-badge-primary e-badge-pill ">{{this.data.symbol}}</span>
-          </ng-template>
-        </e-column>
-        <e-column field='bidPrice' headerText='Price' textAlign='Right' width=40></e-column>
-        <e-column field='priceChangePercent' headerText='24h %' textAlign='Right' width=40>
-        </e-column>
-        <e-column field='marketCap' headerText='Maket Cap' textAlign='Right' width=50 format='c2'>
-          <ng-template #template let-data>
-            {{data.marketCap | abbreviateNumber}}
-          </ng-template>
-        </e-column>
-        <e-column field='quoteVolume' headerText='Volume' textAlign='Right' width=50 format='c2'>
-          <ng-template #template let-data>
-            {{data.quoteVolume | abbreviateNumber}}
-          </ng-template>
-        </e-column>
-        <e-column field="viewdetails"  headerText="" [allowFiltering]='false' [allowSorting]="false" textAlign="Right" width="50">
-          <ng-template #template let-data>
-            <div>
-              <button ejs-button title="Details"  (click)="onDetailsClicked($event)" class="btn"><i class="fa-solid fa-info"></i></button>
+                <ng-template #template let-data>
+                  <div>
+                    <input class="star" type="checkbox" title="Remove from Watchlist" (click)="onRemoveCoinClicked(data)" checked="true">
+                  </div>
+                </ng-template>
+              </e-column>
+              <e-column headerText='Name' field='name' headerText='Name' textAlign='Left' width=40>
+                <ng-template #template let-data>
+                  <div class="image">
+                    <img [src]="data.iconPath" (error)="data.iconPath='../../assets/default.png'" width="32px" [alt]="data.name" /> <span> {{data.name}}</span>
+                  </div>
+                </ng-template>
+              </e-column>
+              <e-column isPrimaryKey="true" field='symbol' headerText='Symbol' width=30>
+                <ng-template #template let-data>
+                  <span class="e-badge e-badge-primary e-badge-pill ">{{this.data.symbol}}</span>
+                </ng-template>
+              </e-column>
+              <e-column field='bidPrice' headerText='Price' textAlign='Right' width=40></e-column>
+              <e-column field='priceChangePercent' headerText='24h %' textAlign='Right' width=40>
+              </e-column>
+              <e-column field='priceChange' headerText='Price Change' textAlign='Right' width=50 format='c2'>
+                <ng-template #template let-data>
+                  {{data.priceChange | abbreviateNumber}}
+                </ng-template>
+              </e-column>
+              <e-column field='quoteVolume' headerText='Volume' textAlign='Right' width=50 format='c2'>
+                <ng-template #template let-data>
+                  {{data.quoteVolume | abbreviateNumber}}
+                </ng-template>
+              </e-column>
+              <e-column field="viewdetails" headerText="" [allowFiltering]='false' [allowSorting]="false" textAlign="Right" width="50">
+                <ng-template #template let-data>
+                  <div>
+                    <button ejs-button title="Details" (click)="onDetailsClicked($event)" class="btn"><i class="fa-solid fa-info"></i></button>
 
-              <button ejs-button title="Trade"   class="btn">  <a href="https://www.binance.com/en/trade/{{data.symbol}}_USDT?theme=light&type=spot">
-              <i class="fa-solid fa-shop"></i> </a></button>
-            </div>
-          </ng-template>
-        </e-column>
-      </e-columns>
-    </ejs-grid>
-  </div>
-  </div>
+                    <button ejs-button title="Trade" class="btn">
+                      <a href="https://www.binance.com/en/trade/{{data.symbol}}_USDT?theme=light&type=spot">
+                        <i class="fa-solid fa-shop"></i>
+                      </a>
+                    </button>
+                  </div>
+                </ng-template>
+              </e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+      </div>
   </div>
   </div>
 

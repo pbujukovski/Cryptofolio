@@ -42,24 +42,6 @@ button {
   width: 70px;
 }
 
-/* button {
-  margin: 25px 5px 20px 20px;
-} */
-
-/* For Round Button*/
-.e-edit-icon::before {
-  content: '\e891';
-}
-
-
-.e-close-icon::before{
-  content: '\e7fc';
-}
-
-.e-back-icon::before{
-  content: '\e610';
-}
-
 
 span.e-input-group.e-control-wrapper.e-date-wrapper.e-valid-input {
   width: 30%;
@@ -519,7 +501,8 @@ div#content {
   border-radius: 20px;
   background-image: url("../../assets/3d-illustration-ethereum-blockchain-png.webp");
   margin-bottom: 29px;
-  background: rgba(255, 255, 255, 0.22);
+  /* background: rgba(255, 255, 255, 0.22); */
+  background: rgb(255 255 255 / 35%);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(7.6px);
@@ -600,3 +583,42 @@ ejs-richtexteditor#CommentText {
 }
 
 
+
+.content {
+  display: flex;
+  flex-direction: row;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px;
+  border-bottom: 1px solid rgb(239, 242, 245);
+}
+ .label {
+  font-size: 16px;
+  color: rgb(88, 102, 126);
+}
+
+.data-details {
+  text-transform: capitalize;
+}
+
+.e-richtexteditor .e-rte-content {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: #333;
+  border-bottom-left-radius: 9px;
+  border-bottom-right-radius: 9px;
+}
+
+
+.e-btn#backButton {
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent !important;
+  border-color: transparent !important;
+   box-shadow: none !important;
+  color: rgba(0, 0, 0, 0.87);
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 20px;
+}

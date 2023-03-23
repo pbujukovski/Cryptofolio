@@ -9,15 +9,15 @@
           <div class="e-card-title">
             <div class="row">
               <div class="col-md-1">
-                <button cssClass="e-round" type="back" (click)="onCancel()" ejs-button><i
+                <button id="backButton" type="back" title="Back to Cryptocurrency" (click)="onCancel()" ejs-button><i
                     class="fa-solid fa-angle-left"></i></button>
               </div>
-              <div class="col-md-auto ms-auto text-center">
-            <input  class="star" type="checkbox"  [checked]="this.setCheckedValue(coin.s)"  (click)="onAddToWatchlist(this.coinSymbol)" >
-                <button [disabled]=this.votingStatistics.CurrentUserVoted type="back" ejs-button
+              <div class="col-md-auto ms-auto text-center me-5">
+            <input  class="star me-3" type="checkbox"  [checked]="this.setCheckedValue(coin.s)" title="Add to Watchlist" (click)="onAddToWatchlist(this.coinSymbol)" >
+                <button [disabled]=this.votingStatistics.CurrentUserVoted type="back" ejs-button title="Vote for price to go Bullish&#10;&#10;Note: Votes are active for 24h only"
                   style="color: green;" (click)="onBullishClicked()"><i
                     class="fa-solid fa-arrow-up"></i> Bullish {{this.votingStatistics.BullishCount}} </button>
-                <button [disabled]=this.votingStatistics.CurrentUserVoted type="back" ejs-button
+                <button [disabled]=this.votingStatistics.CurrentUserVoted type="back" ejs-button  title="Vote for price to go Bearish&#10;&#10;Note: Votes are active for 24h only"
                   style="color:red;" (click)="onBearishClicked()"><i
                     class="fa-solid fa-arrow-down"></i> Bearish {{this.votingStatistics.BearishCount}}</button>
               </div>
@@ -27,20 +27,38 @@
       </div>
       <div class="e-card-content">
         <div class="row">
-          <div class="col-md-6">
-            <h3><img style="margin-left: 20px;" src="{{this.coin.iconPath}}" width="32px" alt="{{this.coin.name}}" />
+          <div class="col-md-6 ms-4">
+            <h3><img src="{{this.coin.iconPath}}" width="32px" alt="{{this.coin.name}}" />
               {{this.coin.name}}
               <span class="e-badge e-badge-primary e-badge-pill">{{this.coin.s}}</span>
             </h3>
           </div>
-          <div class="col-md-auto ms-auto text-center">
+          <div class="col-md-auto ms-auto text-center me-5">
             <h3 #myDiv> {{this.coin.p}} <span style="color:rgb(0, 0, 0)"> | </span>
               <a href="https://www.binance.com/en/buy-sell-crypto"> Trade
-                <i class="fa-solid fa-store"></i></a>
+                <i class="fa-solid fa-shop"></i></a>
             </h3>
           </div>
         </div>
         <div class="row">
+          <div class="col-md-6"></div>
+          <div class="col-md-auto ms-auto">
+            <span class="label">Price Change </span>
+            <br />
+            <span class="binance-details h6"> {{this.coinBinance.PriceChange | abbreviateNumber}} </span>
+          </div>
+          <div class="col-md-auto  ">
+            <span class="label">Price Change (%)</span>
+            <br />
+            <span class="binance-details h6 "> {{this.coinBinance.priceChangePercent}}</span>
+          </div>
+          <div class="col-md-auto  me-5">
+            <span class="label">Volume</span>
+            <br />
+            <span class="binance-details h6 "> {{this.coinBinance.quoteVolume | abbreviateNumber}}</span>
+          </div>
+        </div>
+        <!-- <div class="row">
           <div class="col-md-5">
             <h6><span style="margin-left: 20px;" class="binance-details"> Market Cap: </span> {{this.coinBinance.marketCap | abbreviateNumber }} </h6>
           </div>
@@ -48,23 +66,22 @@
             <h6><span class="binance-details"> Volume: </span> {{this.coinBinance.quoteVolume | abbreviateNumber}} <span class="binance-details"> |  Price Change Percent: </span>  {{this.coinBinance.priceChangePercent}}</h6>
 
           </div>
-        </div>
-          <hr>
-        <div class="row">
+        </div> -->
+          <!-- <hr> -->
+        <div class="row mt-5">
           <app-crypto-details-chart [coinSymbol]="this.coinSymbol"></app-crypto-details-chart>
         </div>
 
 
-        <div class="row">
+        <div class="row mt-5">
           <div class="col-md-2"></div>
           <div class="col-md-8">
-
             <fieldset>
-              <legend> Comments for {{this.coin.name}}</legend>
+              <legend> Comments section for {{this.coin.name}}</legend>
               <div class="row">
                 <div class="col-md-2">
                   <button type="submit" iconCss="e-icons e-comments-icon" ejs-button (click)="onAddNewComment(fromRTE)"
-                    [hidden]="addComment">Add Comment</button>
+                    [hidden]="addComment">New Comment</button>
                 </div>
               </div>
 
@@ -87,9 +104,9 @@
                         </div>
                         <div>
                           <button type="submit" iconCss="e-icons e-save-icon" ejs-button
-                            [disabled]="!commentForm.valid">Submit</button>
+                            [disabled]="!commentForm.valid">Add Comment</button>
                           <button type="back" iconCss="e-icons e-back-icon" ejs-button style="margin-left: 20px"
-                            (click)="onBackNewComment(fromRTE)">Back</button>
+                            (click)="onBackNewComment(fromRTE)">Cancel</button>
                         </div>
                       </form>
                     </div>
@@ -123,22 +140,29 @@
                           <div class="col-md-12">
                             <div class="row">
                               <div class="col-md-7">
-                                <h6>{{this.comments[getOffsetCommentIndex(i)].Name}} |
-                                  {{this.comments[getOffsetCommentIndex(i)].Date | date: 'medium'}}</h6>
+                                <h6>{{this.comments[getOffsetCommentIndex(i)].Name}}  <span class="label"> |
+                                  {{this.comments[getOffsetCommentIndex(i)].Date | date: 'medium'}}</span></h6>
                               </div>
+<!--
+                              <button ejs-button class="btn" title="Transaction Details" (click)="onDetailsClicked(data)"><i
+                                class="fa-solid fa-info"></i></button>
+                            <button ejs-button class="btn" title="Edit Transaction" (click)="onEditClicked(data)"><i
+                                class="fa-regular fa-pen-to-square"></i></button>
+                            <button ejs-button class="btn" title="Delete Transaction" (click)="onDeleteClicked(data)"> <i class="fa-solid fa-trash"></i>
+                            </button> -->
                               <div class="col-md-5" *ngIf="!!this.comments[getOffsetCommentIndex(i)]?.IsEditable!">
-                                <button cssClass="e-round" iconCss="e-icons e-edit-icon" type="edit" ejs-button
-                                  *ngIf="this.selectedCommentIndex != i" style="float: right;"
-                                  (click)="onEditComments(fromRTE, i)"></button>
-                                <button cssClass="e-round" iconCss="e-icons e-close-icon" type="back"
-                                  *ngIf="this.editingComment && ((this.selectedCommentIndex == i))" ejs-button
-                                  style="float: right;" (click)="onBackComments(fromRTE)"></button>
-                                <button cssClass="e-round" iconCss="e-icons e-trash-icon" type="button"
-                                  *ngIf="this.editingComment && ((this.selectedCommentIndex == i))" ejs-button
-                                  style="float: right;" (click)="onDeleteEditedComment(i, fromRTE)"></button>
-                                <button type="submit" cssClass="e-round" iconCss="e-icons e-save-icon" ejs-button
+                                <button cssClass="e-round"  type="edit" ejs-button
+                                  *ngIf="this.selectedCommentIndex != i" style="float: right;" title="Edit Comment"
+                                  (click)="onEditComments(fromRTE, i)"><i class="fa-regular fa-pen-to-square"></i></button>
+                                <button cssClass="e-round"  type="back"
+                                  *ngIf="this.editingComment && ((this.selectedCommentIndex == i))" ejs-button title="Cancel Edditing"
+                                  style="float: right;" (click)="onBackComments(fromRTE)"><i class="fa-solid fa-xmark"></i></button>
+                                <button class="btn" type="button" cssClass="e-round"
+                                  *ngIf="this.editingComment && ((this.selectedCommentIndex == i))" ejs-button title="Delete Comment"
+                                  style="float: right;" (click)="onDeleteEditedComment(i, fromRTE)"> <i class="fa-solid fa-trash"></i></button>
+                                <button type="submit" cssClass="e-round" ejs-button title="Save Edited Comment"
                                   isPrimary="true" *ngIf="this.editingComment && ((this.selectedCommentIndex == i))"
-                                  style="float: right;"></button>
+                                  style="float: right;"><i class="fa-solid fa-floppy-disk"></i></button>
                               </div>
                             </div>
                             <ejs-richtexteditor [toolbarSettings]="tools" [disabled]="this.selectedCommentIndex != i"

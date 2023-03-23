@@ -23,7 +23,6 @@ import { LoadingComponent } from './loading/loading.component';
 import { CandleSeriesService, CategoryService, ChartModule, ColumnSeriesService, DataLabelService, DateTimeService, LegendService, LineSeriesService, MultiColoredLineSeriesService, ParetoSeriesService, SplineAreaSeriesService, SplineSeriesService, StackingLineSeriesService, StepLineSeriesService, StockChart, StockChartAllModule, TooltipService } from '@syncfusion/ej2-angular-charts';
 import { CryptoDetailsChartComponent } from './crypto-details/crypto-details-chart/crypto-details-chart.component';
 import { RichTextEditorAllModule, RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
-import { CommentSectionComponent } from './crypto-details/comment-section/comment-section.component';
 import { ComboBoxModule, DropDownListAllModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 import { PortfolioDetailsComponent } from './portfolio/portfolio-details/portfolio-details.component';
@@ -44,7 +43,6 @@ import { ProfileSettingsComponent } from './application-settings/profile-setting
 import { SecurtySettingsComponent } from './application-settings/securty-settings/securty-settings.component';
 import { ApplicationSettingsComponent } from './application-settings/application-settings.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +54,6 @@ import { ApplicationSettingsComponent } from './application-settings/application
     WatchlistComponent,
     LoadingComponent,
     CryptoDetailsChartComponent,
-    CommentSectionComponent,
     PortfolioComponent,
     PortfolioDetailsComponent,
     AbbreviateNumberPipe,

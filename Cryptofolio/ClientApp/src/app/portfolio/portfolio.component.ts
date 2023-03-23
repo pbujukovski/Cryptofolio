@@ -22,6 +22,7 @@ import {
   PageSettingsModel,
   GridComponent,
   RowDataBoundEventArgs,
+  FilterSettingsModel,
 } from '@syncfusion/ej2-angular-grids';
 import {
   CoinTransactionSummary,
@@ -42,6 +43,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   @ViewChild('myGrid') public grid?: GridComponent;
   public targetElement!: HTMLElement;
   public binanceApiSubscription!: Subscription;
+  public subscriptionBinance: Subscription;
   public isNewTransactionBtnClicked: boolean = false;
   public selectedFormValue: string = 'Buy';
 
@@ -57,6 +59,12 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   public editSettings!: EditSettingsModel;
   public toolbar!: ToolbarItems[] | object;
   public pageSettings!: PageSettingsModel;
+
+  private lastSearchTimeOut: number | null = null;
+  private readonly searchTimeOutMs: number = 300;
+  public previousValuesMap: Record<string, CoinBinance> = {};
+
+  public filterOption: FilterSettingsModel = { type: 'Menu' };
   //Dropdown menu for Ticket Statuses
   public fieldsDropDownCoins: Object = {
     text: 'name',
@@ -91,30 +99,16 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
     const binanceApiObsearvable$ = timer(1000, 20000);
 
-    // this.binanceApiSubscription = binanceApiObsearvable$
-    // .pipe(concatMap(() => this.binanceApiService.getCoins()))
-    // .subscribe(() => {
-    //   this.binanceApiService.CoinsUpdated.subscribe((data) => {
-    //     this.data = data;
-    //     this.getTransactions();
-    //     });
-    // }
-    // );
 
-    this.binanceApiSubscription = this.binanceApiService.CoinsUpdated.subscribe((data) => {
+    this.subscriptionBinance = this.binanceApiService.CoinsUpdated.subscribe((data) => {
       this.data = data;
-    this.getTransactions();
+      this.getTransactions();
     });
 
-    this.binanceApiSubscription = binanceApiObsearvable$
+    this.subscriptionBinance = binanceApiObsearvable$
     .pipe(concatMap(() => this.binanceApiService.getCoins()))
     .subscribe();
-    // this.binanceApiSubscription = binanceApiObsearvable$
-    //   .pipe(concatMap(() => this.binanceApiService.getCoins()))
-    //   .subscribe((data) => {
-    //     this.data = data;
-    //     this.getTransactions();
-    //   });
+
   }
 
   ngOnInit(): void {
@@ -130,7 +124,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.binanceApiSubscription.unsubscribe();
+    console.log("   this.binanceApiSubscription.unsubscribe();    this.binanceApiSubscription.unsubscribe();    this.binanceApiSubscription.unsubscribe();    this.binanceApiSubscription.unsubscribe();    this.binanceApiSubscription.unsubscribe();")
+    this.subscriptionBinance.unsubscribe();
   }
 
   getTransactions() {
@@ -289,8 +284,53 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     // this.grid!.refreshColumns();
     if (value == true) {
       this.grid!.showSpinner();
+      this.getTransactions();
       this.isNewTransactionBtnClicked = false;
       this.dialog!.hide();
     }
   }
+
+    // Search
+    public created(args: any) {
+      // Add Clear search button
+      var gridElement = this.grid!.element;
+      // Set global search listener.
+      (document.getElementById(this.grid!.element.id + "_searchbar") as HTMLInputElement).oninput = (e: Event) => {
+        // Clear any previues search refresh.
+        this.clearSearchTimeOut();
+        var searchText: string = (e.target as HTMLInputElement).value;
+        if (searchText != "") {
+          // Set timer for next serach refresh
+          this.lastSearchTimeOut = window.setTimeout((searchText: string) => {
+            this.grid!.search(searchText);
+            this.lastSearchTimeOut = null;
+          }, this.searchTimeOutMs, searchText);
+        } else {
+          this.grid!.searchSettings.key = "";
+        }
+      };
+      // Add Last update info
+      var spanLastUpdateInfo = document.createElement("span");
+      spanLastUpdateInfo.id = gridElement.id + "_spanToolbarLastUpdateTime";
+      spanLastUpdateInfo.className = "ms-2";
+      gridElement.querySelector(".e-toolbar-items .e-toolbar-left")!.appendChild(spanLastUpdateInfo);
+    }
+
+      // Action for Clear Search button
+      public onCancelBtnClick(args: any) {
+        // Cancel if any search
+        if (this.lastSearchTimeOut != null) {
+          clearTimeout(this.lastSearchTimeOut);
+        }
+        this.grid!.searchSettings.key = "";
+        (this.grid!.element.querySelector(".e-input-group.e-search .e-input") as any).value = "";
+      }
+
+    private clearSearchTimeOut(): void {
+      // Clear any previues search refresh.
+      if (this.lastSearchTimeOut != null) {
+        clearTimeout(this.lastSearchTimeOut);
+      }
+    }
+
 }

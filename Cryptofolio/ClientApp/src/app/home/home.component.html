@@ -1,70 +1,99 @@
 <div class="container-fluid mt-5 px-5">
   <div class="row">
-        <div *ngIf="this.dataArrivedEvent == false">
-        <app-loading></app-loading>
-      </div>
-        <div tabindex="0" class="e-card" id="basic" *ngIf="this.dataArrivedEvent == true">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-title">
-            </div>
+    <div *ngIf="this.dataArrivedEvent == false">
+      <app-loading></app-loading>
+    </div>
+    <div tabindex="0" class="e-card" id="basic" *ngIf="this.dataArrivedEvent == true">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-title">
           </div>
         </div>
-        <div class="e-card-content">
-          <div class="row">
-            <div class="col-md-5 ms-5 text-left">
-            <h4 style="padding-bottom: 10px;">Popular cryptocurrencies</h4></div>
+      </div>
+      <div class="e-card-content">
+        <div class="row">
+          <div class="col-md-5 ms-5 text-left">
+            <h4 style="padding-bottom: 10px;">Popular cryptocurrencies</h4>
           </div>
-          <div class="row">
-            <div class="col-md-2 ms-5 text-left" *ngFor="let coin of topCoinsBinance">
+        </div>
+        <div class="row">
+          <div class="col-md-2 ms-5 text-left" *ngFor="let coin of topCoinsBinance">
             <div tabindex="0" class="e-card" id="basic">
               <div class="e-card-header">
-                  <div class="e-card-header-caption">
-                      <div class="e-card-title"><img src="{{coin.iconPath}}" alt="" (error)="coin.iconPath='../../assets/default.png'" width="32px"> {{coin.name}} <span class="e-badge e-badge-primary e-badge-pill">{{this.coin.symbol}}</span></div>
-                  </div>
+                <div class="e-card-header-caption">
+                  <div class="e-card-title"><img src="{{coin.iconPath}}" alt=""
+                      (error)="coin.iconPath='../../assets/default.png'" width="32px"> {{coin.name}} <span
+                      class="e-badge e-badge-primary e-badge-pill">{{this.coin.symbol}}</span></div>
+                </div>
               </div>
-            <div class="e-card-content">
-              <div class="content">
-                <div class="label">Fees</div>
-                <div class="data-details h6"> {{coin.bidPrice}} </div>
-              </div>
-              <div class="content">
-                <div class="label">Price Changes</div>
-                <div class="data-details h6"> {{coin.priceChangePercent}} </div>
-              </div>
-              <div class="content">
-                <div class="label">High Price</div>
-                <div class="data-details h6"> {{coin.highPrice}} </div>
-              </div>
-              <div class="content">
-                <div class="label">Low Price</div>
-                <div class="data-details h6"> {{coin.lowPrice}} </div>
+              <div class="e-card-content">
+                <div class="content">
+                  <div class="label">Fees</div>
+                  <div class="data-details h6"> {{coin.bidPrice}} </div>
+                </div>
+                <div class="content">
+                  <div class="label">Price Changes</div>
+                  <div class="data-details h6"> {{coin.priceChangePercent}} </div>
+                </div>
+                <div class="content">
+                  <div class="label">High Price</div>
+                  <div class="data-details h6"> {{coin.highPrice}} </div>
+                </div>
+                <div class="content">
+                  <div class="label">Low Price</div>
+                  <div class="data-details h6"> {{coin.lowPrice}} </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col-md-5 ms-5 text-left">
+            <h4 style="padding-bottom: 1px;">News feed for cryptocurrencies</h4>
           </div>
-          <div class="row">
-            <div class="col-md-5 ms-5 text-left">
-            <h4 style="padding-bottom: 1px;">News feed for cryptocurrencies</h4></div>
-          </div>
-          <div class="row" style=" max-height: 80vh; overflow-y: auto; overflow-x: hidden;">
-            <div class="col-md-12 ms-5 text-left">
-                <div class="row" style=" padding-top: 30px;" *ngFor="let article of articles">
-                  <div class="col-md-2">
-                    <img src="{{article.urlToImage}}" alt="" height="fit-content" width="220px">
-                  </div>
-                  <div class="col-md-8">
-                    <h4><a href="{{ article.url }}" target="_blank">{{ article.title }}</a></h4>
-                    <h6 *ngIf="article.content != null"> {{article.content | removeChar}} | <a href="{{ article.url }}" target="_blank">Read more</a> </h6>
-                    <h6 *ngIf="article.content == null"> <a href="{{ article.url }}" target="_blank"><i class="fa-brands fa-youtube"></i> Proceed to watch the video </a> </h6>
-                  </div>
+        </div>
+
+        <div class="row" style=" max-height: 80vh; overflow-y: auto; overflow-x: hidden;"
+          *ngIf="this.articles.length > 0">
+          <div class="col-md-12 ms-5 text-left">
+            <div class="row" style=" padding-top: 30px;" *ngFor="let article of articles">
+              <div class="col-md-2">
+                <div *ngIf="article.urlToImage != null">
+                  <img src="{{article.urlToImage}}" alt="" height="fit-content" width="220px">
+                </div>
+                <div *ngIf="article.urlToImage == null">
+                  <img src="../../assets/news-alt.jpeg" alt="" height="fit-content" width="220px">
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <h4><a href="{{ article.url }}" target="_blank">{{ article.title }}</a></h4>
+                <h6 *ngIf="article.content != null"> {{article.content | removeChar}} | <a href="{{ article.url }}"
+                    target="_blank">Read more</a> </h6>
+                <h6 *ngIf="article.content == null"> <a href="{{ article.url }}" target="_blank"><i
+                      class="fa-brands fa-youtube"></i> Proceed to watch the video </a> </h6>
               </div>
             </div>
           </div>
+        </div>
+        <div class="row" style=" max-height: 80vh; overflow-y: auto; overflow-x: hidden;"
+          *ngIf="this.articles.length == 0">
+          <div class="d-flex justify-content-center">
+            <span>
+              <img class="imgNoPost" src="../../assets/newspaper-5706084-4756479.webp" style="width: 200px;"
+                alt="No comments for Symbol">
+            </span>
+          </div>
+          <div class="d-flex justify-content-center">
+            <span>
+              <h5>There are no active news at the moment.</h5>
+            </span>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
+</div>
 
 <!-- https://newsapi.org/v2/top-headlines?q=crypto&category=business&language=en&apiKey=abf821aef3294839aa9cc34dcc08628f -->

@@ -1,5 +1,5 @@
 
-.e-card.e-card-horizontal {
+/* .e-card.e-card-horizontal {
   width: fit-content;
   min-width: 800px;
   position: relative;
@@ -16,16 +16,14 @@ backdrop-filter: blur(7.6px);
 -webkit-backdrop-filter: blur(7.6px);
 border: 1px solid rgba(255, 255, 255, 0.62);
 
-}
+} */
 
-h6{
+/* h6{
   padding-top:12px;
   margin-top: 25px;
 }
 
-.e-card .e-card-content {
-  color: rgb(8 8 8);
-}
+
 
 
 .col{
@@ -43,12 +41,15 @@ div#content {
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
   border-bottom: 0;
+} */
+
+.e-card .e-card-content {
+  color: rgb(8 8 8);
 }
 
 .e-card {
   border: 1px none #000;
   border-radius: 20px;
-  background-image: url("../../assets/3d-illustration-ethereum-blockchain-png.webp");
   margin-bottom: 29px;
   background: rgba(255, 255, 255, 0.22);
   border-radius: 16px;
@@ -86,7 +87,7 @@ img {
   justify-content: space-between;
   width: 100%;
   padding: 6px;
-  border-bottom: 1px solid rgb(239, 242, 245);
+  border-bottom: transparent;
 }
 
 .label {

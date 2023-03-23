@@ -1,9 +1,7 @@
 <div class="row">
-  <div class="col-md-1">
 
-  </div>
   <div class="col-md-8">
-    <div class='e-btn-group e-round-corner'  >
+    <div class='e-btn-group e-round-corner  ms-4' >
       <button (click)="updateInterval('1m')" [isToggle]="true" class="{{ getButtonClass('1m') }}" ejs-button> 1m </button>
       <button (click)="updateInterval('30m')" class="{{ getButtonClass('30m') }}" ejs-button> 30m </button>
       <button (click)="updateInterval('12h')" class="{{ getButtonClass('12h') }}" ejs-button> 12h </button>
@@ -16,18 +14,16 @@
 </div>
 
 <div class="row">
-  <div class="col-md-1">
 
-  </div>
-  <div class="col-md-10">
-    <ejs-stockchart  id="chart-container"   [enablePeriodSelector]="false" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis" [rows]="rows" [crosshair]="crosshair" >
+  <div class="col-md-10 ms-5 me-5">
+    <ejs-stockchart  id="chart-container" [crosshair]="true"  [enablePeriodSelector]="false" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis" [rows]="rows" [crosshair]="crosshair" >
       <e-stockchart-series-collection>
         <e-stockchart-series type='Candle' [dataSource]="candleData" xName='x' high='high' low='low' open='open' close='close'>
         </e-stockchart-series>
       </e-stockchart-series-collection>
     </ejs-stockchart>
   </div>
-  <div class="col-md-1"></div>
+
 </div>
 <!-- <div class="container-fluid mt-5 px-5"> -->
   <!-- <ejs-stockchart [primaryXAxis]="primaryXAxis" [series]='data'></ejs-stockchart> -->

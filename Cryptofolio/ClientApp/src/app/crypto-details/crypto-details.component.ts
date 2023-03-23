@@ -5,7 +5,7 @@ import { EditSettingsModel, PagerComponent, PageSettingsModel } from '@syncfusio
 import { RichTextEditorComponent, ToolbarItems } from '@syncfusion/ej2-angular-richtexteditor';
 import { DataManager, Query,ODataV4Adaptor,Predicate,ReturnOption } from '@syncfusion/ej2-data';
 import { cryptoSymbol } from 'crypto-symbol';
-import { BehaviorSubject, concatMap, Subscription, timer } from 'rxjs';
+import { BehaviorSubject, concatMap, ObservableInput, Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Coin } from '../common/models/coin-models/coin';
 import { CoinBinance } from '../common/models/coin-models/coin-binance';
@@ -208,22 +208,7 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
 
 
 
-    this.binanceWebSocket.onmessage = (event) => {
-      this.coin = JSON.parse(event.data);
-      const splitName = this.coin.s.split('USDT').find((x) => x !== 'USDT') ?? '';
-      this.coin.iconPath = './assets/icon/' + `${splitName.toLowerCase()}` + '.png';
-      this.coin.p = this.dollarCurr.format(parseFloat(this.coin.p));
-      this.coin.name = nameLookup(splitName) ?? splitName;
-      this.coin.s = splitName;
 
-      var coinPrice = Number(this.coin.p.replace(/[^0-9.-]+/g,""));
-
-
-      if (this.myDiv.nativeElement != undefined && this.myDiv.nativeElement.style != undefined){
-      this.myDiv.nativeElement.style.color = !this.lastPrice || this.lastPrice === coinPrice ? 'black' : coinPrice > this.lastPrice ? 'green' : 'red';
-      }
-      this.lastPrice = coinPrice;
-    }
 
 
     this.binanceWebSocket24.onmessage = (event) => {
@@ -239,7 +224,8 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
    this.subscriptionBinance =  binanceApiObsearvable$
      .pipe(concatMap(() => this.binanceApiService.getCoin(this.coinSymbol)))
      .subscribe();
-     this.binanceApiService.CoinUpdated.subscribe(data =>{
+
+    this.subscriptionBinance =  this.binanceApiService.CoinUpdated.subscribe(data =>{
       this.coinBinance = data
 
     }
@@ -265,6 +251,30 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngAfterViewInit() {
 
+    const binanceApiObsearvable$ = timer(500, 6000);
+      binanceApiObsearvable$
+     .pipe(concatMap(() => this.WebSocketData()))
+     .subscribe();
+
+  }
+
+  public WebSocketData() : any {
+    this.binanceWebSocket.onmessage = (event) => {
+      this.coin = JSON.parse(event.data);
+      const splitName = this.coin.s.split('USDT').find((x) => x !== 'USDT') ?? '';
+      this.coin.iconPath = './assets/icon/' + `${splitName.toLowerCase()}` + '.png';
+      this.coin.p = this.dollarCurr.format(parseFloat(this.coin.p));
+      this.coin.name = nameLookup(splitName) ?? splitName;
+      this.coin.s = splitName;
+
+      var coinPrice = Number(this.coin.p.replace(/[^0-9.-]+/g,""));
+
+
+      if (this.myDiv.nativeElement != undefined && this.myDiv.nativeElement.style != undefined){
+      this.myDiv.nativeElement.style.color = !this.lastPrice || this.lastPrice === coinPrice ? 'black' : coinPrice > this.lastPrice ? 'green' : 'red';
+      }
+      this.lastPrice = coinPrice;
+    }
   }
 
   ngOnDestroy(): void{

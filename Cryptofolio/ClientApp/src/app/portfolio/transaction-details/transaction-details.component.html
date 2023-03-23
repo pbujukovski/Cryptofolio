@@ -14,34 +14,37 @@
       <div class="e-card-content">
         <div class="row">
           <div class="col-md-12">
-            <button cssClass="e-round" type="back" (click)="onBack()" ejs-button><i
+            <button cssClass="e-round" type="back" title="Back To Main Portfolio" (click)="onBack()" ejs-button><i
                 class="fa-solid fa-angle-left"></i></button>
           </div>
           <div class="col-md-6"></div>
-          <div class="col-md-auto ms-auto text-right"> {{this.coinBinance.name}} <span> ( </span>
+          <div class="col-md-auto ms-auto me-5"> {{this.coinBinance.name}} <span> ( </span>
             {{this.coinBinance.symbol}} <span> ) Balance </span></div>
-          <div class="col-md-6"></div>
-          <div class="col-md-auto ms-auto text-center">
+          <div class="col-md-6 ms-3">
+            <span><h4>Transaction Details</h4></span>
+          </div>
+          <div class="col-md-auto ms-auto me-5">
             <h3><img style="margin-left: 20px;" src="{{this.coinBinance.iconPath}}" width="32px"
                 alt="{{this.coinBinance.name}}" />
               {{ this.coinTransactionSummary.Price | abbreviateNumber}}
             </h3>
           </div>
         </div>
+
         <div class="row">
           <div class="col-md-6"></div>
-          <div class="col-md-auto ms-auto text-left">
+          <div class="col-md-auto ms-auto">
             <span class="label">Quantity </span>
             <br />
             <span class="data-details h6"> {{this.coinTransactionSummary.Quantity}}
               {{this.coinTransactionSummary.CoinSymbol}} </span>
           </div>
-          <div class="col-md-auto ms auto text-left">
+          <div class="col-md-auto  ">
             <span class="label">Avg Buy Price</span>
             <br />
             <span class="data-details h6 "> {{this.coinTransactionSummary.AvgBuyPrice| abbreviateNumber}}</span>
           </div>
-          <div class="col-md-auto ms auto text-left">
+          <div class="col-md-auto  me-5">
             <span class="label">Profit/Loss</span>
             <br />
             <span class="data-details h6 "> {{this.coinTransactionSummary.ProfitLoss | abbreviateNumber}}</span>
@@ -55,32 +58,32 @@
               [pageSettings]="pageSettings" [editSettings]="editSettings" [toolbar]="toolbar"
               [enableImmutableMode]='true' [rowHeight]='60'>
               <e-columns>
-                <e-column headerText='' width=33 textAlign="Right">
+                <e-column headerText='Type' width=33 textAlign="Right" [allowSorting]="false" >
                   <ng-template #template let-data>
                     <div class="image">
                       <span *ngIf="TransactionType.Buy == data['@odata.type']"><img src="../../../assets/buy.svg"
-                          alt=""></span>
+                          alt="" title="Transaction Buy"></span>
                       <span *ngIf="TransactionType.Sell == data['@odata.type']"><img src="../../../assets/sell.svg"
-                          alt=""> </span>
+                          alt="" title="Transaction Sell"> </span>
                       <span *ngIf="TransactionType.In == data['@odata.type']"><img src="../../../assets/transfer-in.svg"
-                          alt=""></span>
+                          alt="" title="Transaction In"></span>
                       <span *ngIf="TransactionType.Out == data['@odata.type']"> <img
-                          src="../../../assets/transfer-out.svg" alt=""> </span>
+                          src="../../../assets/transfer-out.svg" alt="" title="Transaction Out"> </span>
                     </div>
                   </ng-template>
                 </e-column>
-                <e-column field='Type' headerText='' textAlign="Left" width=100>
+                <e-column field='Type' headerText='' [allowSorting]="false" textAlign="Left" width=70>
                   <ng-template #template let-data>
-                    <span *ngIf="TransactionType.Buy == data['@odata.type']"> Buy </span>
-                    <span *ngIf="TransactionType.Sell == data['@odata.type']"> Sell </span>
-                    <span *ngIf="TransactionType.In == data['@odata.type']"> Transaction In </span>
-                    <span *ngIf="TransactionType.Out == data['@odata.type']"> Transaction Out </span>
-                    <br />
-                    <span> {{data.Date | date:'MMM d, y, h:mm a'}}</span>
-                  </ng-template>
+                        <span *ngIf="TransactionType.Buy == data['@odata.type']"> Buy </span>
+                        <span *ngIf="TransactionType.Sell == data['@odata.type']"> Sell </span>
+                        <span *ngIf="TransactionType.In == data['@odata.type']"> Transaction In </span>
+                        <span *ngIf="TransactionType.Out == data['@odata.type']"> Transaction Out </span>
+                        <br />
+                        <span> {{data.Date | date:'MMM d, y, h:mm a'}}</span>
+                </ng-template>
                 </e-column>
                 <e-column isPrimaryKey="true" field='Id' headerText='Id' width=130 [visible]="false"></e-column>
-                <e-column field='Price' headerText='Price' textAlign='Right' width=140>
+                <e-column field='Price' headerText='Price' textAlign='Right' width=100>
                   <ng-template #template let-data>
                     <div class="image">
                       {{data.Price | abbreviateNumber}}
@@ -90,7 +93,7 @@
                     </div>
                   </ng-template>
                 </e-column>
-                <e-column field='Amount' headerText='Amount' textAlign='Right' width=100>
+                <e-column field='Amount' headerText='Amount' textAlign='Right' width=50>
                   <ng-template #template let-data>
                     <span>
                       <span
@@ -112,19 +115,19 @@
                 </e-column>
 
 
-                <e-column field='Fees' headerText='Fee' textAlign='Left' width=70>
+                <e-column field='Fees' headerText='Fee' textAlign='Right' width=50>
                   <ng-template #template let-data>
                     <span> {{data.Fee | abbreviateNumber}} </span>
                   </ng-template>
                 </e-column>
-                <e-column field="viewdetails" headerText="" textAlign="Right" width="60">
+                <e-column field="viewdetails" headerText="Actions" textAlign="Right" width="90" [allowSorting]="false">
                   <ng-template #template let-data>
                     <div>
-                      <button ejs-button class="btn" (click)="onDetailsClicked(data)"><i
+                      <button ejs-button class="btn" title="Transaction Details" (click)="onDetailsClicked(data)"><i
                           class="fa-solid fa-info"></i></button>
-                      <button ejs-button class="btn" (click)="onEditClicked(data)"><i
+                      <button ejs-button class="btn" title="Edit Transaction" (click)="onEditClicked(data)"><i
                           class="fa-regular fa-pen-to-square"></i></button>
-                      <button ejs-button class="btn" (click)="onDeleteClicked(data)"> <i class="fa-solid fa-trash"></i>
+                      <button ejs-button class="btn" title="Delete Transaction" (click)="onDeleteClicked(data)"> <i class="fa-solid fa-trash"></i>
                       </button>
                     </div>
                   </ng-template>
@@ -142,7 +145,7 @@
   <ejs-dialog #dialog id='dialog' isModal='true' showCloseIcon='true' showSubmitButton="true"
     (overlayClick)="onOverlayClick()" (close)="onClose()" [target]='targetElement' width='auto'>
     <ng-template #header>
-      Transaction Details
+      Remove Transaction
     </ng-template>
     <ng-template #content>
       <div class="content border-0">

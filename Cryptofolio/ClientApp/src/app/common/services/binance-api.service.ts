@@ -245,6 +245,7 @@ export class BinanceApiService {
               parseFloat(this.coin.bidPrice)
             );
 
+            this.coin.PriceChange = Number(coin.priceChange);
             this.coin.marketCap =
               Number(coin.lastPrice) * Number(coin.quoteVolume);
 

@@ -44,30 +44,34 @@
       </div>
       <div class="e-card-content">
         <div class="row">
-          <div class="mt-20 col-md-6 ">
+          <div class="col-md-5 ms-3 mt-3" >
+            <h4 style="padding-bottom: 10px;">Portfolio</h4>
+          </div>
+          <div class="col-md-auto ms-auto me-4 text-center">
+            <button ejs-button  type="submit" isPrimary="true" class="addButton" (click)="onAddNewTransaction()"><i class="fa-solid fa-plus"></i> Add
+              new transaction </button>
+            <div class="bottom-btns">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-auto ms-auto me-4 mt-0">
             <span><i class="fa-solid fa-wallet"></i> Current Ballance</span>
             <br />
             <h3>
               {{this.sumBallance | abbreviateNumber}}
             </h3>
+          </div>
+        </div>
 
-          </div>
-          <div class="col-md-auto ms-auto text-center">
-            <button ejs-button class="addButton" (click)="onAddNewTransaction()"><i class="fa-solid fa-plus"></i> Add
-              new transaction </button>
-            <div class="bottom-btns">
-              <div class="col-md-5 ms-5 text-left" style="padding-bottom: 50px;">
-                <!-- <button type="submit" iconCss="e-icons e-save-icon" ejs-button isPrimary="true"
-              (click)="onAddNewTransaction()"> Create new subscription</button> -->
-              </div>
-            </div>
-          </div>
+        <div class="row">
+
         </div>
         <div class="row">
           <div class="grid-no-borders mb-3"
             *ngIf="this.transactions.length > 0 == true && this.transactionSummaryGrid.length > 0">
-            <ejs-grid #myGrid [dataSource]="transactionSummaryGrid" [allowPaging]="true" [allowSorting]="true"
-              [pageSettings]="pageSettings" [editSettings]="editSettings" [toolbar]="toolbar"
+            <ejs-grid #myGrid [dataSource]="transactionSummaryGrid" [allowFiltering]='true' [filterSettings]='filterOption' [allowPaging]="true" [allowSorting]="true"
+              [pageSettings]="pageSettings" [editSettings]="editSettings" [toolbar]="toolbar" (created)='created($event)'
               [enableImmutableMode]='true' [rowHeight]='60'>
               <e-columns>
                 <e-column headerText='Name' field='CoinName' width=33 textAlign="Left">
@@ -79,17 +83,27 @@
                     </div>
                   </ng-template>
                 </e-column>
-                <e-column isPrimaryKey="true" field='CoinSymbol' headerText='' width=30>
+                <e-column isPrimaryKey="true" field='CoinSymbol' headerText='Symbol' textAlign="Left" width=20>
                 </e-column>
-                <e-column field='Price' headerText='Price' textAlign='Left' width=40>
+                <e-column field='Price' headerText='Price' textAlign='Right' width=30>
                   <ng-template #template let-data>
                     <div>
                       {{data.Price}}
                     </div>
                   </ng-template>
                 </e-column>
-                <e-column field='PercentageChange' headerText='24%' textAlign='Right' width=40>
+                <e-column field='PercentageChange' headerText='24%' textAlign='Right' width=30>
                 </e-column>
+                  <e-column field='Quantity' headerText='Quantity' textAlign='Right' width=40>
+                    <ng-template #template let-data>
+                      <span>
+                        {{data.HoldingsPrice | abbreviateNumber}}
+                      </span>
+                      <br />
+                      <span> {{data.Quantity}} {{data.CoinSymbol}}</span>
+                    </ng-template>
+                  </e-column>
+
                 <e-column field='AvgBuyPrice' headerText='AvgBuyPrice' textAlign='Right' width=40>
                   <ng-template #template let-data>
                     {{data.AvgBuyPrice | abbreviateNumber}}
@@ -102,18 +116,10 @@
                   </ng-template>
                 </e-column>
 
-                <e-column field='Quantity' headerText='Quantity' textAlign='Right' width=100>
-                  <ng-template #template let-data>
-                    <span>
-                      {{data.HoldingsPrice | abbreviateNumber}} </span>
-                    <br />
-                    <span> {{data.Quantity}} {{data.CoinSymbol}}</span>
-                  </ng-template>
-                </e-column>
-                <e-column field="viewdetails" headerText="Details" textAlign="Right" width="30">
+                <e-column field="viewdetails" headerText="Details" [allowFiltering]='false' [allowSorting]='false'  textAlign="Right" width="30">
                   <ng-template #template let-data>
                     <div>
-                      <button ejs-button (click)="onDetailsClicked(data)" class="btn"><i
+                      <button ejs-button (click)="onDetailsClicked(data)" title="Transactions" class="btn"><i
                           class="fa-solid fa-arrow-right-arrow-left"></i></button>
                     </div>
                   </ng-template>

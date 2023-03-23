@@ -243,6 +243,7 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
   public onEditClicked(data: RowDataBoundEventArgs) {
     console.log("Here ON EDIT CLICKED");
     console.log(data);
+
     this.dataTransaction = data as Transaction;
     this.transactionType = this.dataTransaction['@odata.type'];
 
@@ -254,9 +255,9 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
     {
       this.transactionEditInOut = data as TransferTransaction;
     }
-
     this.onEditClickedEvent= true;
-    this.dialog.show;
+    this.dialog!.show();
+
   }
 
   public onSumbitButtonClicked(value: boolean){
@@ -265,8 +266,9 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
     if (value == true){
       this.dialog!.hide();
       // this.getTransactions();
-    this.grid!.hideColumns('Id');
-     this.grid!.showSpinner();
+
+      this.grid!.showSpinner();
+      this.getTransactions();
     }
   }
 

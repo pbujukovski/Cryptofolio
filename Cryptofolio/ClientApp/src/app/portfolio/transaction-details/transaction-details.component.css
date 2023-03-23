@@ -414,3 +414,9 @@ img {
   background-color: rgb(234, 57, 67) !important;
   color: rgb(255, 255, 255) !important;
 }
+
+
+button.e-control.e-btn.e-lib.e-round {
+  font-size: 20px;
+  margin-top: -20px;
+}

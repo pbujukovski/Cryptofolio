@@ -117,8 +117,7 @@ export class CryptoGridComponent implements OnInit, OnDestroy {
     );
   }
 
-    // Search
-
+  // Search
   public created(args: any) {
     // Add Clear search button
     var gridElement = this.grid.element;
@@ -143,6 +142,7 @@ export class CryptoGridComponent implements OnInit, OnDestroy {
     spanLastUpdateInfo.className = "ms-2";
     gridElement.querySelector(".e-toolbar-items .e-toolbar-left")!.appendChild(spanLastUpdateInfo);
   }
+
     // Action for Clear Search button
     public onCancelBtnClick(args: any) {
       // Cancel if any search

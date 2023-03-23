@@ -57,6 +57,8 @@ export class HomeComponent {
     this.subscriptionisAuthenticated.unsubscribe();
     this.binanceApiSubscription.unsubscribe();
   }
+
+  // Link for news api
   // `https://newsapi.org/v2/top-headlines?q=crypto&category=business&language=en&apiKey=abf821aef3294839aa9cc34dcc08628f`;
 
   //Get news data with params = /top-headlines?q=crypto&category=business&language=en
@@ -65,13 +67,11 @@ export class HomeComponent {
      this.http.get(url).subscribe((data:  any) => {
        this.articles = data.articles;
        console.log(this.articles);
-
        if(this.topCoinsBinance.length > 0){
          this.dataArrivedEvent = true;
        }
     });
   }
-
 
   manageUserAuthorization(isAuthenticated: boolean): void {
     console.log("manageUserAuthorization: Begin");

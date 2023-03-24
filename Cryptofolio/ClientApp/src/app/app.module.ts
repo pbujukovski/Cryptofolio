@@ -25,7 +25,6 @@ import { CryptoDetailsChartComponent } from './crypto-details/crypto-details-cha
 import { RichTextEditorAllModule, RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
 import { ComboBoxModule, DropDownListAllModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { PortfolioComponent } from './portfolio/portfolio.component';
-import { PortfolioDetailsComponent } from './portfolio/portfolio-details/portfolio-details.component';
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ZoomService } from '@syncfusion/ej2-angular-charts';
@@ -55,7 +54,6 @@ import { ApplicationSettingsComponent } from './application-settings/application
     LoadingComponent,
     CryptoDetailsChartComponent,
     PortfolioComponent,
-    PortfolioDetailsComponent,
     AbbreviateNumberPipe,
     AbbreviateOrNumberPipe,
     RemoveChar,

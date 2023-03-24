@@ -88,26 +88,8 @@ html{
   margin: 0;
 /*  padding: 0 8vw;*/
 }
-a.btn-arrow {
-  padding: 5px 12px;
-  margin-bottom: 10px;
-  color: var(--celero-link-color-green);
-  border: 2px solid var(--celero-link-color-green);
-  border-radius: 50%;
-  transition: all 0.3s ease-in-out;
-}
-a.btn-arrow:hover {
-  color: var(--celero-txt-color-green);
-  border: 2px solid var(--celero-txt-color-green);
-}
-/* .btn-green {
-  color: white;
-  background-color: var(--celero-bg-color-green-btn);
-  transition: all 0.5s ease-in-out;
-} */
-/* .btn-green:hover {
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
-} */
+
+
 @media screen and (max-width: 576px) {
   .home-section .img-fluid {
     max-height: 210px;
@@ -120,7 +102,6 @@ a.btn-arrow:hover {
 .page-title {
   margin-top: 5px;
   margin-bottom: 15px;
-  color: var(--celero-txt-color-blue);
 }
 
 /* Override SF styles */

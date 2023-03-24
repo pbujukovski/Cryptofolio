@@ -1,48 +1,4 @@
 
-/* .e-card.e-card-horizontal {
-  width: fit-content;
-  min-width: 800px;
-  position: relative;
-  background: linear-gradient(to top, #ffffffde 23%, #f5f5f5 102%);
-  margin-bottom: 20%;
-  border-radius: 17px;
-  border-radius: 9px;
-  border: solid;
-  border-color: #f5f5f5;
-  background: rgba(255, 255, 255, 0.22);
-border-radius: 16px;
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(7.6px);
--webkit-backdrop-filter: blur(7.6px);
-border: 1px solid rgba(255, 255, 255, 0.62);
-
-} */
-
-/* h6{
-  padding-top:12px;
-  margin-top: 25px;
-}
-
-
-
-
-.col{
-  padding: 12px;
-}
-
-
-
-div#content {
-  padding: 0px 25px 0px 25px !important;
-}
-
-.e-richtexteditor .e-rte-toolbar {
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-bottom-left-radius: 0px !important;
-  border-bottom-right-radius: 0px !important;
-  border-bottom: 0;
-} */
-
 .e-card .e-card-content {
   color: rgb(8 8 8);
 }

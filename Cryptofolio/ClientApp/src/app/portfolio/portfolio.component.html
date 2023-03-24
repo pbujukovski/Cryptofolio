@@ -56,9 +56,9 @@
         </div>
         <div class="row">
           <div class="col-md-auto ms-auto me-4 mt-0">
-            <span><i class="fa-solid fa-wallet"></i> Current Ballance</span>
+            <i class="fa-solid fa-wallet"></i><span class="label"> Current Ballance</span>
             <br />
-            <h3>
+            <h3 class="data-details">
               {{this.sumBallance | abbreviateNumber}}
             </h3>
           </div>
@@ -126,6 +126,20 @@
                 </e-column>
               </e-columns>
             </ejs-grid>
+          </div>
+          <div *ngIf="this.transactions.length == 0 && this.transactionSummaryGrid.length == 0">
+
+            <div class="d-flex justify-content-center">
+              <span>
+                <img class="imgNoPost" src="../../assets/no-data.png" style="width: 300px;" alt="No comments for Symbol">
+              </span>
+            </div>
+            <div class="d-flex justify-content-center">
+              <span>
+                <h5>This portfolio is empty <br>
+                  Add any coins to get started</h5>
+              </span>
+            </div>
           </div>
         </div>
       </div>

@@ -1,26 +1,3 @@
-/* .login-title {
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-size: xx-large;
-  font-weight: 400;
-  color: #4d4d4d;
-  text-shadow: none !important;
-  font-family: 'IBM Plex Sans', sans-serif;
-}
-
-.login-note {
-  margin-top: 20px;
-}
-
-.card.card1 {
-  width: 69%;
-}
-
-img, svg {
-  vertical-align: middle;
-  width: 200px;
-} */
 .center {
   border: 5px solid;
   display: flex;

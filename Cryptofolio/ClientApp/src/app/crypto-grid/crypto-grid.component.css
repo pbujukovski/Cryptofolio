@@ -45,12 +45,6 @@ a{
   background-color: #fff0  !important;
 }
 
-.page-title {
-  margin-top: 5px;
-  margin-bottom: 15px;
-  color: var(--celero-txt-color-blue);
-}
-
 /* Override SF styles */
 .e-grid {
   border-radius: 30px;

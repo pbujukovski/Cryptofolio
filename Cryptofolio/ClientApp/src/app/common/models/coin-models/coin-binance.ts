@@ -50,6 +50,8 @@ export class CoinBinance {
   public marketCap : number = -1;
 
   public PriceChange : number = -1;
+
+  public PriceChangeColor : number = -1;
 }
 
 

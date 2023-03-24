@@ -16,7 +16,7 @@
 <div class="row">
 
   <div class="col-md-10 ms-5 me-5">
-    <ejs-stockchart  id="chart-container" [crosshair]="true"  [enablePeriodSelector]="false" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis" [rows]="rows" [crosshair]="crosshair" >
+    <ejs-stockchart  id="chart-container" [crosshair]="crosshair" [enablePeriodSelector]="false" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis" [rows]="rows" [crosshair]="crosshair" >
       <e-stockchart-series-collection>
         <e-stockchart-series type='Candle' [dataSource]="candleData" xName='x' high='high' low='low' open='open' close='close'>
         </e-stockchart-series>

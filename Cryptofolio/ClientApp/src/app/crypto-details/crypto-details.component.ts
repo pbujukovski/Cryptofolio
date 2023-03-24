@@ -28,6 +28,8 @@ const { nameLookup } = cryptoSymbol({});
 export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     //Toolbar settings
+    public value: string = ''; //Defining the value for toolbar
+    public toolbar!: ToolbarItems[] | object;
     public tools: object = {
       type: 'MultiRow',
       items: [
@@ -43,84 +45,92 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
       enable: false,
     };
 
-    public value: string = ''; //Defining the value for toolbar
-    public addComment: boolean = false; //Define adding new comment as false
-    public Math = Math;
+    //Syncfusion PagerSettings
     public pageSettings!: PageSettingsModel;
     public editSettings!: EditSettingsModel;
-    public toolbar!: ToolbarItems[] | object;
-    public selectedCommentIndex: number = -1; //Define selected comment
 
-    public coinWatchlist: Coin = new Coin();
-    public communicationError: boolean = false;
-    private subcriptionCommunicationError!: Subscription;
-    public subscriptionBinance!: Subscription;
+    //Odata Management
     public dataComment!: DataManager;
     public queryComments!: Query;
+    public dataVotingHistory!: DataManager;
+    public queryVotingHistory!: Query;
+
+    //Booleans
+    public addComment: boolean = false; //Define adding new comment as false
+    public communicationError: boolean = false;
+    public editingComment: boolean = false; //For selecting comment for edditing initial value false
+    public isEdit: boolean = false; //For selecting row from grid initial value false
+    public disableEditButton: boolean = false; //For disabling edit button for comment from other users initial value false
+    public isInWishlist : boolean = false;
+    public dataArrived : boolean = false;
+    public starIndicator: boolean = false;
+
+    //Subscriptions
+    private subcriptionCommunicationError!: Subscription;
+    public subscriptionBinance!: Subscription;
+    public watchlistSubscription!: Subscription;
+
+    //Data Coin Binance
+    public coinBinance: CoinBinance = new CoinBinance;
+    public coinSymbol : string = "";
+    public lastPrice : number = -1;
+    public dollarCurr: Intl.NumberFormat = new Intl.NumberFormat(undefined, {
+      style: 'currency',
+      currency: 'USD'});
+
+    //Data Comment
     public selectedComment!: Comment;
     public backUpComment!: Comment;
     public comments: Comment[] = [];
-    public isEdit: boolean = false; //For selecting row from grid initial value false
-    public editingComment: boolean = false; //For selecting comment for edditing initial value false
-    public disableEditButton: boolean = false; //For disabling edit button for comment from other users initial value false
+    public selectedCommentIndex: number = -1; //Define selected comment
 
-    public watchlistSubscription!: Subscription;
+    //Data Watchlist
     public dataWatchlist!: Watchlist;
-
-    public isInWishlist : boolean = false;
-
-
-  public watchlist: Watchlist = new Watchlist(-1, [], '');
-
-  public starIndicator: boolean = false;
-    public coinBinance: CoinBinance = new CoinBinance;
-  public addCoinToWatchlistRequest: AddCoinToWatchlistRequest =
+    public watchlist: Watchlist = new Watchlist(-1, [], '');
+    public coinWatchlist: Coin = new Coin();
+    public addCoinToWatchlistRequest: AddCoinToWatchlistRequest =
     new AddCoinToWatchlistRequest();
 
-  @ViewChild('commentForm') public commentForm!: FormGroup; //Initialize new comment form
-  @ViewChild('toolsRTE') public rteObj?: RichTextEditorComponent; //Rich Text Editor Toolbar
-  @ViewChild('commentEditForm') public commentEditForm!: FormGroup; //Initialize comment edit form
-  @ViewChild('pageGrid') public pageGrid!: PagerComponent;
-  @ViewChild('commentPager') public commentPager?: PagerComponent; //Pager for comment section
-  // @Input('selectedSymbol') public modelData!: string;
-
-
+    //Data VotingHistory
     public votingHistory!: VotingHistory;
     public votingStatistics!: VotingStatistics;
     public VoteStatus! : VoteStatus;
-    public dataVotingHistory!: DataManager;
 
-    public queryVotingHistory!: Query;
+    //Decorators
+    @ViewChild('commentForm') public commentForm?: FormGroup; //Initialize new comment form
+    @ViewChild('toolsRTE') public rteObj?: RichTextEditorComponent; //Rich Text Editor Toolbar
+    @ViewChild('commentEditForm') public commentEditForm?: FormGroup; //Initialize comment edit form
+    @ViewChild('pageGrid') public pageGrid?: PagerComponent;
+    @ViewChild('commentPager') public commentPager?: PagerComponent; //Pager for comment section
+    @ViewChild('myDiv') myDiv?: ElementRef;
 
-     public coinSymbol : string = "";
-
-  public counterPager(): number {
-    let number = 0;
-    if (
-      this.commentPager != null &&
-      this.commentPager != undefined &&
-      this.selectedComment != null &&
-      this.selectedComment != undefined &&
-      this.comments != null &&
-      this.commentPager.pageSize != undefined
-    ) {
+    public counterPager(): number {
+      let number = 0;
       if (
-        this.commentPager.currentPage * this.commentPager.pageSize <=
-        this.comments.length
+        this.commentPager != null &&
+        this.commentPager != undefined &&
+        this.selectedComment != null &&
+        this.selectedComment != undefined &&
+        this.comments != null &&
+        this.commentPager.pageSize != undefined
       ) {
-        number = this.commentPager.pageSize;
-      } else {
-        if (this.comments.length > this.commentPager.pageSize) {
-          number =
-          this.comments.length % this.commentPager.pageSize;
+        if (
+          this.commentPager.currentPage * this.commentPager.pageSize <=
+          this.comments.length
+        ) {
+          number = this.commentPager.pageSize;
         } else {
-          number = this.comments.length;
+          if (this.comments.length > this.commentPager.pageSize) {
+            number =
+            this.comments.length % this.commentPager.pageSize;
+          } else {
+            number = this.comments.length;
+          }
         }
       }
-    }
 
-    return number;
-  }
+      return number;
+    }
 
   public getOffsetCommentIndex(i: number): number {
     let offsetIndex = 0;
@@ -131,25 +141,17 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
     return offsetIndex;
   }
 
-  public lastPrice : number = -1;
-  public dollarCurr: Intl.NumberFormat = new Intl.NumberFormat(undefined, {
-    style: 'currency',
-    currency: 'USD'});
-
-
-    @ViewChild('myDiv') myDiv!: ElementRef;
-  public binanceWebSocket : WebSocket;
-
-  public binanceWebSocket24 : WebSocket;
-  public coin!: CoinSocket;
-  constructor(private binanceApiService: BinanceApiService,  public router: Router,private watchlistService : WatchlistService , private syncfusionUtilsService : SyncfusionUtilsService ) {
+  constructor(private binanceApiService: BinanceApiService,
+              public router: Router,
+              private watchlistService : WatchlistService ,
+              private syncfusionUtilsService : SyncfusionUtilsService ) {
 
     const binanceApiObsearvable$ = timer(1000, 20000);
 
         //Getting data for Comments
         this.dataComment = new DataManager({
           url: environment.urlComments,
-          adaptor: syncfusionUtilsService.getCustomSecureODataV4Adaptor(),
+          adaptor: syncfusionUtilsService.getCustomSecureODataV4AdaptorPatch(),
           crossDomain: true,
         });
 
@@ -165,7 +167,7 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
     if (this.coinSymbol === ''){
       this.router.navigate(['cryptos']);
     }
-    this.coinSymbol.toLocaleLowerCase()
+    // this.coinSymbol.toLocaleLowerCase()
 
 
     this.queryComments = new Query().addParams(
@@ -200,37 +202,27 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
     })
     .catch((e) => true);
 
-    this.binanceWebSocket = new WebSocket("wss://stream.binance.com:9443/ws/" + this.coinSymbol.toLowerCase() + "usdt@trade");
-
-
-    this.binanceWebSocket24 = new WebSocket("wss://stream.binance.com:9443/ws/" + this.coinSymbol.toLowerCase() + "usdt@ticker");
-    let checkUrl = ("wss://stream.binance.com:9443/ws/usdt@trade")
-
-
-
-
-
-
-    this.binanceWebSocket24.onmessage = (event) => {
-    }
-
-
     this.watchlistService.getWatchList();
 
     this.watchlistSubscription = this.watchlistService.WatchlistUpdate.subscribe(watchlist => {
       this.dataWatchlist = watchlist;
      });
 
+
    this.subscriptionBinance =  binanceApiObsearvable$
      .pipe(concatMap(() => this.binanceApiService.getCoin(this.coinSymbol)))
      .subscribe();
 
     this.subscriptionBinance =  this.binanceApiService.CoinUpdated.subscribe(data =>{
+
       this.coinBinance = data
+      this.dataArrived = true;
+      if (this.myDiv!.nativeElement != undefined && this.myDiv!.nativeElement.style != undefined){
+        this.myDiv!.nativeElement.style.color = !this.lastPrice || this.lastPrice === Number(this.coinBinance.PriceChangeColor) ? 'black' : Number(this.coinBinance.PriceChangeColor) > this.lastPrice ? 'green' : 'red';
+        this.lastPrice = Number(this.coinBinance.PriceChangeColor);
 
-    }
-
-      );
+        }
+    });
 
   }
 
@@ -247,39 +239,13 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
     this.queryComments.queries = [];
     this.queryComments.where(predicate);
 
-  }
-
-  ngAfterViewInit() {
-
-    const binanceApiObsearvable$ = timer(500, 6000);
-      binanceApiObsearvable$
-     .pipe(concatMap(() => this.WebSocketData()))
-     .subscribe();
 
   }
 
-  public WebSocketData() : any {
-    this.binanceWebSocket.onmessage = (event) => {
-      this.coin = JSON.parse(event.data);
-      const splitName = this.coin.s.split('USDT').find((x) => x !== 'USDT') ?? '';
-      this.coin.iconPath = './assets/icon/' + `${splitName.toLowerCase()}` + '.png';
-      this.coin.p = this.dollarCurr.format(parseFloat(this.coin.p));
-      this.coin.name = nameLookup(splitName) ?? splitName;
-      this.coin.s = splitName;
-
-      var coinPrice = Number(this.coin.p.replace(/[^0-9.-]+/g,""));
-
-
-      if (this.myDiv.nativeElement != undefined && this.myDiv.nativeElement.style != undefined){
-      this.myDiv.nativeElement.style.color = !this.lastPrice || this.lastPrice === coinPrice ? 'black' : coinPrice > this.lastPrice ? 'green' : 'red';
-      }
-      this.lastPrice = coinPrice;
-    }
-  }
+  ngAfterViewInit() {}
 
   ngOnDestroy(): void{
     this.subscriptionBinance.unsubscribe();
-    this.binanceWebSocket.close();
   }
 
   onCancel(): void {
@@ -316,7 +282,7 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
 
   //Submit new comment
   onSubmitComment = (commentRTE: Object): void => {
-    if (this.commentForm.valid && this.coinSymbol != null) {
+    if (this.commentForm!.valid && this.coinSymbol != null) {
       this.selectedComment.CoinSymbol = this.coinSymbol;
       var temp = this.dataComment.insert(
         this.selectedComment
@@ -327,7 +293,7 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
           this.comments.unshift(value);
         }
       });
-      this.commentForm.reset();
+      this.commentForm!.reset();
       this.addComment = false;
     }
   };
@@ -368,7 +334,6 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
     this.addComment = true;
     (commentRTE as RichTextEditorComponent).toolbarSettings.enable = true;
     this.selectedComment = { ...this.backUpComment };
-
   }
 
   //Closing the new comment form and backing up the data
@@ -460,8 +425,6 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
       this.dataWatchlist.Coins.push(this.coinWatchlist);
     }
 
-    // console.log("test.symbol");
-    // console.log(test.symbol);
     this.addCoinToWatchlistRequest.CoinSymbol = coinSymbol;
     this.addCoinToWatchlistRequest.StarIndicator = true;
     this.watchlistService.addCoinToWatchlist(this.addCoinToWatchlistRequest);

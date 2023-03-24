@@ -240,6 +240,8 @@ export class BinanceApiService {
             //Step 2.3: Find matching name for current symbol
             this.coin.name = nameLookup(splitName) ?? splitName;
 
+            //Step 2.4.1: Assign bitPrice to PriceChangeColor:
+            this.coin.PriceChangeColor = Number(this.coin.bidPrice);
             //Step 2.4: Format price with dollar currency
             this.coin.bidPrice = this.dollarCurr.format(
               parseFloat(this.coin.bidPrice)

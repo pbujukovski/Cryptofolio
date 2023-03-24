@@ -11,11 +11,11 @@
     </div>
     <div class="e-card-content">
       <div class="row">
-        <div class="col-md-5 ms-3 text-left">
+        <div class="col-md-5 ms-3 mt-3 text-left">
           <h4 style="padding-bottom: 10px;">Today's Cryptocurrency Prices</h4>
         </div>
       </div>
-      <div class="grid-no-borders mt-3 mb-3">
+      <div class="grid-no-borders mt-5 mb-3">
         <ejs-grid #grid [dataSource]="data" [allowFiltering]='true' [filterSettings]='filterOption' (created)='created($event)' [allowPaging]="true" [allowSorting]="true" [pageSettings]="pageSettings"
                   [editSettings]="editSettings" [toolbar]="toolbar" [enableImmutableMode]='true' [rowHeight]='60' [allowSelection]="false"
                   (queryCellInfo)='customiseCell($event)'>

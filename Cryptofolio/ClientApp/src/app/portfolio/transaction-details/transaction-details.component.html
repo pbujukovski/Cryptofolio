@@ -89,7 +89,7 @@
                       {{data.Price | abbreviateNumber}}
                       <span
                         *ngIf="TransactionType.Out == data['@odata.type'] || TransactionType.In == data['@odata.type']">
-                        <b>- -</b></span>
+                        --</span>
                     </div>
                   </ng-template>
                 </e-column>
@@ -98,7 +98,7 @@
                     <span>
                       <span
                         *ngIf="TransactionType.Out == data['@odata.type'] || TransactionType.In == data['@odata.type']">
-                        <b>- -</b></span>
+                        --</span>
                       <span *ngIf="TransactionType.Buy == data['@odata.type']">
                         <b>+</b></span>
                       <span *ngIf="TransactionType.Sell == data['@odata.type']">
@@ -117,7 +117,8 @@
 
                 <e-column field='Fees' headerText='Fee' textAlign='Right' width=50>
                   <ng-template #template let-data>
-                    <span> {{data.Fee | abbreviateNumber}} </span>
+                    <span *ngIf="data.Fee != 0"> {{data.Fee | abbreviateNumber}} </span>
+                    <span *ngIf="data.Fee == 0"> -- </span>
                   </ng-template>
                 </e-column>
                 <e-column field="viewdetails" headerText="Actions" textAlign="Right" width="90" [allowSorting]="false">
@@ -181,7 +182,7 @@
 
 <div *ngIf="this.isDetailsClicked == true">
   <ejs-dialog #dialog id='dialog' isModal='true' showCloseIcon='true' (overlayClick)="onOverlayClick()"
-    [target]='targetElement' width='auto'>
+    [target]='targetElement' width='auto' (close)="onClose()">
     <ng-template #content>
       <div class="content">
         <div class="label"> Type </div>
@@ -194,7 +195,7 @@
         <div class="label"> Date </div>
         <div class="data-details h6">{{this.transaction.Date | date:'MMM d, y, h:mm a'}} </div>
       </div>
-      <div class="content">
+      <div class="content" *ngIf="TransactionType.Sell == this.transaction['@odata.type'] || TransactionType.Buy == this.transaction['@odata.type']">
         <div class="label"> Price Per Coin </div>
         <div class="data-details h6">{{this.transaction.Price | abbreviateNumber}} </div>
       </div>
@@ -204,9 +205,10 @@
       </div>
       <div class="content">
         <div class="label"> Fees</div>
-        <div class="data-details h6"> {{this.transaction.Fee | abbreviateNumber}} </div>
+        <div class="data-details h6" *ngIf="this.transaction.Fee > 0"> {{this.transaction.Fee | abbreviateNumber}} </div>
+        <div class="data-details h6" *ngIf="this.transaction.Fee == 0"> -- </div>
       </div>
-      <div class="content">
+      <div class="content" *ngIf="TransactionType.Sell == this.transaction['@odata.type'] || TransactionType.Buy == this.transaction['@odata.type']">
         <div class="label"> Total</div>
         <div class="data-details h6"> {{(this.transaction.Amount * this.transaction.Price) + this.transaction.Fee |
           abbreviateNumber}}</div>
@@ -215,7 +217,8 @@
         <div class="label"> Notes</div>
       </div>
       <div class="content">
-        <div class="data-details h6"> {{this.transaction.Note}} </div>
+        <div class="data-details h6" *ngIf="this.transaction.Note.length > 0"> {{this.transaction.Note}} </div>
+        <div class="data-details h6" *ngIf="this.transaction.Note.length == 0"> -- </div>
       </div>
     </ng-template>
     <ng-template #header>

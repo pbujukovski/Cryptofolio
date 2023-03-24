@@ -18,7 +18,6 @@
 
 #sidebarMenu li,
 #sidebarMenu li a {
-  /* color: var(--celero-link-color-green); */
   color: #2095f2;
 }
 #sidebarMenu li {
@@ -34,11 +33,9 @@ a{
 }
 #sidebarMenu.e-sidebar ul li:hover span {
   color: black;
-  /* color: var(--celero-link-color-green-hover) ; */
 }
 
 #sidebarMenu.e-sidebar ul li.link-active span {
-  /* color: var(--celero-txt-color-green) !important; */
 color: black;
 }
 

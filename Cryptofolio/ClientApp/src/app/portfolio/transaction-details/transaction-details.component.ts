@@ -52,6 +52,7 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
   public transactionEdit !: FinanceTransaction;
   public transactionEditInOut !: TransferTransaction;
   public onEditClickedEvent : boolean = false;
+  public dataArrived: boolean = false;
   // @ViewChild('ddl') ddl!: DropDownList;
 
   @ViewChild('dialog') dialog!: DialogComponent;
@@ -65,17 +66,24 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
   public toolbar!: ToolbarItems[] | object;
   public pageSettings!: PageSettingsModel;
 
-  public coinBinance: CoinBinance = new CoinBinance();
+  public coinBinance!: CoinBinance;
 
   public isFirstTimeSynchronization: boolean = true;
-  public subscriptionBinance: Subscription;
+  public subscriptionBinance!: Subscription;
+  public subscriptionBinance1!: Subscription;
+  public subscriptionBinance2!: Subscription;
+
+  private lastSearchTimeOut: number | null = null;
+  private readonly searchTimeOutMs: number = 300;
+  public previousValuesMap: Record<string, TransactionGrid> = {};
+
   constructor(
     private binanceApiService: BinanceApiService,
     private portfolioService: PortfolioService,
     private syncfusionUtilsService: SyncfusionUtilsService,
     private router: Router
   ) {
-    this.portfolioService.coinSymbol.subscribe((coinSymbol) => {
+   this.subscriptionBinance = this.portfolioService.coinSymbol.subscribe((coinSymbol) => {
       //Get the coin symbol
       this.coinSymbol = coinSymbol;
       //Check if coin symbol is null redirect to porfolio
@@ -87,6 +95,7 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
     //Add timer to refresh data every 20sec
     const binanceApiObsearvable$ = timer(1000, 20000);
 
+
     //Set setings for Data Manager
     this.dataManager = new DataManager({
       url: environment.urlTransactions,
@@ -97,18 +106,18 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
     //Set query with parametar 'CoinSymbol'
     this.queryManager = new Query().addParams('CoinSymbol', this.coinSymbol);
 
+    this.subscriptionBinance1 = binanceApiObsearvable$
+    .pipe(concatMap(() => this.binanceApiService.getCoin(this.coinSymbol)))
+    .subscribe();
 
-    this.subscriptionBinance = this.binanceApiService.CoinUpdated.subscribe((data) => {
+    this.subscriptionBinance2 = this.binanceApiService.CoinUpdated.subscribe((data) => {
       this.coinBinance = data;
       this.getTransactions();
     });
-    this.subscriptionBinance = binanceApiObsearvable$
-      .pipe(concatMap(() => this.binanceApiService.getCoin(this.coinSymbol)))
-      .subscribe();
 
   }
 
-  ngOnInit(): void {
+ public ngOnInit(): void {
     this.editSettings = {
       allowEditing: false,
       allowAdding: false,
@@ -117,13 +126,15 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
     };
 
     //Add search to toolbar
-    this.toolbar = ['Search'];
+    this.toolbar = [];
   }
 
-  ngOnDestroy(): void {
-      if(this.subscriptionBinance){
-        this.subscriptionBinance.unsubscribe();
-      }
+  public ngOnDestroy(): void {
+
+    console.log("HEERRRREEEEEEEEEEEEEEEEEEEEEEE");
+    this.subscriptionBinance.unsubscribe();
+    this.subscriptionBinance1.unsubscribe();
+    this.subscriptionBinance2.unsubscribe();
   }
 
   public getTransactions() {
@@ -157,13 +168,23 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
         amountSummary += transaction.Amount;
         if (transaction['@odata.type'] == TransactionType.Buy) {
           avgBuyPrice += transaction.Price * transaction.Amount;
+          calSumProfitLoss += transaction.Price * transaction.Amount;
           countBuyTransactions += transaction.Amount;
+        }
+        else if (transaction['@odata.type'] == TransactionType.In){
+          calSumProfitLoss += Number(this.coinBinance.lastPrice) * transaction.Amount;
         }
       } else if (
         transaction['@odata.type'] == TransactionType.Sell ||
         transaction['@odata.type'] == TransactionType.Out
       ) {
         amountSummary -= transaction.Amount;
+        if (transaction['@odata.type'] == TransactionType.Sell){
+          calSumProfitLoss -= transaction.Price * transaction.Amount;
+        }
+        else if (transaction['@odata.type'] == TransactionType.Out){
+          calSumProfitLoss -= Number(this.coinBinance.lastPrice) * transaction.Amount;
+        }
       }
     });
     console.log("HEREEEEEEEEE");
@@ -173,7 +194,7 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
     console.log(num * amountSummary);
     console.log(avgBuyPrice);
     console.log(avgBuyPrice - (num * amountSummary));
-    this.coinTransactionSummary.ProfitLoss = avgBuyPrice - (Number(this.coinBinance.lastPrice) * amountSummary)
+    this.coinTransactionSummary.ProfitLoss = (Number(this.coinBinance.lastPrice) * amountSummary) -  calSumProfitLoss;
     this.coinTransactionSummary.CoinSymbol = this.coinSymbol;
     this.coinTransactionSummary.Quantity = Number(amountSummary.toFixed(2));
     this.coinTransactionSummary.Price =
@@ -190,7 +211,13 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
         console.log(this.coinTransactionSummary.AvgBuyPrice);
       }
       console.log(this.coinTransactionSummary.AvgBuyPrice);
-    this.isContentLoaded = true;
+      if(this.coinTransactionSummary != null || this.coinTransactionSummary != undefined && this.coinBinance != null || this.coinBinance != undefined){
+      if (this.coinBinance.iconPath.length > 0){
+        const binanceApiObsearvable1$ = timer(1000, 5000);
+        binanceApiObsearvable1$.subscribe(() => this.isContentLoaded = true)
+
+      }
+      }
   }
 
   public onDetailsClicked(data: RowDataBoundEventArgs) {
@@ -279,4 +306,36 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
     this.dialog!.hide();
   }
 
+      // Search
+      public created(args: any) {
+        // Add Clear search button
+        var gridElement = this.grid!.element;
+        // Set global search listener.
+        (document.getElementById(this.grid!.element.id + "_searchbar") as HTMLInputElement).oninput = (e: Event) => {
+          // Clear any previues search refresh.
+          this.clearSearchTimeOut();
+          var searchText: string = (e.target as HTMLInputElement).value;
+          if (searchText != "") {
+            // Set timer for next serach refresh
+            this.lastSearchTimeOut = window.setTimeout((searchText: string) => {
+              this.grid!.search(searchText);
+              this.lastSearchTimeOut = null;
+            }, this.searchTimeOutMs, searchText);
+          } else {
+            this.grid!.searchSettings.key = "";
+          }
+        };
+        // Add Last update info
+        var spanLastUpdateInfo = document.createElement("span");
+        spanLastUpdateInfo.id = gridElement.id + "_spanToolbarLastUpdateTime";
+        spanLastUpdateInfo.className = "ms-2";
+        gridElement.querySelector(".e-toolbar-items .e-toolbar-left")!.appendChild(spanLastUpdateInfo);
+      }
+
+      private clearSearchTimeOut(): void {
+        // Clear any previues search refresh.
+        if (this.lastSearchTimeOut != null) {
+          clearTimeout(this.lastSearchTimeOut);
+        }
+      }
 }

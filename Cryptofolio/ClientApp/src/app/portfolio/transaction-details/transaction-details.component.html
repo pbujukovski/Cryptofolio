@@ -1,7 +1,7 @@
-<div class="container-fluid mt-5 px-5" *ngIf="coinBinance.iconPath.length ==  0 ">
+<div class="container-fluid mt-5 px-5" *ngIf="isContentLoaded == false ">
   <app-loading></app-loading>
 </div>
-<div class="container-fluid mt-5 px-5" *ngIf="this.isContentLoaded == true && coinBinance.iconPath.length >  0">
+<div class="container-fluid mt-5 px-5" *ngIf="this.isContentLoaded == true">
   <div class="row">
     <div tabindex="0" class="e-card" id="basic">
       <div class="e-card-header">

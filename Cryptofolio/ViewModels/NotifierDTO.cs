@@ -61,9 +61,7 @@ namespace Cryptofolio.ViewModels
             isHigher = notifier.isHigher;
             if (notifier.ApplicationUserId != null)
             {
- /*               ApplicationUserId = new Guid(notifier.ApplicationUserId);*/
-                   ApplicationUserId = notifier.ApplicationUserId;
-
+               ApplicationUserId = notifier.ApplicationUserId;
             }
             CoinSymbol = notifier.CoinSymbol;
         }
@@ -78,7 +76,6 @@ namespace Cryptofolio.ViewModels
             notifier.isHigher = this.isHigher;
             if (ApplicationUserId != null)
             {
-             /*   notifier.ApplicationUserId = ApplicationUserId.Value.ToString();*/
              notifier.ApplicationUserId = ApplicationUserId;
             }
             notifier.CoinSymbol = this.CoinSymbol;

@@ -68,8 +68,8 @@
 
               <div class="col-md-8">
                 <h4><a href="{{ article.url }}" target="_blank">{{ article.title }}</a></h4>
-                <h6 *ngIf="article.content != null"> {{article.content | removeChar}} | <a href="{{ article.url }}"
-                    target="_blank">Read more</a> </h6>
+                <h6 *ngIf="article.content != null"> {{article.content | removeChar}}  <span class="label">| <a class="label" href="{{ article.url }}"
+                    target="_blank">Read more</a> </span></h6>
                 <h6 *ngIf="article.content == null"> <a href="{{ article.url }}" target="_blank"><i
                       class="fa-brands fa-youtube"></i> Proceed to watch the video </a> </h6>
               </div>

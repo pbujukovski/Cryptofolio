@@ -48,16 +48,6 @@ namespace Cryptofolio.ViewModels
             {
                 Comments = coin.Comments.Select(c => new CommentDTO(c, applicationUserId)).ToList();
             }
-/*            if (coin.Watchlists != null)
-            {
-                Watchlists = coin.Watchlists.Select(c => new WatchlistDTO(c, applicationUserId)).ToList();
-            }
-
-            if (coin.VotingHistories != null)
-            {
-                VotingHistories = coin.VotingHistories.Select(vh => new VotingHistoryDTO(vh)).ToList();
-            }*/
-
         }
         
 

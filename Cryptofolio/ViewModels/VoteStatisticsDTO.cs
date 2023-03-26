@@ -23,10 +23,6 @@ namespace Cryptofolio.ViewModels
         [JsonProperty("Date")]
         public DateTime Date { get; set; }
 
-/*        [JsonPropertyName("Status")]
-        [JsonProperty("Status")]
-        public VoteStatus Status { get; set; } = VoteStatus.Unknown;*/
-
         public VoteStatisticsDTO() { }
 
 

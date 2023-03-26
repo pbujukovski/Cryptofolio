@@ -171,6 +171,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
             var amountSummary = 0;
             var avgBuyPrice = 0;
             var countBuyTransactions = 0;
+            var calSumProfitLoss = 0;
             var transactionGridSummary: TransactionSummaryGrid =
               new TransactionSummaryGrid();
 
@@ -207,12 +208,22 @@ export class PortfolioComponent implements OnInit, OnDestroy {
                 if (transaction['@odata.type'] == TransactionType.Buy) {
                   avgBuyPrice += transaction.Price * transaction.Amount;
                   countBuyTransactions += transaction.Amount;
+                  calSumProfitLoss += transaction.Price * transaction.Amount;
+                }
+                else if (transaction['@odata.type'] == TransactionType.In){
+                  calSumProfitLoss += Number(this.dataCoin?.lastPrice) * transaction.Amount;
                 }
               } else if (
                 transaction['@odata.type'] == TransactionType.Sell ||
                 transaction['@odata.type'] == TransactionType.Out
               ) {
                 amountSummary -= transaction.Amount;
+                if (transaction['@odata.type'] == TransactionType.Sell){
+                  calSumProfitLoss -= transaction.Price * transaction.Amount;
+                }
+                else if (transaction['@odata.type'] == TransactionType.Out){
+                  calSumProfitLoss -= Number(this.dataCoin?.lastPrice) * transaction.Amount;
+                }
               }
             });
             transactionGridSummary.PercentageChange =
@@ -220,7 +231,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
             transactionGridSummary.Quantity = Number(amountSummary.toFixed(2));
             transactionGridSummary.HoldingsPrice =
               amountSummary * Number(this.dataCoin!.lastPrice);
-              transactionGridSummary.ProfitLoss = avgBuyPrice - (transactionGridSummary.Quantity * Number(this.dataCoin!.lastPrice))
+              transactionGridSummary.ProfitLoss =  (transactionGridSummary.Quantity * Number(this.dataCoin!.lastPrice)) - calSumProfitLoss;
             transactionGridSummary.ImgPath = this.dataCoin!.iconPath;
             transactionGridSummary.Price = this.dataCoin!.bidPrice;
             transactionGridSummary.CoinName = this.dataCoin!.name;

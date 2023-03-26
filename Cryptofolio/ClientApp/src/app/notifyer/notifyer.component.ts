@@ -172,4 +172,6 @@ export class NotifyerComponent implements OnInit {
     }
     this.isDeleteContentClicked = false;
   }
+
+
 }

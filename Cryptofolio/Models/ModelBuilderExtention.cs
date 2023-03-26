@@ -27,23 +27,6 @@ namespace Cryptofolio.Models
                 builder.Entity<Notifier>().ToTable("Notifier");
 
 
-
- /*           builder.Entity<Transaction>()
-                .HasMany(o => o.FinanceTransactions)
-                .WithOne(oi => oi.Transaction)
-                .HasForeignKey(oi => oi.TransactionId).OnDelete(DeleteBehavior.Cascade);
-
-            builder.Entity<FinanceTransaction>()
-    .HasOne(o => o.Transaction)
-    .WithMany(oi => oi.FinanceTransactions)
-    .OnDelete(DeleteBehavior.NoAction);
-
-            builder.Entity<TransferTransaction>()
-.HasOne(o => o.Transaction)
-.WithMany(oi => oi.TransferTransactions)
-.OnDelete(DeleteBehavior.NoAction);
-*/
-
         }
         public static Task SeedAsync(this ModelBuilder modelBuilder, ApplicationDbContext applicationDbContext)
             {

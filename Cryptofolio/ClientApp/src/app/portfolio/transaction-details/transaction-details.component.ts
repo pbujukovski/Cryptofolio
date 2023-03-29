@@ -12,7 +12,7 @@ import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { DataManager, Query, ReturnOption } from '@syncfusion/ej2-data';
 import { EmitType } from '@syncfusion/ej2/base';
 import { convertStringToValue } from '@syncfusion/ej2/maps';
-import { concatMap, Subscription, timer } from 'rxjs';
+import { concatMap, filter, Subscription, switchMap, tap, timer } from 'rxjs';
 import { CoinBinance } from 'src/app/common/models/coin-models/coin-binance';
 import { CoinTransactionSummary } from 'src/app/common/models/transaction-models/coin-transaction-summary';
 import { FinanceTransaction } from 'src/app/common/models/transaction-models/finance-transaction';
@@ -33,7 +33,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./transaction-details.component.css'],
 })
 export class TransactionDetailsComponent implements OnInit, OnDestroy {
-  public coinSymbol: string = '';
+  public coinSymbol: string = "";
   TransactionType = TransactionType;
   public dataManager: DataManager;
   public queryManager: Query;
@@ -46,7 +46,7 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
   public isContentLoaded: boolean = false;
   public isDeleteContentClicked: boolean = false;
   public transactions: TransactionGrid[] = [];
-  public transaction!: TransactionGrid;
+  public transaction: TransactionGrid = new TransactionGrid;
   public transactionType :string = '';
   public dataTransaction!: Transaction;
   public transactionEdit !: FinanceTransaction;
@@ -60,13 +60,13 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
   // @ViewChild('grid', { static: true }) grid!: GridComponent;
 
   public coinTransactionSummary: CoinTransactionSummary =
-    new CoinTransactionSummary();
+    new CoinTransactionSummary;
   //Grid settings
   public editSettings!: EditSettingsModel;
   public toolbar!: ToolbarItems[] | object;
   public pageSettings!: PageSettingsModel;
 
-  public coinBinance!: CoinBinance;
+  public coinBinance: CoinBinance = new CoinBinance;
 
   public isFirstTimeSynchronization: boolean = true;
   public subscriptionBinance!: Subscription;
@@ -76,24 +76,29 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
   private lastSearchTimeOut: number | null = null;
   private readonly searchTimeOutMs: number = 300;
   public previousValuesMap: Record<string, TransactionGrid> = {};
-
+  public isFirstTime : boolean = true;
   constructor(
     private binanceApiService: BinanceApiService,
     private portfolioService: PortfolioService,
     private syncfusionUtilsService: SyncfusionUtilsService,
     private router: Router
   ) {
-   this.subscriptionBinance = this.portfolioService.coinSymbol.subscribe((coinSymbol) => {
-      //Get the coin symbol
-      this.coinSymbol = coinSymbol;
-      //Check if coin symbol is null redirect to porfolio
-      if (this.coinSymbol === ''){
-        this.router.navigate(['portfolio']);
-      }
+  //  this.subscriptionBinance = this.portfolioService.coinSymbol.subscribe((coinSymbol) => {
+  //     //Get the coin symbol
+  //     this.coinSymbol = coinSymbol;
+  //     //Check if coin symbol is null redirect to porfolio
+  //     if (this.coinSymbol === ''){
+  //       this.router.navigate(['portfolio']);
+  //     }
 
-    });
+  //   });
+
+  // this.subscriptionBinance = this.binanceApiService.coinSymbol.subscribe(coinSymbol => this.coinSymbol = coinSymbol);
+  // if (this.coinSymbol === ''){
+  //   this.router.navigate(['portfolio']);
+  // }
     //Add timer to refresh data every 20sec
-    const binanceApiObsearvable$ = timer(1000, 20000);
+    // const binanceApiObsearvable$ = timer(1000, 20000);
 
 
     //Set setings for Data Manager
@@ -103,17 +108,48 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
       crossDomain: true,
     });
 
+
+
+  //   this.subscriptionBinance = this.binanceApiService.CoinUpdated.subscribe((data) => {
+  //     this.coinBinance = data;
+  //     this.getTransactions();
+  //   });
+
+  //  this.subscriptionBinance = binanceApiObsearvable$
+  //   .pipe(concatMap(() => this.binanceApiService.getCoin(this.coinSymbol)))
+  //   .subscribe();
+
+  // this.subscriptionBinance = binanceApiObsearvable$
+  // .pipe(
+  //   switchMap(() => this.binanceApiService.getCoin(this.coinSymbol)),
+  //   switchMap((coinBinance) => {
+  //     this.coinBinance = coinBinance;
+  //     return this.binanceApiService.CoinUpdated;
+  //   })
+  // )
+  // .subscribe(() => {
+  //   this.getTransactions();
+  // });
+
+  const binanceApiObsearvable$ = timer(1000, 20000).pipe(
+    switchMap(() => this.binanceApiService.getCoin(this.coinSymbol)),
+    tap((coinBinance) => (this.coinBinance = coinBinance))
+  );
+
+  this.subscriptionBinance = this.binanceApiService.coinSymbol.pipe(
+    filter((coinSymbol) => coinSymbol !== ''),
+    tap((coinSymbol) => (this.coinSymbol = coinSymbol)),
+    switchMap(() => binanceApiObsearvable$)
+  ).subscribe(() => {
+    this.getTransactions();
+  });
+
+if (this.coinSymbol === '') {
+  this.router.navigate(['portfolio']);
+}
+
     //Set query with parametar 'CoinSymbol'
     this.queryManager = new Query().addParams('CoinSymbol', this.coinSymbol);
-
-    this.subscriptionBinance1 = binanceApiObsearvable$
-    .pipe(concatMap(() => this.binanceApiService.getCoin(this.coinSymbol)))
-    .subscribe();
-
-    this.subscriptionBinance2 = this.binanceApiService.CoinUpdated.subscribe((data) => {
-      this.coinBinance = data;
-      this.getTransactions();
-    });
 
   }
 
@@ -130,11 +166,7 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-
-    console.log("HEERRRREEEEEEEEEEEEEEEEEEEEEEE");
     this.subscriptionBinance.unsubscribe();
-    this.subscriptionBinance1.unsubscribe();
-    this.subscriptionBinance2.unsubscribe();
   }
 
   public getTransactions() {
@@ -189,11 +221,6 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
     });
     console.log("HEREEEEEEEEE");
     let num = Number(this.coinBinance.lastPrice);
-    console.log(num);
-    console.log(amountSummary);
-    console.log(num * amountSummary);
-    console.log(avgBuyPrice);
-    console.log(avgBuyPrice - (num * amountSummary));
     this.coinTransactionSummary.ProfitLoss = (Number(this.coinBinance.lastPrice) * amountSummary) -  calSumProfitLoss;
     this.coinTransactionSummary.CoinSymbol = this.coinSymbol;
     this.coinTransactionSummary.Quantity = Number(amountSummary.toFixed(2));
@@ -211,13 +238,17 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
         console.log(this.coinTransactionSummary.AvgBuyPrice);
       }
       console.log(this.coinTransactionSummary.AvgBuyPrice);
-      if(this.coinTransactionSummary != null || this.coinTransactionSummary != undefined && this.coinBinance != null || this.coinBinance != undefined){
-      if (this.coinBinance.iconPath.length > 0){
-        const binanceApiObsearvable1$ = timer(1000, 5000);
-        binanceApiObsearvable1$.subscribe(() => this.isContentLoaded = true)
-
-      }
-      }
+      this.isContentLoaded = true;
+      // if(this.isFirstTime == true){
+      // if(this.coinTransactionSummary != null || this.coinTransactionSummary != undefined && this.coinBinance != null || this.coinBinance != undefined){
+      // if (this.coinBinance.iconPath.length > 0){
+      //   const binanceApiObsearvable1$ = timer(1000, 5000);
+      //   binanceApiObsearvable1$.subscribe(() =>this.isContentLoaded = true)
+      //   this.isFirstTime = false;
+      // }
+      // }
+      // }
+      // this.isContentLoaded = true;
   }
 
   public onDetailsClicked(data: RowDataBoundEventArgs) {

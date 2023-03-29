@@ -1,8 +1,8 @@
-<div class="container-fluid mt-5 px-5" *ngIf="this.notifiers == undefined ||  this.notifiers == null">
+<div class="container-fluid mt-5 px-5" *ngIf="isDataArrived == false">
   <app-loading></app-loading>
 </div>
 
-<div class="container-fluid mt-5 px-5" *ngIf="this.notifiers != undefined ||  this.notifiers != null">
+<div class="container-fluid mt-5 px-5" *ngIf="isDataArrived == true">
   <div *ngIf="isNewSubscriptionBtnClicked == true">
     <ejs-dialog id='dialog' #dialog isModal='true' showCloseIcon='true' (open)="onAddNewNotifierSubscripiton()"
       (overlayClick)="onOverlayClick()" [target]='targetElement' width='auto'>

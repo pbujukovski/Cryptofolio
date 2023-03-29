@@ -10,7 +10,7 @@ import { DropDownList } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { EmitType, isNullOrUndefined, detach } from '@syncfusion/ej2/base';
 import { DataManager, Query, ReturnOption } from '@syncfusion/ej2-data';
-import { concatMap, Subscription, timer } from 'rxjs';
+import { concatMap, Subscription, switchMap, timer } from 'rxjs';
 import { CoinBinance } from '../common/models/coin-models/coin-binance';
 import { BinanceApiService } from '../common/services/binance-api.service';
 import { Transaction } from '../common/models/transaction-models/transaction';
@@ -100,15 +100,27 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     const binanceApiObsearvable$ = timer(1000, 20000);
 
 
-    this.subscriptionBinance = this.binanceApiService.CoinsUpdated.subscribe((data) => {
-      this.data = data;
-      this.getTransactions();
-    });
+    // this.subscriptionBinance = this.binanceApiService.CoinsUpdated.subscribe((data) => {
+    //   this.data = data;
+    //   this.getTransactions();
+    // });
 
-    this.subscriptionBinance = binanceApiObsearvable$
-    .pipe(concatMap(() => this.binanceApiService.getCoins()))
-    .subscribe();
+    // this.subscriptionBinance = binanceApiObsearvable$
+    // .pipe(concatMap(() => this.binanceApiService.getCoins()))
+    // .subscribe();
 
+
+  this.subscriptionBinance = binanceApiObsearvable$
+  .pipe(
+    switchMap(() => this.binanceApiService.getCoins()),
+    switchMap((coinsBinance) => {
+      this.data = coinsBinance;
+      return this.binanceApiService.CoinsUpdated;
+    })
+  )
+  .subscribe(() => {
+    this.getTransactions();
+  });
   }
 
   ngOnInit(): void {
@@ -283,7 +295,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     // let test = this.grid.getRowInfo(args.target).rowData as CoinBinance;
     console.log(args as CoinTransactionSummary);
     let data = args as CoinTransactionSummary;
-    this.portfolioService.coinSymbol.next(data.CoinSymbol);
+    this.binanceApiService.coinSymbol.next(data.CoinSymbol);
     this.router.navigate(['transaction-details']);
   }
 

@@ -4,7 +4,7 @@ import { DropDownList } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogComponent, DialogUtility } from '@syncfusion/ej2-angular-popups';
 import { DataManager, Query, ReturnOption } from '@syncfusion/ej2-data';
 import { EmitType } from '@syncfusion/ej2/base';
-import { BehaviorSubject, Subscription, timer } from 'rxjs';
+import { BehaviorSubject, Subscription, switchMap, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CoinBinance } from '../common/models/coin-models/coin-binance';
 import { Notifier } from '../common/models/notifier.model';
@@ -27,7 +27,7 @@ export class NotifyerComponent implements OnInit {
   //booleans
   public isNewSubscriptionBtnClicked: boolean = false;
   public isDeleteContentClicked: boolean = false;
-
+  public isDataArrived : boolean = false;
   //Notifier Data
   public notifier: Notifier = {} as Notifier;
   public notifiers: Notifier[] = [];
@@ -77,18 +77,31 @@ export class NotifyerComponent implements OnInit {
 
     this.query = new Query();
 
-    const binanceApiObsearvable$ = timer(1000, 30000);
+    const binanceApiObsearvable$ = timer(1000, 3000000);
 
-    //Subscribe to get coins updated from Binance Service
-    this.binanceApiSubscription = this.binanceApiService.CoinsUpdated.subscribe(
-      (coinBinance) => {
-        //Set data to data from binance service
-        this.coinBinance = coinBinance;
-      }
-    );
+    // //Subscribe to get coins updated from Binance Service
+    // this.binanceApiSubscription = this.binanceApiService.CoinsUpdated.subscribe(
+    //   (coinBinance) => {
+    //     //Set data to data from binance service
+    //     this.coinBinance = coinBinance;
+    //   }
+    // );
 
+
+    // this.binanceApiSubscription = this.binanceApiService.getCoins().subscribe();
     this.getNotifiers();
-    this.binanceApiSubscription = this.binanceApiService.getCoins().subscribe();
+    this.binanceApiSubscription = binanceApiObsearvable$
+    .pipe(
+      switchMap(() => this.binanceApiService.getCoins()),
+      switchMap((coinsBinance) => {
+        this.coinBinance = coinsBinance;
+
+        this.isDataArrived = true;
+        return this.binanceApiService.CoinsUpdated;
+      })
+    )
+    .subscribe(() => {
+    });
   }
 
   public getNotifiers() {
@@ -103,7 +116,9 @@ export class NotifyerComponent implements OnInit {
             } else if (result.DueDate! < this.dateValue) {
               this.inactiveNotifiers.push(result);
             }
-          });
+          }
+          );
+          this.isDataArrived = true;
         } else console.log('Result list is empty');
       })
       .catch((e) => true);

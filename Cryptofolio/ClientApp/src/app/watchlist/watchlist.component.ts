@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ChipListComponent } from '@syncfusion/ej2-angular-buttons';
 import { EditSettingsModel, FilterSettingsModel, GridComponent, PageSettingsModel, QueryCellInfoEventArgs, ToolbarItems } from '@syncfusion/ej2-angular-grids';
 import { DataManager, ODataV4Adaptor, Query, ReturnOption } from '@syncfusion/ej2-data';
-import { BehaviorSubject, concatMap, Subject, Subscription, timer } from 'rxjs';
+import { BehaviorSubject, concatMap, Subject, Subscription, switchMap, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthorizeService } from '../../api-authorization/authorize.service';
 import { Coin } from '../common/models/coin-models/coin';
@@ -48,27 +48,52 @@ export class WatchlistComponent implements OnInit, OnDestroy {
   constructor(public binanceApiService: BinanceApiService,public watchlistService: WatchlistService, public router: Router) {
 
     const binanceApiObsearvable$ = timer(1000, 20000);
+  //   this.watchlistService.getWatchList();
+
+
+  //  this.watchlistSubscription = this.watchlistService.WatchlistUpdate.subscribe(watchlist => {
+
+  //    this.dataWatchlist = watchlist;
+
+  //   });
+
+
     this.watchlistService.getWatchList();
 
-   this.watchlistSubscription = this.watchlistService.WatchlistUpdate.subscribe(watchlist => {
+  this.watchlistSubscription = this.watchlistService.WatchlistUpdate.subscribe(watchlist => {
 
-     this.dataWatchlist = watchlist;
+    this.dataWatchlist = watchlist;
+
+   });
+
+    this.binanceApiSubscription = binanceApiObsearvable$
+    .pipe(
+      switchMap(() => this.binanceApiService.getCoins()),
+      switchMap((coinsBinance) => {
+        this.dataCoins = coinsBinance;
+
+        this.dataGrid = this.dataCoins.filter((data)=> this.dataWatchlist.Coins.some(coinSymbol => coinSymbol.Symbol === data.symbol))
+        this.isDataArrived = true;
+        return this.binanceApiService.CoinsUpdated;
+      })
+    )
+    .subscribe(() => {
 
     });
 
 
-    this.binanceApiSubscription =  binanceApiObsearvable$
-    .pipe(concatMap(() => this.binanceApiService.getCoins()))
-    .subscribe();
+    // this.binanceApiSubscription =  binanceApiObsearvable$
+    // .pipe(concatMap(() => this.binanceApiService.getCoins()))
+    // .subscribe();
 
-    this.binanceApiSubscription = this.binanceApiService.CoinsUpdated.subscribe(coins => {
-      this.dataCoins = coins;
+    // this.binanceApiSubscription = this.binanceApiService.CoinsUpdated.subscribe(coins => {
+    //   this.dataCoins = coins;
 
-        this.dataGrid = this.dataCoins.filter((data)=> this.dataWatchlist.Coins.some(coinSymbol => coinSymbol.Symbol === data.symbol))
+    //     this.dataGrid = this.dataCoins.filter((data)=> this.dataWatchlist.Coins.some(coinSymbol => coinSymbol.Symbol === data.symbol))
 
-        if (this.dataCoins.length > 0){
-          this.isDataArrived = true;
-        }
+    //     if (this.dataCoins.length > 0){
+    //       this.isDataArrived = true;
+    //     }
 
 
       // this.dataGrid = [];
@@ -80,7 +105,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
       //   });
       // });
 
-    });
+    // });
 
     // this.dataGrid = this.dataCoins.filter((data) =>    this.dataWatchlist.Coins.find(data.symbol == Symbol))
 

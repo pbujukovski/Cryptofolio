@@ -5,7 +5,7 @@ import { EditSettingsModel, PagerComponent, PageSettingsModel } from '@syncfusio
 import { RichTextEditorComponent, ToolbarItems } from '@syncfusion/ej2-angular-richtexteditor';
 import { DataManager, Query,ODataV4Adaptor,Predicate,ReturnOption } from '@syncfusion/ej2-data';
 import { cryptoSymbol } from 'crypto-symbol';
-import { BehaviorSubject, concatMap, ObservableInput, Subscription, timer } from 'rxjs';
+import { BehaviorSubject, concatMap, filter, ObservableInput, Subscription, switchMap, tap, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Coin } from '../common/models/coin-models/coin';
 import { CoinBinance } from '../common/models/coin-models/coin-binance';
@@ -146,7 +146,21 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
               private watchlistService : WatchlistService ,
               private syncfusionUtilsService : SyncfusionUtilsService ) {
 
-    const binanceApiObsearvable$ = timer(1000, 20000);
+    // const binanceApiObsearvable$ = timer(1000, 20000);
+
+    const binanceApiObsearvable$ = timer(1000, 20000).pipe(
+      switchMap(() => this.binanceApiService.getCoin(this.coinSymbol)),
+      tap((coinBinance) => (this.coinBinance = coinBinance))
+    );
+
+    this.subscriptionBinance = this.binanceApiService.coinSymbol.pipe(
+      filter((coinSymbol) => coinSymbol !== ''),
+      tap((coinSymbol) => (this.coinSymbol = coinSymbol)),
+      switchMap(() => binanceApiObsearvable$)
+    ).subscribe(() => {
+      // this.getTransactions();
+      this.changeColor();
+    });
 
         //Getting data for Comments
         this.dataComment = new DataManager({
@@ -163,10 +177,10 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
         crossDomain: true,
         });
 
-    this.binanceApiService.coinSymbol.subscribe(coinSymbol => this.coinSymbol = coinSymbol);
-    if (this.coinSymbol === ''){
-      this.router.navigate(['cryptos']);
-    }
+    // this.binanceApiService.coinSymbol.subscribe(coinSymbol => this.coinSymbol = coinSymbol);
+    // if (this.coinSymbol === ''){
+    //   this.router.navigate(['cryptos']);
+    // }
     // this.coinSymbol.toLocaleLowerCase()
 
 
@@ -209,21 +223,28 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
      });
 
 
-   this.subscriptionBinance =  binanceApiObsearvable$
-     .pipe(concatMap(() => this.binanceApiService.getCoin(this.coinSymbol)))
-     .subscribe();
+  //  this.subscriptionBinance =  binanceApiObsearvable$
+  //    .pipe(concatMap(() => this.binanceApiService.getCoin(this.coinSymbol)))
+  //    .subscribe();
 
-    this.subscriptionBinance =  this.binanceApiService.CoinUpdated.subscribe(data =>{
+  //   this.subscriptionBinance =  this.binanceApiService.CoinUpdated.subscribe(data =>{
 
-      this.coinBinance = data
-      this.dataArrived = true;
-      if (this.myDiv!.nativeElement != undefined && this.myDiv!.nativeElement.style != undefined){
-        this.myDiv!.nativeElement.style.color = !this.lastPrice || this.lastPrice === Number(this.coinBinance.PriceChangeColor) ? 'black' : Number(this.coinBinance.PriceChangeColor) > this.lastPrice ? 'green' : 'red';
-        this.lastPrice = Number(this.coinBinance.PriceChangeColor);
+  //     this.coinBinance = data
+  //     this.dataArrived = true;
+  //     if (this.myDiv!.nativeElement != undefined && this.myDiv!.nativeElement.style != undefined){
+  //       this.myDiv!.nativeElement.style.color = !this.lastPrice || this.lastPrice === Number(this.coinBinance.PriceChangeColor) ? 'black' : Number(this.coinBinance.PriceChangeColor) > this.lastPrice ? 'green' : 'red';
+  //       this.lastPrice = Number(this.coinBinance.PriceChangeColor);
 
-        }
-    });
+  //       }
+  //   });
 
+
+
+
+
+  if (this.coinSymbol === '') {
+    this.router.navigate(['cryptos']);
+  }
   }
 
   ngOnInit(): void {
@@ -242,10 +263,20 @@ export class CryptoDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
 
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    this.changeColor();
+  }
 
   ngOnDestroy(): void{
     this.subscriptionBinance.unsubscribe();
+    this.watchlistSubscription.unsubscribe();
+  }
+
+  changeColor(): void{
+    if (this.myDiv!.nativeElement != undefined && this.myDiv!.nativeElement.style != undefined){
+      this.myDiv!.nativeElement.style.color = !this.lastPrice || this.lastPrice === Number(this.coinBinance.PriceChangeColor) ? 'black' : Number(this.coinBinance.PriceChangeColor) > this.lastPrice ? 'green' : 'red';
+      this.lastPrice = Number(this.coinBinance.PriceChangeColor);
+          }
   }
 
   onCancel(): void {
